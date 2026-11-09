@@ -1,0 +1,294 @@
+{% extends "static_base.html" %}
+
+{% block title %}GWASMind - Contact Us{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Page title */
+    .page-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .page-title h1 {
+        font-size: 2.2em;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 12px;
+    }
+    
+    .page-title p {
+        font-size: 1.1em;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    /* Cards Grid */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+    
+    /* Full width card */
+    .card-full {
+        background: white;
+        border-radius: 12px;
+        padding: 28px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        margin-bottom: 40px;
+    }
+    
+    .card-full h2 {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #d4a855;
+    }
+    
+    .card {
+        background: white;
+        border-radius: 12px;
+        padding: 28px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+    
+    .card h2 {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #d4a855;
+    }
+    
+    .card h3 {
+        font-size: 1.05em;
+        color: #333;
+        margin-bottom: 8px;
+    }
+    
+    .card p {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 12px;
+    }
+    
+    /* Lab Link */
+    .lab-link {
+        display: block;
+        background: linear-gradient(135deg, #f8f9fa 0%, #f0f1f3 100%);
+        border-radius: 10px;
+        padding: 20px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-bottom: 16px;
+    }
+    
+    .lab-link:hover {
+        background: linear-gradient(135deg, #fff8e8 0%, #fdf3d8 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(212, 168, 85, 0.15);
+    }
+    
+    .lab-link h3 {
+        color: #333;
+        margin-bottom: 6px;
+    }
+    
+    .lab-link p {
+        color: #666;
+        font-size: 0.9em;
+        margin: 0;
+    }
+    
+    .lab-link .arrow {
+        color: #d4a855;
+        font-size: 1.2em;
+        float: right;
+        margin-top: -30px;
+    }
+    
+    .lab-description {
+        color: #666;
+        font-size: 0.95em;
+        line-height: 1.7;
+    }
+    
+    /* Team List */
+    .team-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .team-member {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+    }
+    
+    .team-member:hover {
+        background: #f0f1f3;
+    }
+    
+    .team-member.pi {
+        background: linear-gradient(135deg, #fff8e8 0%, #fdf3d8 100%);
+        border-left: 3px solid #d4a855;
+    }
+    
+    .team-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #5a7a9a 0%, #4a6a8a 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1em;
+        flex-shrink: 0;
+    }
+    
+    .team-member.pi .team-avatar {
+        background: linear-gradient(135deg, #d4a855 0%, #c49745 100%);
+    }
+    
+    .team-info {
+        flex: 1;
+    }
+    
+    .team-name {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 2px;
+    }
+    
+    .team-role {
+        font-size: 0.85em;
+        color: #888;
+        margin-bottom: 4px;
+    }
+    
+    .team-email {
+        font-size: 0.9em;
+        color: #5a7a9a;
+        text-decoration: none;
+    }
+    
+    .team-email:hover {
+        color: #d4a855;
+        text-decoration: underline;
+    }
+    
+    /* Address Card */
+    .card-full p {
+        color: #333;
+        line-height: 1.8;
+        margin-bottom: 0;
+        font-size: 0.95em;
+    }
+    
+    /* Back link */
+    .back-link {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    
+    .back-link a {
+        color: #5a7a9a;
+        text-decoration: none;
+    }
+    
+    .back-link a:hover {
+        color: #d4a855;
+    }
+</style>
+{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('main.index') }}" class="btn btn-primary">← Back to Home</a>
+<a href="{{ url_for('main.tutorial') }}" class="btn btn-yellow">Tutorial</a>
+<button data-action="open-settings" class="btn btn-gray">Settings</button>
+{% endblock %}
+
+{% block content %}
+<div class="page-title">
+    <h1>Contact Us</h1>
+    <p>GWASMind is developed by the Long Lab at the Institute of Basic Medical Sciences, Chinese Academy of Medical Sciences & Peking Union Medical College.</p>
+</div>
+
+<div class="cards-grid">
+    <!-- Lab Website Card -->
+    <div class="card">
+        <h2>Our Laboratory</h2>
+        <a href="https://sites.google.com/view/erping-long-lab/" target="_blank" rel="noopener noreferrer" class="lab-link">
+            <h3>Erping Long Lab</h3>
+            <p>Visit our lab website for more information about our research</p>
+            <span class="arrow">→</span>
+        </a>
+        <p class="lab-description">
+            Functional Genomics in understanding genetic susceptibility of human diseases and Artificial Intelligence in translating algorithmic power into clinical benefits.
+        </p>
+    </div>
+    
+    <!-- Team Members Card -->
+    <div class="card">
+        <h2>Project Team</h2>
+        <div class="team-list">
+            <div class="team-member pi">
+                <div class="team-avatar">EL</div>
+                <div class="team-info">
+                    <div class="team-name">Professor Erping Long</div>
+                    <div class="team-role">Principal Investigator</div>
+                    <a href="mailto:erping.long@ibms.pumc.edu.cn" class="team-email">erping.long@ibms.pumc.edu.cn</a>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar">YL</div>
+                <div class="team-info">
+                    <div class="team-name">Yuexuan Long</div>
+                    <div class="team-role">Ph.D. Candidate</div>
+                    <a href="mailto:yxlong@student.pumc.edu.cn" class="team-email">yxlong@student.pumc.edu.cn</a>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="team-avatar">XS</div>
+                <div class="team-info">
+                    <div class="team-name">Xinti Sun</div>
+                    <div class="team-role">Ph.D. Candidate</div>
+                    <a href="mailto:Sunxinti@tmu.edu.cn" class="team-email">Sunxinti@tmu.edu.cn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Address Card - Full Width -->
+<div class="card-full">
+    <h2>Address</h2>
+    <div class="address-text">
+        <p>
+            Institute of Basic Medical Sciences<br>
+            Chinese Academy of Medical Sciences (CAMS) & Peking Union Medical College (PUMC)<br>
+            5 Dongdan Santiao, Dongcheng District<br>
+            Beijing, 100005, China
+        </p>
+    </div>
+</div>
+
+<div class="back-link">
+    <a href="{{ url_for('main.index') }}">← Return to GWASMind</a>
+</div>
+{% endblock %}

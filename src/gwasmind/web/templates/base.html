@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GWASMind{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=provider-reasoning-1">
+    
+    {% block extra_css %}{% endblock %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="App">
+        <!-- Header -->
+        <header class="App-header">
+            <div>
+                <h1>
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="GWASMind Logo" class="logo-img">
+                    GWASMind
+                </h1>
+            </div>
+            <div class="header-actions">
+                {% block header_actions %}{% endblock %}
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="settings-overlay" style="display: none;">
+        <div class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+            <div class="settings-heading">
+                <div>
+                    <h2 id="settings-title">API Settings</h2>
+                </div>
+                <button type="button" class="settings-close" data-action="close-settings" aria-label="Close Settings">&times;</button>
+            </div>
+
+            <div id="catalog-status" class="settings-load-status" hidden role="status">
+                <span id="catalog-status-text">Using the built-in provider list.</span>
+                <button type="button" id="catalog-retry">Retry</button>
+            </div>
+            <div id="settings-load-status" class="settings-load-status error" hidden role="alert">
+                <span>Session settings could not be loaded.</span>
+                <button type="button" id="settings-retry">Retry</button>
+            </div>
+
+            <div class="settings-form">
+                <div class="form-group">
+                    <label for="model-provider">Provider</label>
+                    <select id="model-provider"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="model-catalog-select">LLM</label>
+                    <div class="model-select-row">
+                        <select id="model-catalog-select"></select>
+                        <button type="button" id="refresh-models-btn" class="model-refresh-button" aria-label="Refresh LLMs from provider">
+                            <span aria-hidden="true">&#8635;</span> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div id="model-custom-group" class="form-group" hidden>
+                    <label for="model-name">LLM ID</label>
+                    <input type="text" id="model-name" value="deepseek-v4-pro" placeholder="Enter LLM ID" autocomplete="off" spellcheck="false">
+                </div>
+
+                <div id="thinking-options" class="settings-thinking-panel settings-reasoning-panel">
+                    <span class="settings-reasoning-title">Reasoning</span>
+                    <label id="model-thinking-row" class="thinking-toggle" hidden>
+                        <input type="checkbox" id="model-thinking" aria-describedby="model-reasoning-help">
+                        Enable reasoning
+                    </label>
+                    <div id="model-reasoning-effort-group" class="settings-reasoning-depth" hidden>
+                        <label for="model-reasoning-effort">Reasoning depth</label>
+                        <select id="model-reasoning-effort" aria-describedby="model-reasoning-help"></select>
+                    </div>
+                    <p id="model-reasoning-help" class="settings-field-help" aria-live="polite">Choose how much reasoning the LLM uses.</p>
+                </div>
+
+                <div class="form-group">
+                    <label id="api-key-label" for="api-key">DeepSeek API Key *</label>
+                    <input type="password" id="api-key" placeholder="Paste API key" autocomplete="off" spellcheck="false" aria-describedby="credential-session-status credential-privacy-text">
+                    <p id="credential-session-status" class="settings-field-help" hidden></p>
+                </div>
+                <p id="credential-privacy-text" class="settings-privacy-note">This key is used by your local GWASMind service and is not stored in the browser.</p>
+
+
+                <details id="advanced-model-settings" class="settings-advanced">
+                    <summary>Advanced</summary>
+                    <div class="settings-advanced-body">
+                        <label id="base-url-override-row" class="endpoint-override" for="base-url-override">
+                            <input type="checkbox" id="base-url-override">
+                            <span>Use a custom API URL</span>
+                        </label>
+                        <div class="form-group">
+                            <label for="api-base-url">API URL</label>
+                            <input type="url" id="api-base-url" value="https://api.deepseek.com" placeholder="https://api.example.com/v1" autocomplete="off" spellcheck="false" readonly>
+                        </div>
+                        <div id="custom-endpoint-warning" class="custom-endpoint-warning" hidden>
+                            Use only a trusted endpoint. It receives your API key and analysis context.
+                        </div>
+                    </div>
+                </details>
+
+                <div id="session-configured-card" class="settings-session-card" hidden>
+                    <span>Active for this session</span>
+                    <span id="session-configured-summary"></span>
+                </div>
+                <div id="connection-status" role="status" aria-live="polite"></div>
+                <div class="settings-actions">
+                    <button type="button" data-action="test-connection" class="test-button" id="test-btn">Save &amp; Test</button>
+                </div>
+                <details id="ldlink-settings" class="settings-advanced" open>
+                    <summary>LDlink · LD reference data</summary>
+                    <div class="settings-advanced-body">
+                        <p id="ldlink-credential-status" class="settings-field-help" role="status">Loading LDlink settings…</p>
+                        <div class="form-group">
+                            <label for="ldlink-api-key">LDlink API Key</label>
+                            <input type="password" id="ldlink-api-key" placeholder="Paste LDlink API key" autocomplete="off" spellcheck="false" aria-describedby="ldlink-privacy-text ldlink-credential-status">
+                        </div>
+                        <p id="ldlink-privacy-text" class="settings-privacy-note">Saved with Windows encryption for this account and reused after restart. Independent of the LLM API key; never stored in the browser or analysis data.</p>
+                        <div id="ldlink-connection-status" class="settings-field-help" role="status" aria-live="polite"></div>
+                        <button type="button" id="ldlink-save-btn" class="test-button">Save LDlink Key</button>
+                        <button type="button" id="ldlink-test-btn" class="test-button">Save &amp; Test LDlink</button>
+                        <button type="button" id="ldlink-remove-btn">Remove saved LDlink key</button>
+                    </div>
+                </details>
+                <details id="phenotype-scope-settings" class="settings-advanced">
+                    <summary>Saved phenotype scopes ? EFO</summary>
+                    <div class="settings-advanced-body">
+                        <p class="settings-field-help">Each target phenotype keeps one related-phenotype list, selected once from its EFO neighbourhood and reused by later analyses. Changes apply to the next analysis.</p>
+                        <div id="phenotype-scope-list" aria-live="polite">Loading saved phenotype scopes?</div>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/settings.js') }}?v=ldlink-settings-1-phenotype-scopes"></script>
+    {% block scripts %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/workspace.css') }}?v=1.0.0-timing-scope">
+    <script src="{{ url_for('static', filename='js/variant-labels.js') }}?v=1"></script>
+    <script src="{{ url_for('static', filename='js/workspace-ui.js') }}?v=1.0.0-compact-references"></script>
+    <script src="{{ url_for('static', filename='js/actions.js') }}"></script>
+</body>
+</html>

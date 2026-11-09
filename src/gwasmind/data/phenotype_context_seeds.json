@@ -1,0 +1,406 @@
+{
+  "version": "curated-phenotype-search-context-2",
+  "source": "GWASMind authored physiology search plans",
+  "purpose": "Bounded recovery search contexts, not causal tissue assertions or model results. Identities are validated against the packaged Open Targets catalog. No genes, variants, rankings or measured association results determine these plans.",
+  "profiles": {
+    "ovarian": {
+      "ids": [
+        "UBERON_0000992",
+        "UBERON_0001305",
+        "CL_0000501",
+        "CL_0000023"
+      ],
+      "rationale": "Ovarian follicle and germ-cell biology provides the reproductive context for menopause timing."
+    },
+    "hepatic": {
+      "ids": [
+        "UBERON_0002107",
+        "CL_0000182"
+      ],
+      "rationale": "Hepatic synthesis, metabolism or clearance provides a focused biochemical search context."
+    },
+    "plasma_protein": {
+      "ids": [
+        "UBERON_0002107",
+        "CL_0000182",
+        "CL_0000786"
+      ],
+      "rationale": "Hepatocytes synthesize albumin and other plasma proteins; plasma cells supply immunoglobulins."
+    },
+    "alkaline_phosphatase": {
+      "ids": [
+        "UBERON_0002107",
+        "UBERON_0002481",
+        "CL_0000062",
+        "CL_1000488"
+      ],
+      "rationale": "Hepatobiliary and bone sources provide distinct relevant contexts for alkaline phosphatase."
+    },
+    "lipoprotein": {
+      "ids": [
+        "UBERON_0002107",
+        "UBERON_0002108",
+        "CL_0000182",
+        "CL_0000584"
+      ],
+      "rationale": "Hepatic and intestinal lipoprotein production and processing provide the search context."
+    },
+    "basophil": {
+      "ids": [
+        "UBERON_0002371",
+        "CL_0000767",
+        "CL_0000037"
+      ],
+      "rationale": "The measured lineage and its hematopoietic origin define a blood-cell-count context."
+    },
+    "adiposity": {
+      "ids": [
+        "UBERON_0001013",
+        "CL_0000136"
+      ],
+      "rationale": "Adipose tissue and adipocytes provide the body-fat distribution context."
+    },
+    "aminotransferase": {
+      "ids": [
+        "UBERON_0002107",
+        "UBERON_0001134",
+        "CL_0000182"
+      ],
+      "rationale": "Hepatic and skeletal-muscle sources are relevant to circulating aminotransferase measurements."
+    },
+    "calcium": {
+      "ids": [
+        "UBERON_0002113",
+        "UBERON_0001132",
+        "UBERON_0002481",
+        "UBERON_0002108"
+      ],
+      "rationale": "Renal handling, parathyroid regulation, bone turnover and intestinal absorption contribute to calcium homeostasis."
+    },
+    "blood_pressure": {
+      "ids": [
+        "UBERON_0000948",
+        "UBERON_0002113",
+        "UBERON_0001981",
+        "CL_0000359",
+        "CL_0000115"
+      ],
+      "rationale": "Cardiac output, renal regulation and vascular tone define the blood-pressure context."
+    },
+    "venous_thrombosis": {
+      "ids": [
+        "UBERON_0001981",
+        "UBERON_0002107",
+        "CL_0000115",
+        "CL_0000233"
+      ],
+      "rationale": "Vascular endothelium, platelets and hepatic coagulation-protein synthesis provide a thrombosis context."
+    },
+    "bone": {
+      "ids": [
+        "UBERON_0002481",
+        "CL_0000062",
+        "CL_0000092"
+      ],
+      "rationale": "Bone formation and resorption provide the bone-mineral-density context."
+    },
+    "renal": {
+      "ids": [
+        "UBERON_0002113",
+        "CL_0000653",
+        "CL_0002306"
+      ],
+      "rationale": "Glomerular filtration and renal epithelial handling provide the kidney-function context."
+    },
+    "eosinophil": {
+      "ids": [
+        "UBERON_0002371",
+        "CL_0000771",
+        "CL_0000037"
+      ],
+      "rationale": "Eosinophils and their hematopoietic origin define the measured lineage context."
+    },
+    "airway": {
+      "ids": [
+        "UBERON_0002048",
+        "UBERON_0004802",
+        "CL_0002368",
+        "CL_0000192"
+      ],
+      "rationale": "Pulmonary and airway structures provide the respiratory airflow context."
+    },
+    "biliary": {
+      "ids": [
+        "UBERON_0002107",
+        "CL_0000182",
+        "CL_1000488"
+      ],
+      "rationale": "Hepatic and biliary epithelial biology provides the hepatobiliary biochemical context."
+    },
+    "glucose": {
+      "ids": [
+        "UBERON_0001264",
+        "UBERON_0002107",
+        "UBERON_0001013",
+        "UBERON_0001134",
+        "CL_0000169"
+      ],
+      "rationale": "Insulin secretion and hepatic, adipose and muscle glucose handling provide the glycemic context."
+    },
+    "erythroid": {
+      "ids": [
+        "UBERON_0002371",
+        "CL_0000232",
+        "CL_0000765"
+      ],
+      "rationale": "Erythrocytes and erythroid precursors provide the red-cell measurement context."
+    },
+    "glycated_hemoglobin": {
+      "ids": [
+        "UBERON_0001264",
+        "UBERON_0002107",
+        "UBERON_0002371",
+        "CL_0000169",
+        "CL_0000232",
+        "CL_0000765"
+      ],
+      "rationale": "Both glycemic regulation and erythrocyte biology can influence glycated hemoglobin."
+    },
+    "growth_factor": {
+      "ids": [
+        "UBERON_0002107",
+        "UBERON_0000007",
+        "CL_0000182"
+      ],
+      "rationale": "Hepatic IGF production and pituitary endocrine regulation provide a circulating growth-factor context."
+    },
+    "lymphoid": {
+      "ids": [
+        "UBERON_0002371",
+        "CL_0000084",
+        "CL_0000236",
+        "CL_0000623"
+      ],
+      "rationale": "Lymphoid cell lineages and hematopoietic tissue provide the lymphocyte-count context."
+    },
+    "height": {
+      "ids": [
+        "UBERON_0002481",
+        "UBERON_0002418",
+        "UBERON_0000007",
+        "CL_0000138",
+        "CL_0000062"
+      ],
+      "rationale": "Skeletal growth, cartilage and endocrine regulation provide the stature context."
+    },
+    "monocyte": {
+      "ids": [
+        "UBERON_0002371",
+        "CL_0000576",
+        "CL_0000037"
+      ],
+      "rationale": "Monocytes and their hematopoietic origin define the measured lineage context."
+    },
+    "neutrophil": {
+      "ids": [
+        "UBERON_0002371",
+        "CL_0000775",
+        "CL_0000037"
+      ],
+      "rationale": "Neutrophils and their hematopoietic origin define the measured lineage context."
+    },
+    "platelet": {
+      "ids": [
+        "UBERON_0002371",
+        "CL_0000556",
+        "CL_0000233"
+      ],
+      "rationale": "Megakaryocytes generate platelets and provide the relevant precursor context."
+    },
+    "bilirubin": {
+      "ids": [
+        "UBERON_0002107",
+        "CL_0000182",
+        "CL_0000232",
+        "CL_0000235"
+      ],
+      "rationale": "Heme turnover and hepatic bilirubin handling provide complementary biochemical contexts."
+    },
+    "androgen": {
+      "ids": [
+        "UBERON_0000473",
+        "UBERON_0000007",
+        "CL_0000178"
+      ],
+      "rationale": "Testicular Leydig cells and pituitary regulation provide the male testosterone context."
+    },
+    "urate": {
+      "ids": [
+        "UBERON_0002113",
+        "UBERON_0002107",
+        "UBERON_0002108",
+        "CL_0002306"
+      ],
+      "rationale": "Purine metabolism and renal or intestinal urate handling provide the uric-acid context."
+    },
+    "vitamin_d": {
+      "ids": [
+        "UBERON_0002097",
+        "UBERON_0002107",
+        "UBERON_0002113",
+        "CL_0000182",
+        "CL_0002306"
+      ],
+      "rationale": "Cutaneous synthesis, hepatic metabolism and renal activation provide the vitamin-D context."
+    },
+    "urea": {
+      "ids": [
+        "UBERON_0002107",
+        "UBERON_0002113",
+        "CL_0000182",
+        "CL_0002306"
+      ],
+      "rationale": "Hepatic urea production and renal clearance provide the circulating-urea context."
+    },
+    "leukocyte": {
+      "ids": [
+        "UBERON_0002371",
+        "CL_0000738",
+        "CL_0000037"
+      ],
+      "rationale": "Leukocytes and hematopoietic precursors provide the white-cell-count context."
+    }
+  },
+  "phenotypes": {
+    "Age at menopause": "ovarian",
+    "Albumin/Globulin ratio": "plasma_protein",
+    "Alkaline phosphatase": "alkaline_phosphatase",
+    "Albumin": "hepatic",
+    "Alanine aminotransferase": "hepatic",
+    "Apolipoprotein B": "lipoprotein",
+    "Apolipoprotein A": "lipoprotein",
+    "Basophil count": "basophil",
+    "Body fat percentage": "adiposity",
+    "Aspartate aminotransferase": "aminotransferase",
+    "Calcium": "calcium",
+    "C-reactive protein": "hepatic",
+    "Diastolic blood pressure": "blood_pressure",
+    "Blood clot in the leg": "venous_thrombosis",
+    "Estimated heel bone mineral density": "bone",
+    "Estimated glomerular filtration rate (serum creatinine)": "renal",
+    "Eosinophil count": "eosinophil",
+    "Estimated glomerular filtration rate (cystain C)": "renal",
+    "FEV1/FVC ratio": "airway",
+    "Gamma-glutamyl transferase": "biliary",
+    "Glucose": "glucose",
+    "Hemoglobin": "erythroid",
+    "Hemoglobin A1c": "glycated_hemoglobin",
+    "High density lipoprotein cholesterol": "lipoprotein",
+    "Hematocrit": "erythroid",
+    "Insulin-like growth factor 1": "growth_factor",
+    "Lymphocyte count": "lymphoid",
+    "Mean arterial pressure": "blood_pressure",
+    "Mean corpuscular hemoglobin": "erythroid",
+    "Mean corpuscular hemoglobin concentration": "erythroid",
+    "Adult height": "height",
+    "Mean corpuscular volume": "erythroid",
+    "Monocyte count": "monocyte",
+    "Neutrophil count": "neutrophil",
+    "Pulse pressure": "blood_pressure",
+    "Platelet count": "platelet",
+    "Red blood cell count": "erythroid",
+    "Systolic blood pressure": "blood_pressure",
+    "Total bilirubin": "bilirubin",
+    "Sex hormone binding globulin": "hepatic",
+    "Testosterone (males)": "androgen",
+    "Total cholesterol": "lipoprotein",
+    "Total protein": "plasma_protein",
+    "Triglyceride": "lipoprotein",
+    "Uric acid": "urate",
+    "Vitamin D": "vitamin_d",
+    "Urea": "urea",
+    "Waist-to-hip ratio (adjusted by BMI)": "adiposity",
+    "White blood cell count": "leukocyte",
+    "Low density lipoprotein cholesterol": "lipoprotein",
+    "Fasting blood glucose": "glucose",
+    "Body mass index": "adiposity"
+  },
+  "aliases": {
+    "Estimated glomerular filtration rate (cystatin C)": "Estimated glomerular filtration rate (cystain C)",
+    "HDL cholesterol": "High density lipoprotein cholesterol",
+    "Triglycerides": "Triglyceride",
+    "HbA1c": "Hemoglobin A1c",
+    "LDL cholesterol": "Low density lipoprotein cholesterol",
+    "LDL-C": "Low density lipoprotein cholesterol",
+    "HDL-C": "High density lipoprotein cholesterol",
+    "TG": "Triglyceride",
+    "BMI": "Body mass index",
+    "height": "Adult height",
+    "fasting glucose": "Fasting blood glucose"
+  },
+  "target_ids": {
+    "Low density lipoprotein cholesterol": "EFO_0004611",
+    "High density lipoprotein cholesterol": "EFO_0004612",
+    "Triglyceride": "EFO_0004530",
+    "Fasting blood glucose": "OBA_2090000",
+    "Body mass index": "EFO_0004340",
+    "Adult height": "OBA_VT0001253",
+    "Age at menopause": "EFO_0004704",
+    "Alkaline phosphatase": "EFO_0004533",
+    "Alanine aminotransferase": "OBA_2050062",
+    "Apolipoprotein B": "EFO_0004615",
+    "Basophil count": "EFO_0005090",
+    "Body fat percentage": "EFO_0007800",
+    "Aspartate aminotransferase": "EFO_0004736",
+    "Calcium": "EFO_0004838",
+    "C-reactive protein": "EFO_0004458",
+    "Diastolic blood pressure": "EFO_0006336",
+    "Eosinophil count": "EFO_0004842",
+    "Glucose": "EFO_0004468",
+    "Hemoglobin": "EFO_0004509",
+    "Hemoglobin A1c": "EFO_0004541",
+    "Hematocrit": "EFO_0004348",
+    "Insulin-like growth factor 1": "EFO_0004627",
+    "Lymphocyte count": "EFO_0004587",
+    "Mean arterial pressure": "EFO_0006340",
+    "Mean corpuscular hemoglobin": "EFO_0004527",
+    "Mean corpuscular hemoglobin concentration": "EFO_0004528",
+    "Mean corpuscular volume": "OBA_0003460",
+    "Monocyte count": "EFO_0005091",
+    "Neutrophil count": "EFO_0004833",
+    "Pulse pressure": "EFO_0005763",
+    "Platelet count": "EFO_0004309",
+    "Red blood cell count": "EFO_0004305",
+    "Systolic blood pressure": "EFO_0006335",
+    "Total cholesterol": "EFO_0004574",
+    "Uric acid": "EFO_0004761",
+    "Vitamin D": "OBA_1000968",
+    "White blood cell count": "OBA_VT0000217",
+    "Albumin/Globulin ratio": "EFO_0005128",
+    "Albumin": "OBA_2050068",
+    "Apolipoprotein A": "EFO_0004614",
+    "Blood clot in the leg": "EFO_0003907",
+    "Estimated heel bone mineral density": "EFO_0009270",
+    "Estimated glomerular filtration rate (serum creatinine)": "OBA_0003747",
+    "Estimated glomerular filtration rate (cystain C)": "OBA_0003747",
+    "FEV1/FVC ratio": "EFO_0004713",
+    "Gamma-glutamyl transferase": "EFO_0004532",
+    "Total bilirubin": "EFO_0004570",
+    "Sex hormone binding globulin": "EFO_0004696",
+    "Testosterone (males)": "EFO_0004908",
+    "Total protein": "EFO_0004536",
+    "Urea": "EFO_0011005",
+    "Waist-to-hip ratio (adjusted by BMI)": "EFO_0007788"
+  },
+  "target_identity_provenance": {
+    "provider": "Open Targets official GraphQL API",
+    "verified_on": "2026-09-26",
+    "policy": "Explicit broad phenotype identities and unique exact labels/synonyms; unresolved names use expanded runtime search."
+  },
+  "target_identity_notes": {
+    "Estimated glomerular filtration rate (serum creatinine)": "Uses the current general GFR identity; retain the creatinine estimator in the original phenotype label. Do not equate study measurements across estimation methods.",
+    "Estimated glomerular filtration rate (cystain C)": "Uses the current general GFR identity; retain the cystatin C estimator in the original phenotype label. Do not equate study measurements across estimation methods.",
+    "Testosterone (males)": "The ontology identity is testosterone measurement; the original male-specific phenotype qualifier remains required.",
+    "Apolipoprotein A": "Curated clinical blood-measurement label for apolipoprotein A1, not all apolipoprotein A family members."
+  }
+}

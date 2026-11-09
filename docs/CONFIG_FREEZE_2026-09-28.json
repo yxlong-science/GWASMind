@@ -1,0 +1,136 @@
+{
+  "schema_version": "1",
+  "frozen_on": "2026-09-28",
+  "scope": "V2G gene prioritization review round (Gate rules 3.0.0)",
+  "files": {
+    "parameters.toml": {
+      "path": "src/gwasmind/config/parameters.toml",
+      "sha256": "f1db60662fddefe43622307b1cd0273a2544c8f8afca9a7efb260acd240bb169"
+    },
+    "gate_rules.toml": {
+      "path": "src/gwasmind/config/gate_rules.toml",
+      "sha256": "445bc08c5bfae5d436cbab5c461136faf4c49567154ace9a6f5e759b73b0b67b"
+    },
+    "llm_prompts.toml": {
+      "path": "src/gwasmind/prompts/llm_prompts.toml",
+      "sha256": "72f56231e7787a86a25a9eb6939816e077072aa4f46c1fd7220c2473c154de37"
+    }
+  },
+  "gate_rules": {
+    "version": "3.0.0",
+    "raw_sha256": "445bc08c5bfae5d436cbab5c461136faf4c49567154ace9a6f5e759b73b0b67b",
+    "effective_sha256": "fd834e8bbb1cc58f593eff42e071fee3e50c8f785dbfbd46c53150e7f25747c9"
+  },
+  "parameters": {
+    "effective_sha256": "b15e265ee3a47ce47d9bb35701224f345f55ea7ffee8cc1501ea8506be975178"
+  },
+  "prompts": {
+    "catalog_version": "7.2.0",
+    "catalog_schema_version": 1,
+    "catalog_resource": "gwasmind.prompts/llm_prompts.toml",
+    "catalog_file_sha256": "72f56231e7787a86a25a9eb6939816e077072aa4f46c1fd7220c2473c154de37",
+    "effective_content_sha256": "0876db18ac24e406bf70c57ebf661f585f15cd80027a19e73c33fd03a93c2219"
+  },
+  "frozen_thresholds": {
+    "analysis.gwas_significance_p": 5e-08,
+    "analysis.local_gene_window_bp": 1000000,
+    "ranking.ld_r2_threshold": 0.8,
+    "ranking.ld_window_bp": 250000,
+    "ranking.max_model_candidate_genes": 200,
+    "ranking.max_ranked_genes": 5,
+    "ranking.sufficiency.min_evidence_records": 2,
+    "ranking.sufficiency.min_genes_with_evidence": 1,
+    "ranking.sufficiency.min_independent_datasets": 2,
+    "ranking.sufficiency.require_genome_wide_signal": false,
+    "ranking.sufficiency.require_locus_linked_gene_evidence": true,
+    "ranking.sufficiency.require_relevant_tissue_if_declared": true,
+    "novelty.ld_r2_threshold": 0.2,
+    "model.ranking_temperature": 0.0,
+    "model.ranking_seed": 0,
+    "model.writer_transport_retries": 3,
+    "model.deepseek_timeout_seconds": 300.0,
+    "gates.report_max_tokens": 4096
+  },
+  "revisions": [
+    {
+      "date": "2026-09-28",
+      "file": "parameters.toml",
+      "change": "added artifacts.retain_intermediate_files (disk retention only; no scientific threshold changed)",
+      "previous_parameters_effective_sha256": "024ab101b6b6cf7e097394df6ff12358655ac8159ebbd862c2f8fabf224e1ae3"
+    },
+    {
+      "date": "2026-09-28",
+      "file": "parameters.toml",
+      "change": "added artifacts.compress_completed_runs (disk retention only; no scientific threshold changed)",
+      "previous_parameters_effective_sha256": "8fd0771aaa62451ec9edbc04968e8a609227d73ca54a4de55d362b178a8cde5d"
+    },
+    {
+      "date": "2026-09-28",
+      "file": "llm_prompts.toml",
+      "change": "catalog 6.8.0: agent_v2g_reasoning_process 3.2.0 and agent_v2g_output_contract 2.2.0 allow tied_with_previous when no supplied observation separates adjacent candidates",
+      "previous_prompts_effective_content_sha256": "61ec528a775bedfeee1f940169b72810d6d07ec132c672987fd4eae2a578aaa1",
+      "previous_catalog_version": "6.7.0"
+    },
+    {
+      "date": "2026-09-28",
+      "file": "parameters.toml + llm_prompts.toml",
+      "change": "complete QTL/E2G tables in the model input: removed v2g.card.max_qtl_records and v2g.card.max_e2g_per_interval_type; max_tokens_per_gene now bounds only representative parts; prompt catalog 6.9.0 (agent_v2g_card_contract 3.1.0, agent_v2g_reasoning_process 3.3.0)",
+      "previous_parameters_effective_sha256": "a9874c6aa8099a37bb40f06e5c99f1cb1d3fa84989be39cc3dc28b42eea2e4aa",
+      "previous_prompts_effective_content_sha256": "467f85dee3daeefb2d25392293cb8e7a010f439917b07323c6d1cf86a9f17b5d"
+    },
+    {
+      "date": "2026-09-29",
+      "file": "llm_prompts.toml",
+      "change": "catalog 6.10.0: phenotype_scope_proposal_system removed (related candidates now come from the EFO neighbourhood); phenotype_scope_selection_system 2.0.0 (target_identity / related_phenotypes phases, saved once per target); agent_v2g_card_contract 3.2.0 (colocalization summarized per EFO phenotype)",
+      "previous_prompts_effective_content_sha256": "301c66435e71496a1625889af6cdb67eacd67e1b7b1e77f234ebc69bd1c4f486",
+      "previous_catalog_version": "6.9.0"
+    },
+    {
+      "date": "2026-09-29",
+      "file": "llm_prompts.toml",
+      "change": "catalog 7.0.0: new agent_v2g_system 1.0.0 (V2G-only Part 1) and agent_v2g_reasoning_process 4.0.0 (read the locus, trace routes and weakest links, route accounts, one-by-one contests with a robustness check, ties as contest conclusions); the fixed evidence-type comparison order is removed",
+      "previous_prompts_effective_content_sha256": "6deab4a4807616e64cf72c45d487cb19a6650d716be74d41edc4ebbc9f3dd267",
+      "previous_catalog_version": "6.10.0"
+    },
+    {
+      "date": "2026-09-29",
+      "file": "parameters.toml",
+      "change": "model.ranking_request_output_tokens 98304 -> 196608, model.ranking_total_output_tokens 196608 -> 393216 (deepseek-flash maximum output 393216) and model.ranking_deadline_seconds 600 -> 1800; no scientific threshold changed",
+      "previous_parameters_effective_sha256": "32d9ef07f514af5a0f0ea3fdecd54ecc71d07fdaf337158fd0ef8fd1a83329e0"
+    },
+    {
+      "date": "2026-09-29",
+      "file": "gate_rules.toml",
+      "change": "line endings restored to the committed per-line style before commit; content and effective_sha256 unchanged",
+      "previous_raw_sha256": "ffc45c4aa08311e5a5efab96ccf673411b87cb783f003e7586460df4634e0bab"
+    },
+    {
+      "date": "2026-09-29",
+      "file": "parameters.toml + llm_prompts.toml",
+      "change": "Review repairs: nondestructive journaled storage optimization, cancellable scope/compaction locks, corrected provider-budget documentation, prompt catalog 7.1.0/card contract 3.3.0 with traceable per-phenotype representatives; scientific thresholds unchanged.",
+      "previous_parameters_effective_sha256": "71af7e979c0f1b97dbe7101646d95d02bc129d12341b6a1749d68aa19c895ab0",
+      "previous_prompts_effective_content_sha256": "8de4d6bb395c58f8bac15b8199fa355b3be8b00f823da6f9ccfdda88ce5e0c8b",
+      "previous_catalog_version": "7.0.0"
+    },
+    {
+      "date": "2026-09-29",
+      "file": "gate_rules.toml",
+      "change": "Comment-only clarification: ambiguous/unverifiable numerical statements are retained with an audit. Rule configuration, version and effective hash are unchanged.",
+      "previous_raw_sha256": "ec8315549771213e5018c138b8401c8e132c2d27a50a2a8211f3390d79b56d7d"
+    },
+    {
+      "date": "2026-10-09",
+      "file": "llm_prompts.toml",
+      "change": "catalog 7.2.0: phenotype_scope_selection_system 2.1.0 lets target-identity selection abstain (target_id null) when no offered identity is equivalent, and keeps label qualifiers (sex, assay, adjustment) from changing the measured entity",
+      "previous_prompts_effective_content_sha256": "71bebdba3a40f110bb2685f95842b42404eb69b8975dc23ff244c3bc316e1292",
+      "previous_catalog_version": "7.1.0"
+    },
+    {
+      "date": "2026-10-16",
+      "file": "parameters.toml",
+      "change": "User-requested runtime scheduling increase: execution.auto_default_concurrent_loci 3 -> 6 and execution.max_concurrent_runs 4 -> 6, including their documented defaults; Auto override maximum 4 -> 16 to match the existing worker-capacity range. Provider implementation, per-query retrieval parameters, scientific thresholds, gates and prompts are unchanged.",
+      "previous_parameters_effective_sha256": "d628ddd07328ce6a808f2d64db34f941b99ad19f6ef1162de9d6d76d20bc305f",
+      "previous_parameters_file_sha256": "c464849b32ec7757b5877f57a0e62def4014daf40f1714370a041d393a81386b"
+    }
+  ]
+}

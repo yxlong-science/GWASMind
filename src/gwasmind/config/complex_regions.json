@@ -1,0 +1,96 @@
+{
+  "version": "2026-09-20.1",
+  "description": "Versioned recognized complex genomic regions. This registry is intentionally narrow and does not represent a genome-wide low-mappability mask.",
+  "regions": [
+    {
+      "name": "MHC/HLA",
+      "genome_build": "GRCh38",
+      "chromosome": "6",
+      "start": 25726063,
+      "end": 33400556,
+      "source": "https://platform-docs.opentargets.org/credible-set",
+      "description": "Open Targets MHC credible-set exclusion interval"
+    },
+    {
+      "name": "KIR",
+      "genome_build": "GRCh38",
+      "chromosome": "19",
+      "start": 54716689,
+      "end": 54871732,
+      "source": "https://github.com/usnistgov/giab-stratifications",
+      "description": "GIAB GRCh38 KIR difficult-region interval"
+    },
+    {
+      "name": "VDJ-IGH",
+      "genome_build": "GRCh38",
+      "chromosome": "14",
+      "start": 105586437,
+      "end": 106879844,
+      "source": "https://edoc.mdc-berlin.de/id/eprint/22049/1/22049oa.pdf",
+      "description": "Immunoglobulin heavy-chain V(D)J locus"
+    },
+    {
+      "name": "VDJ-IGK",
+      "genome_build": "GRCh38",
+      "chromosome": "2",
+      "start": 88848000,
+      "end": 90362000,
+      "source": "https://edoc.mdc-berlin.de/id/eprint/22049/1/22049oa.pdf",
+      "description": "Immunoglobulin kappa V(D)J locus"
+    },
+    {
+      "name": "VDJ-IGL",
+      "genome_build": "GRCh38",
+      "chromosome": "22",
+      "start": 22026076,
+      "end": 22922913,
+      "source": "https://www.ncbi.nlm.nih.gov/gene/3535/",
+      "description": "Immunoglobulin lambda V(D)J locus"
+    },
+    {
+      "name": "VDJ-TCRA-TRD",
+      "genome_build": "GRCh38",
+      "chromosome": "14",
+      "start": 21621904,
+      "end": 22552132,
+      "source": "https://edoc.mdc-berlin.de/id/eprint/22049/1/22049oa.pdf",
+      "description": "T-cell receptor alpha/delta V(D)J locus"
+    },
+    {
+      "name": "VDJ-TCRB",
+      "genome_build": "GRCh38",
+      "chromosome": "7",
+      "start": 142299011,
+      "end": 142813287,
+      "source": "https://edoc.mdc-berlin.de/id/eprint/22049/1/22049oa.pdf",
+      "description": "T-cell receptor beta V(D)J locus"
+    },
+    {
+      "name": "VDJ-TCRG",
+      "genome_build": "GRCh38",
+      "chromosome": "7",
+      "start": 38240024,
+      "end": 38368055,
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK3839/",
+      "description": "T-cell receptor gamma V(D)J locus"
+    },
+    {
+      "name": "Inversion-8p23.1",
+      "genome_build": "GRCh38",
+      "chromosome": "8",
+      "start": 8055789,
+      "end": 11980649,
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7273535/",
+      "description": "Curated polymorphic inversion interval from the 1000 Genomes population analysis"
+    },
+    {
+      "name": "Inversion-16p11.2",
+      "genome_build": "GRCh38",
+      "chromosome": "16",
+      "start": 28424774,
+      "end": 28788943,
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7273535/",
+      "description": "Curated polymorphic inversion interval from the 1000 Genomes population analysis"
+    }
+  ]
+}

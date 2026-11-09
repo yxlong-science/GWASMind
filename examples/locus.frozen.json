@@ -1,0 +1,19 @@
+{
+  "locus_id": "frozen-smoke-1",
+  "trait": "Open Targets connector smoke test",
+  "variants": [
+    {
+      "variant_id": "1_82509_T_C",
+      "p_value": 1e-9,
+      "chromosome": "1",
+      "position": 82509
+    }
+  ],
+  "candidate_genes": ["ENSG00000186092"],
+  "task": "prioritize_genes",
+  "ancestry": "European",
+  "relevant_tissues": [],
+  "genome_build": "GRCh38",
+  "ld_reference": "software-smoke-fixture",
+  "benchmark": false
+}

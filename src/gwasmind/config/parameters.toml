@@ -1,0 +1,4412 @@
+# Canonical non-secret GWASMind parameters. Edit value, preserve documented defaults.
+# Restart after edits. Optional local overrides are validated against this catalog.
+# Secrets are supplied through the existing environment/runtime-memory mechanisms.
+[catalog]
+version = "2.1.0"
+schema_version = 1
+
+[[parameters]]
+key = "ranking.model_evidence_view"
+type = "str"
+value = "gene_comparison"
+default = "gene_comparison"
+unit = "ranking evidence representation"
+description = "Deterministic gene comparison cards or the complete individual scientific fact tables."
+used_by = ["src/gwasmind/llm.py", "src/gwasmind/ranking_cards.py"]
+impact = "Comparison cards retain all candidates and primary molecular/coding evidence, summarize redundant regulatory/background data with traceable representatives, and keep the complete ledger in the audit. They do not rank genes."
+choices = ["gene_comparison", "complete_facts"]
+
+# Source GWAS genome-wide significance threshold.
+# Unit: P value; default: 5e-08
+# Used by: src/gwasmind/models.py:98, src/gwasmind/source_gwas.py:11, src/gwasmind/staged_reasoning.py:3234, src/gwasmind/sufficiency.py:197, src/gwasmind/web/stage_bridge.py:34, src/gwasmind/web/templates.py:65, src/gwasmind/web/ui_state.py:401, src/gwasmind/web/ui_state.py:15, src/gwasmind/web/static/js/gwas-processor.js:24, src/gwasmind/web/static/js/manhattan.js:5
+# Impact: scientific interpretation
+[[parameters]]
+key = "analysis.gwas_significance_p"
+default = 5e-08
+type = "float"
+unit = "P value"
+description = "Source GWAS genome-wide significance threshold."
+used_by = ["src/gwasmind/models.py:98", "src/gwasmind/source_gwas.py:11", "src/gwasmind/staged_reasoning.py:3234", "src/gwasmind/sufficiency.py:197", "src/gwasmind/web/stage_bridge.py:34", "src/gwasmind/web/templates.py:65", "src/gwasmind/web/ui_state.py:401", "src/gwasmind/web/ui_state.py:15", "src/gwasmind/web/static/js/gwas-processor.js:24", "src/gwasmind/web/static/js/manhattan.js:5"]
+impact = "scientific interpretation"
+value = 5e-08
+minimum = 0.0
+maximum = 1.0
+
+# Symmetric genomic flank used to discover and verify nearby candidate genes.
+# Unit: bp per side; default: 1000000
+# Used by: src/gwasmind/candidates.py:22, src/gwasmind/mcp/ensembl.py:21, src/gwasmind/mcp/frozen_modules.py:420, src/gwasmind/mcp/frozen_modules.py:419, src/gwasmind/mcp/frozen_modules.py:601, src/gwasmind/mcp/frozen_modules.py:545, src/gwasmind/mcp/live_modules.py:2396, src/gwasmind/mcp/live_modules.py:2243, src/gwasmind/mcp/live_modules.py:2270, src/gwasmind/mcp/live_modules.py:609, src/gwasmind/mcp/live_modules.py:647, src/gwasmind/mcp/live_modules.py:608, src/gwasmind/region_gate.py:28, src/gwasmind/region_gate.py:20
+# Impact: scientific interpretation
+[[parameters]]
+key = "analysis.local_gene_window_bp"
+default = 1000000
+type = "int"
+unit = "bp per side"
+description = "Symmetric genomic flank used to discover and verify nearby candidate genes."
+used_by = ["src/gwasmind/candidates.py:22", "src/gwasmind/mcp/ensembl.py:21", "src/gwasmind/mcp/frozen_modules.py:420", "src/gwasmind/mcp/frozen_modules.py:419", "src/gwasmind/mcp/frozen_modules.py:601", "src/gwasmind/mcp/frozen_modules.py:545", "src/gwasmind/mcp/live_modules.py:2396", "src/gwasmind/mcp/live_modules.py:2243", "src/gwasmind/mcp/live_modules.py:2270", "src/gwasmind/mcp/live_modules.py:609", "src/gwasmind/mcp/live_modules.py:647", "src/gwasmind/mcp/live_modules.py:608", "src/gwasmind/region_gate.py:28", "src/gwasmind/region_gate.py:20"]
+impact = "scientific interpretation"
+value = 1000000
+minimum = 0
+maximum = 1000000
+
+# Default independently scheduled Auto loci.
+# Unit: loci; default: 6
+# Used by: src/gwasmind/web/auto_analysis.py:28, src/gwasmind/web/templates.py:78, src/gwasmind/web/static/js/analysis.js:18, src/gwasmind/web/static/js/analysis.js:152, src/gwasmind/web/static/js/app-page.js:455, src/gwasmind/web/static/js/auto-progress.js:4
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.auto_default_concurrent_loci"
+type = "int"
+value = 6
+default = 6
+unit = "loci"
+description = "Default independently scheduled Auto loci."
+used_by = ["src/gwasmind/web/auto_analysis.py:28", "src/gwasmind/web/templates.py:78", "src/gwasmind/web/static/js/analysis.js:18", "src/gwasmind/web/static/js/analysis.js:152", "src/gwasmind/web/static/js/app-page.js:455", "src/gwasmind/web/static/js/auto-progress.js:4"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 16
+
+# Default Auto event-stream wait interval.
+# Unit: seconds; default: 15.0
+# Used by: src/gwasmind/web/auto_analysis.py:261
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.auto_event_wait_seconds"
+type = "float"
+value = 15.0
+default = 15.0
+unit = "seconds"
+description = "Default Auto event-stream wait interval."
+used_by = ["src/gwasmind/web/auto_analysis.py:261"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0.0
+maximum = 300.0
+
+# Maximum Auto replay events retained per batch.
+# Unit: events per batch; default: 12000
+# Used by: src/gwasmind/web/auto_analysis.py:27
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.auto_max_events"
+type = "int"
+value = 12000
+default = 12000
+unit = "events per batch"
+description = "Maximum Auto replay events retained per batch."
+used_by = ["src/gwasmind/web/auto_analysis.py:27"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 100
+maximum = 1000000
+
+# Maximum retained Auto task slots.
+# Unit: retained batches; default: 16
+# Used by: src/gwasmind/web/auto_analysis.py:26
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.auto_max_tasks"
+type = "int"
+value = 16
+default = 16
+unit = "retained batches"
+description = "Maximum retained Auto task slots."
+used_by = ["src/gwasmind/web/auto_analysis.py:26"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 1000
+
+# Auto scheduler completion polling interval.
+# Unit: seconds; default: 0.2
+# Used by: src/gwasmind/web/auto_analysis.py:569
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.auto_poll_seconds"
+type = "float"
+value = 0.2
+default = 0.2
+unit = "seconds"
+description = "Auto scheduler completion polling interval."
+used_by = ["src/gwasmind/web/auto_analysis.py:569"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0.001
+maximum = 10.0
+
+# Default native worker/model parallelism when caller does not select it.
+# Unit: runs; default: 1
+# Used by: src/gwasmind/web/jobs.py:187
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.default_concurrent_runs"
+type = "int"
+value = 1
+default = 1
+unit = "runs"
+description = "Default native worker/model parallelism when caller does not select it."
+used_by = ["src/gwasmind/web/jobs.py:187"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 4
+
+# Default frozen data query memory budget; positive MB or GB string.
+# Unit: MB or GB; default: "4GB"
+# Used by: src/gwasmind/cli.py:136, src/gwasmind/cli.py:145, src/gwasmind/cli.py:154, src/gwasmind/mcp/frozen_modules.py:1795, src/gwasmind/providers/frozen.py:131, src/gwasmind/web/jobs.py:58, scripts/smoke_semantic_small.py:101, start_gwasmind.ps1:86
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "execution.duckdb_memory_limit"
+default = "4GB"
+type = "str"
+unit = "MB or GB"
+description = "Default frozen data query memory budget; positive MB or GB string."
+used_by = ["src/gwasmind/cli.py:136", "src/gwasmind/cli.py:145", "src/gwasmind/cli.py:154", "src/gwasmind/mcp/frozen_modules.py:1795", "src/gwasmind/providers/frozen.py:131", "src/gwasmind/web/jobs.py:58", "scripts/smoke_semantic_small.py:101", "start_gwasmind.ps1:86"]
+impact = "runtime and evidence coverage"
+value = "4GB"
+
+# Default frozen data query worker threads.
+# Unit: threads; default: 2
+# Used by: src/gwasmind/cli.py:135, src/gwasmind/cli.py:144, src/gwasmind/cli.py:153, src/gwasmind/mcp/frozen_modules.py:1794, src/gwasmind/providers/frozen.py:130, src/gwasmind/web/jobs.py:57, scripts/smoke_semantic_small.py:99, start_gwasmind.ps1:72, start_gwasmind.ps1:111
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "execution.duckdb_threads"
+default = 2
+type = "int"
+unit = "threads"
+description = "Default frozen data query worker threads."
+used_by = ["src/gwasmind/cli.py:135", "src/gwasmind/cli.py:144", "src/gwasmind/cli.py:153", "src/gwasmind/mcp/frozen_modules.py:1794", "src/gwasmind/providers/frozen.py:130", "src/gwasmind/web/jobs.py:57", "scripts/smoke_semantic_small.py:99", "start_gwasmind.ps1:72", "start_gwasmind.ps1:111"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 8
+
+# Configured maximum selectable independent native workers.
+# Unit: runs; default: 6
+# Used by: src/gwasmind/web/auto_analysis.py:29, src/gwasmind/web/jobs.py:194, src/gwasmind/web/jobs.py:196, src/gwasmind/web/server.py:826, src/gwasmind/web/server.py:3486, src/gwasmind/web/templates.py:81, src/gwasmind/web/static/js/auto-progress.js:5
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.max_concurrent_runs"
+type = "int"
+value = 6
+default = 6
+unit = "runs"
+description = "Configured maximum selectable independent native workers."
+used_by = ["src/gwasmind/web/auto_analysis.py:29", "src/gwasmind/web/jobs.py:194", "src/gwasmind/web/jobs.py:196", "src/gwasmind/web/server.py:826", "src/gwasmind/web/server.py:3486", "src/gwasmind/web/templates.py:81", "src/gwasmind/web/static/js/auto-progress.js:5"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 16
+
+# Bounded retained progress events per job.
+# Unit: events; default: 4000
+# Used by: src/gwasmind/web/jobs.py:59
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.max_events_per_job"
+type = "int"
+value = 4000
+default = 4000
+unit = "events"
+description = "Bounded retained progress events per job."
+used_by = ["src/gwasmind/web/jobs.py:59"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 100
+maximum = 100000
+
+# Maximum recent in-memory job records.
+# Unit: jobs; default: 200
+# Used by: src/gwasmind/web/jobs.py:60
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.max_job_history"
+type = "int"
+value = 200
+default = 200
+unit = "jobs"
+description = "Maximum recent in-memory job records."
+used_by = ["src/gwasmind/web/jobs.py:60"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 10000
+
+# Maximum queued native requests.
+# Unit: runs; default: 25
+# Used by: src/gwasmind/web/jobs.py:61
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.max_pending_runs"
+type = "int"
+value = 25
+default = 25
+unit = "runs"
+description = "Maximum queued native requests."
+used_by = ["src/gwasmind/web/jobs.py:61"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 1000
+
+# Maximum submitted loci per native request.
+# Unit: queries; default: 50
+# Used by: src/gwasmind/web/jobs.py:54
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.max_queries"
+type = "int"
+value = 50
+default = 50
+unit = "queries"
+description = "Maximum submitted loci per native request."
+used_by = ["src/gwasmind/web/jobs.py:54"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 1000
+
+# Maximum UTF-8 byte size of a complete native result parsed by the controller.
+# Unit: bytes; default: 67108864
+# Used by: src/gwasmind/web/jobs.py:62
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.max_result_json_bytes"
+type = "int"
+value = 67108864
+default = 67108864
+unit = "bytes"
+description = "Maximum UTF-8 byte size of a complete native worker result parsed by the controller; checked before and during bounded reading, with unchanged scientific validation."
+used_by = ["src/gwasmind/web/jobs.py:62"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1024
+maximum = 268435456
+
+# Maximum small completion manifest read before an oversized result can be retained safely.
+# Unit: bytes; default: 65536
+# Used by: src/gwasmind/web/result_processing.py:_read_manifest
+# Impact: Bounds receipt parsing; never permits parsing a result above its independent limit.
+[[parameters]]
+key = "execution.max_result_manifest_json_bytes"
+type = "int"
+value = 65536
+default = 65536
+unit = "bytes"
+description = "Maximum UTF-8 byte size of the completion manifest used to bind an oversized retained result to the exact run and source input."
+used_by = ["src/gwasmind/web/result_processing.py:_read_manifest"]
+impact = "Bounds receipt parsing; never permits parsing a result above its independent limit."
+minimum = 1024
+maximum = 1048576
+
+# Bounded buffer for verifying a retained result's SHA256 without JSON parsing.
+# Unit: bytes; default: 1048576
+# Used by: src/gwasmind/web/result_processing.py:_verify_result_bytes
+# Impact: Changes hashing buffer size only; all recorded bytes must still match the completion manifest.
+[[parameters]]
+key = "execution.result_hash_chunk_bytes"
+type = "int"
+value = 1048576
+default = 1048576
+unit = "bytes"
+description = "Maximum buffer size used to stream-verify the byte hash of an oversized result without loading its scientific contents."
+used_by = ["src/gwasmind/web/result_processing.py:_verify_result_bytes"]
+impact = "Changes hashing buffer size only; all recorded bytes must still match the completion manifest."
+minimum = 1024
+maximum = 8388608
+
+# Maximum retained uploaded locus-file sessions.
+# Unit: uploads; default: 16
+# Used by: src/gwasmind/web/analysis_bridge.py:24
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.max_upload_sessions"
+type = "int"
+value = 16
+default = 16
+unit = "uploads"
+description = "Maximum retained uploaded locus-file sessions."
+used_by = ["src/gwasmind/web/analysis_bridge.py:24"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 1000
+
+# Maximum selected source variants per native query and Chat request, within the existing 100-variant protocol ceiling; additional LD analysis variants require separate bounded batches.
+# Unit: source variants; default: 100
+# Used by: src/gwasmind/analysis_scope.py:30, src/gwasmind/analysis_scope.py:23, src/gwasmind/analysis_scope.py:60, src/gwasmind/ld_expansion.py:107, src/gwasmind/mcp/executor.py:245, src/gwasmind/models.py:179, src/gwasmind/models.py:180, src/gwasmind/web/jobs.py:55, src/gwasmind/web/server.py:1818, src/gwasmind/web/server.py:1819, src/gwasmind/web/server.py:2974, src/gwasmind/web/ui_state.py:108, src/gwasmind/web/ui_state.py:109, src/gwasmind/web/ui_state.py:138, src/gwasmind/web/static/js/chat.js:21
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.max_variants_per_query"
+type = "int"
+value = 100
+default = 100
+unit = "source variants"
+description = "Maximum selected source variants per native query and Chat request, within the existing 100-variant protocol ceiling; additional LD analysis variants require separate bounded batches."
+used_by = ["src/gwasmind/analysis_scope.py:30", "src/gwasmind/analysis_scope.py:23", "src/gwasmind/analysis_scope.py:60", "src/gwasmind/ld_expansion.py:107", "src/gwasmind/mcp/executor.py:245", "src/gwasmind/models.py:179", "src/gwasmind/models.py:180", "src/gwasmind/web/jobs.py:55", "src/gwasmind/web/server.py:1818", "src/gwasmind/web/server.py:1819", "src/gwasmind/web/server.py:2974", "src/gwasmind/web/ui_state.py:108", "src/gwasmind/web/ui_state.py:109", "src/gwasmind/web/ui_state.py:138", "src/gwasmind/web/static/js/chat.js:21"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 100
+
+# Maximum concurrent exact-PMID retry batches after incomplete bibliography retrieval.
+# Unit: requests; default: 2
+# Used by: src/gwasmind/mcp/europe_pmc.py:66
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "execution.publication_retry_concurrency"
+default = 2
+type = "int"
+unit = "requests"
+description = "Maximum concurrent exact-PMID retry batches after incomplete bibliography retrieval."
+used_by = ["src/gwasmind/mcp/europe_pmc.py:66"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 8
+
+# Minimum interval between numeric model-stream progress updates, except final usage.
+# Unit: seconds; default: 1.0
+# Used by: src/gwasmind/ld_expansion.py:99, src/gwasmind/model_stream.py:116
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "execution.stream_progress_interval_seconds"
+default = 1.0
+type = "float"
+unit = "seconds"
+description = "Minimum interval between numeric model-stream progress updates, except final usage."
+used_by = ["src/gwasmind/ld_expansion.py:99", "src/gwasmind/model_stream.py:116"]
+impact = "runtime and evidence coverage"
+value = 1.0
+minimum = 0.05
+maximum = 10.0
+
+# Native worker polling interval.
+# Unit: seconds; default: 0.05
+# Used by: src/gwasmind/web/jobs.py:186
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "execution.worker_poll_seconds"
+type = "float"
+value = 0.05
+default = 0.05
+unit = "seconds"
+description = "Native worker polling interval."
+used_by = ["src/gwasmind/web/jobs.py:186"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0.001
+maximum = 10.0
+
+# DICE returned median TPM detection filter; only the named assay/unit uses this filter.
+# Unit: TPM; default: 1.0
+# Used by: src/gwasmind/expression_policy.py:28, src/gwasmind/expression_policy.py:29
+# Impact: scientific interpretation
+[[parameters]]
+key = "expression.detection_dice_tpm"
+default = 1.0
+type = "float"
+unit = "TPM"
+description = "DICE returned median TPM detection filter; only the named assay/unit uses this filter."
+used_by = ["src/gwasmind/expression_policy.py:28", "src/gwasmind/expression_policy.py:29"]
+impact = "scientific interpretation"
+value = 1.0
+minimum = 0.0
+maximum = 1000.0
+
+# GTEx median TPM detection filter; only the named assay/unit uses this filter.
+# Unit: TPM; default: 1.0
+# Used by: src/gwasmind/expression_policy.py:20, src/gwasmind/expression_policy.py:21
+# Impact: scientific interpretation
+[[parameters]]
+key = "expression.detection_gtex_tpm"
+default = 1.0
+type = "float"
+unit = "TPM"
+description = "GTEx median TPM detection filter; only the named assay/unit uses this filter."
+used_by = ["src/gwasmind/expression_policy.py:20", "src/gwasmind/expression_policy.py:21"]
+impact = "scientific interpretation"
+value = 1.0
+minimum = 0.0
+maximum = 1000.0
+
+# HPA nTPM detection filter; only the named assay/unit uses this filter.
+# Unit: nTPM; default: 1.0
+# Used by: src/gwasmind/expression_policy.py:36
+# Impact: scientific interpretation
+[[parameters]]
+key = "expression.detection_hpa_ntpm"
+default = 1.0
+type = "float"
+unit = "nTPM"
+description = "HPA nTPM detection filter; only the named assay/unit uses this filter."
+used_by = ["src/gwasmind/expression_policy.py:36"]
+impact = "scientific interpretation"
+value = 1.0
+minimum = 0.0
+maximum = 1000.0
+
+# Context-to-background expression fold threshold for HPA-style enrichment.
+# Unit: fold; default: 4.0
+# Used by: src/gwasmind/expression_policy.py:8
+# Impact: scientific interpretation
+[[parameters]]
+key = "expression.fold_threshold"
+default = 4.0
+type = "float"
+unit = "fold"
+description = "Context-to-background expression fold threshold for HPA-style enrichment."
+used_by = ["src/gwasmind/expression_policy.py:8"]
+impact = "scientific interpretation"
+value = 4.0
+minimum = 1.000001
+maximum = 1000.0
+
+# Minimum source/unit/release-compatible biosamples in a context comparison group, including the selected biosample; fewer rows remain insufficient.
+# Unit: distinct biosamples; default: 3
+# Used by: src/gwasmind/expression_specificity.py:213, src/gwasmind/expression_specificity.py:231, src/gwasmind/expression_specificity.py:379
+# Impact: Expression evidence sufficiency and candidate admission.
+[[parameters]]
+key = "expression.min_comparison_biosamples"
+default = 3
+type = "int"
+unit = "distinct biosamples"
+description = "Minimum source/unit/release-compatible biosamples in a context comparison group, including the selected biosample; fewer rows remain insufficient."
+used_by = ["src/gwasmind/expression_specificity.py:213", "src/gwasmind/expression_specificity.py:231", "src/gwasmind/expression_specificity.py:379"]
+impact = "Expression evidence sufficiency and candidate admission."
+value = 3
+minimum = 3
+maximum = 1000
+
+# Supporting expression Z annotation only; never independently admits a candidate.
+# Unit: standard deviations; default: 2.0
+# Used by: src/gwasmind/expression_specificity.py:22
+# Impact: scientific interpretation
+[[parameters]]
+key = "expression.supporting_z_threshold"
+default = 2.0
+type = "float"
+unit = "standard deviations"
+description = "Supporting expression Z annotation only; never independently admits a candidate."
+used_by = ["src/gwasmind/expression_specificity.py:22"]
+impact = "scientific interpretation"
+value = 2.0
+minimum = 0.0
+maximum = 100.0
+
+# Bound LD relation detail exposed to the report model; disclose omitted links while retaining the full plan in the audit.
+# Unit: LD links per displayed summary/trace; default: 20
+# Used by: src/gwasmind/ld_support.py:139, src/gwasmind/staged_reasoning.py:1204
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "gates.ld_prompt_max_links"
+type = "int"
+value = 20
+default = 20
+unit = "legacy compatibility setting"
+description = "Retained for existing parameter overrides. The final report now receives every verified LD relation for proxies in its displayed evidence; this legacy value no longer limits that projection."
+used_by = ["src/gwasmind/configuration.py: legacy override compatibility only"]
+impact = "No effect on the current report projection or scientific validation. Complete source/proxy relations remain in the original analysis ledger."
+minimum = 1
+maximum = 200
+
+# Maximum question length accepted by the final-report context.
+# Unit: characters; default: 8000
+# Used by: src/gwasmind/staged_reasoning.py:1086
+# Impact: Bounds user-question input separately from generated Summary and Limitations length.
+[[parameters]]
+key = "gates.question_max_chars"
+type = "int"
+value = 8000
+default = 8000
+unit = "characters"
+minimum = 1000
+maximum = 50000
+description = "Maximum question length accepted by the final-report context."
+used_by = ["src/gwasmind/staged_reasoning.py:1086"]
+impact = "Bounds user-question input separately from generated Summary and Limitations length."
+
+# Maximum independently validated fragments during partial report recovery.
+# Unit: validation attempts; default: 64
+# Used by: src/gwasmind/report_recovery.py:68
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.recovery_fragment_attempts"
+type = "int"
+value = 64
+default = 64
+unit = "validation attempts"
+minimum = 1
+maximum = 256
+description = "Maximum independently validated fragments during partial report recovery."
+used_by = ["src/gwasmind/report_recovery.py:68"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Maximum paragraphs or sentences inspected during partial report recovery.
+# Unit: fragments; default: 80
+# Used by: src/gwasmind/report_recovery.py:71, src/gwasmind/report_recovery.py:83
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.recovery_split_limit"
+type = "int"
+value = 80
+default = 80
+unit = "fragments"
+minimum = 1
+maximum = 256
+description = "Maximum paragraphs or sentences inspected during partial report recovery."
+used_by = ["src/gwasmind/report_recovery.py:71", "src/gwasmind/report_recovery.py:83"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Maximum validator diagnostic length included in a repair prompt.
+# Unit: characters; default: 2000
+# Used by: src/gwasmind/staged_reasoning.py:893, src/gwasmind/staged_reasoning.py:1426
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.repair_error_max_chars"
+type = "int"
+value = 2000
+default = 2000
+unit = "characters"
+minimum = 100
+maximum = 10000
+description = "Maximum validator diagnostic length included in a repair prompt."
+used_by = ["src/gwasmind/staged_reasoning.py:893", "src/gwasmind/staged_reasoning.py:1426"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Maximum authoritative evidence detail or deterministic answer length.
+# Unit: characters; default: 250000
+# Used by: src/gwasmind/staged_reasoning.py:1055, src/gwasmind/staged_reasoning.py:1096
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.report_fact_max_chars"
+type = "int"
+value = 250000
+default = 250000
+unit = "characters"
+minimum = 1000
+maximum = 1000000
+description = "Maximum authoritative evidence detail or deterministic answer length."
+used_by = ["src/gwasmind/staged_reasoning.py:1055", "src/gwasmind/staged_reasoning.py:1096"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Maximum authoritative detail sent per fact in the bounded writer context.
+# Unit: characters; default: 12000
+# Used by: src/gwasmind/staged_reasoning.py:2148, src/gwasmind/staged_reasoning.py:2147
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.report_fact_prompt_max_chars"
+type = "int"
+value = 12000
+default = 12000
+unit = "characters"
+minimum = 1000
+maximum = 100000
+description = "Maximum authoritative detail sent per fact in the bounded writer context."
+used_by = ["src/gwasmind/staged_reasoning.py:2148", "src/gwasmind/staged_reasoning.py:2147"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Maximum selected fact IDs per report evidence section.
+# Unit: fact IDs; default: 500
+# Used by: src/gwasmind/staged_reasoning.py:1540
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.report_fact_selection_limit"
+type = "int"
+value = 500
+default = 500
+unit = "fact IDs"
+minimum = 10
+maximum = 5000
+description = "Maximum selected fact IDs per report evidence section."
+used_by = ["src/gwasmind/staged_reasoning.py:1540"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Maximum generated Summary or Limitations length.
+# Unit: characters; default: 8000
+# Used by: src/gwasmind/report_recovery.py:35, src/gwasmind/report_recovery.py:35, src/gwasmind/staged_reasoning.py:1470, src/gwasmind/staged_reasoning.py:1491, src/gwasmind/staged_reasoning.py:2849
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.report_markdown_max_chars"
+type = "int"
+value = 8000
+default = 8000
+unit = "characters"
+minimum = 1000
+maximum = 50000
+description = "Maximum generated Summary or Limitations length."
+used_by = ["src/gwasmind/report_recovery.py:35", "src/gwasmind/report_recovery.py:35", "src/gwasmind/staged_reasoning.py:1470", "src/gwasmind/staged_reasoning.py:1491", "src/gwasmind/staged_reasoning.py:2849"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Final report model output-token budget.
+# Unit: tokens; default: 4096
+# Used by: src/gwasmind/staged_reasoning.py:1874
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.report_max_tokens"
+type = "int"
+value = 4096
+default = 4096
+unit = "tokens"
+minimum = 256
+maximum = 32768
+description = "Final report model output-token budget."
+used_by = ["src/gwasmind/staged_reasoning.py:1874"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Maximum selected reference IDs in a generated report.
+# Unit: reference IDs; default: 500
+# Used by: src/gwasmind/staged_reasoning.py:1624
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.report_reference_limit"
+type = "int"
+value = 500
+default = 500
+unit = "reference IDs"
+minimum = 10
+maximum = 5000
+description = "Maximum selected reference IDs in a generated report."
+used_by = ["src/gwasmind/staged_reasoning.py:1624"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Maximum failed final-report draft included in its repair prompt.
+# Unit: characters; default: 20000
+# Used by: src/gwasmind/staged_reasoning.py:1427
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.report_repair_input_max_chars"
+type = "int"
+value = 20000
+default = 20000
+unit = "characters"
+minimum = 1000
+maximum = 100000
+description = "Maximum failed final-report draft included in its repair prompt."
+used_by = ["src/gwasmind/staged_reasoning.py:1427"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Safety explanation model output-token budget.
+# Unit: tokens; default: 2000
+# Used by: src/gwasmind/staged_reasoning.py:970
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.safety_audit_max_tokens"
+type = "int"
+value = 2000
+default = 2000
+unit = "tokens"
+minimum = 256
+maximum = 16384
+description = "Safety explanation model output-token budget."
+used_by = ["src/gwasmind/staged_reasoning.py:970"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Maximum failed safety-audit draft included in its repair prompt.
+# Unit: characters; default: 12000
+# Used by: src/gwasmind/staged_reasoning.py:894
+# Impact: Operational bound; scientific evidence validators remain mandatory.
+[[parameters]]
+key = "gates.safety_repair_input_max_chars"
+type = "int"
+value = 12000
+default = 12000
+unit = "characters"
+minimum = 1000
+maximum = 100000
+description = "Maximum failed safety-audit draft included in its repair prompt."
+used_by = ["src/gwasmind/staged_reasoning.py:894"]
+impact = "Operational bound; scientific evidence validators remain mandatory."
+
+# Generic runtime chat budget unless the calling stage supplies its own budget.
+# Unit: tokens; default: 1200
+# Used by: src/gwasmind/web/jobs.py:703, src/gwasmind/web/model_connection.py:296, src/gwasmind/web/server.py:1891
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "model.chat_default_max_tokens"
+type = "int"
+value = 1200
+default = 1200
+unit = "tokens"
+description = "Generic runtime chat budget unless the calling stage supplies its own budget."
+used_by = ["src/gwasmind/web/jobs.py:703", "src/gwasmind/web/model_connection.py:296", "src/gwasmind/web/server.py:1891"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 64
+maximum = 32768
+
+# Chat intents whose final report writer keeps the configured thinking mode; all other writers run without thinking.
+# Unit: chat intents; declared default is preserved separately from value.
+[[parameters]]
+key = "model.writer_reasoning_intents"
+type = "str_list"
+value = ["target_assessment", "disease_associations", "drug_repurposing"]
+default = ["target_assessment", "disease_associations", "drug_repurposing"]
+unit = "chat intents"
+description = "Chat intents whose final report writer keeps the configured thinking mode. Descriptive and ranking-report writers format validated facts without thinking."
+used_by = ["src/gwasmind/web/server.py"]
+impact = "Changes report-writing latency and token use; scientific ranking keeps its configured reasoning and all outputs are still fact-checked."
+max_length = 7
+
+# Default native ranking timeout for other compatible endpoints.
+# Unit: seconds; default: 90.0
+# Used by: src/gwasmind/llm.py:294, src/gwasmind/web/model_connection.py:39
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.compatible_timeout_seconds"
+default = 90.0
+type = "float"
+unit = "seconds"
+description = "Default native ranking timeout for other compatible endpoints."
+used_by = ["src/gwasmind/llm.py:294", "src/gwasmind/web/model_connection.py:39"]
+impact = "runtime and evidence coverage"
+value = 90.0
+minimum = 1.0
+maximum = 3600.0
+
+# Default native ranking timeout for the official DeepSeek endpoint.
+# Unit: seconds; default: 300.0
+# Used by: src/gwasmind/llm.py:291, src/gwasmind/web/model_connection.py:40
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.deepseek_timeout_seconds"
+default = 300.0
+type = "float"
+unit = "seconds"
+description = "Default native ranking timeout for the official DeepSeek endpoint."
+used_by = ["src/gwasmind/llm.py:291", "src/gwasmind/web/model_connection.py:40"]
+impact = "runtime and evidence coverage"
+value = 300.0
+minimum = 1.0
+maximum = 3600.0
+
+# First-run model endpoint; credentials are configured separately.
+# Unit: URL; default: "https://api.deepseek.com"
+# Used by: src/gwasmind/cli.py:268, src/gwasmind/model_options.py:8, start_gwasmind.ps1:431
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.default_base_url"
+default = "https://api.deepseek.com"
+type = "str"
+unit = "URL"
+description = "First-run model endpoint; credentials are configured separately."
+used_by = ["src/gwasmind/cli.py:268", "src/gwasmind/model_options.py:8", "start_gwasmind.ps1:431"]
+impact = "runtime and evidence coverage"
+value = "https://api.deepseek.com"
+
+# First-run requested model identifier, not a claim about capabilities.
+# Unit: model identifier; default: "deepseek-v4-pro"
+# Used by: src/gwasmind/cli.py:264, src/gwasmind/model_options.py:9, start_gwasmind.ps1:432, start_gwasmind.ps1:448
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.default_id"
+default = "deepseek-v4-pro"
+type = "str"
+unit = "model identifier"
+description = "First-run requested model identifier, not a claim about capabilities."
+used_by = ["src/gwasmind/cli.py:264", "src/gwasmind/model_options.py:9", "start_gwasmind.ps1:432", "start_gwasmind.ps1:448"]
+impact = "runtime and evidence coverage"
+value = "deepseek-v4-pro"
+
+# Default requested DeepSeek reasoning effort.
+# Unit: level; default: "high"
+# Used by: src/gwasmind/model_options.py:13, start_gwasmind.ps1:461
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.default_reasoning_effort"
+default = "high"
+type = "str"
+unit = "level"
+description = "Default requested DeepSeek reasoning effort."
+used_by = ["src/gwasmind/model_options.py:13", "start_gwasmind.ps1:461"]
+impact = "runtime and evidence coverage"
+choices = ["low", "high", "max"]
+value = "high"
+
+# Default first-run selected model thinking mode; provider compatibility is still checked.
+# Unit: mode; default: "enabled"
+# Used by: src/gwasmind/model_options.py:41, start_gwasmind.ps1:451
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.first_run_thinking_mode"
+default = "enabled"
+type = "str"
+unit = "mode"
+description = "Default first-run selected model thinking mode; provider compatibility is still checked."
+used_by = ["src/gwasmind/model_options.py:41", "start_gwasmind.ps1:451"]
+impact = "runtime and evidence coverage"
+choices = ["enabled", "disabled"]
+value = "enabled"
+
+# General conversation response and repair budget.
+# Unit: tokens; default: 1600
+# Used by: src/gwasmind/web/general_response.py:590, src/gwasmind/web/general_response.py:609
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "model.general_response_max_tokens"
+type = "int"
+value = 1600
+default = 1600
+unit = "tokens"
+description = "General conversation response and repair budget."
+used_by = ["src/gwasmind/web/general_response.py:590", "src/gwasmind/web/general_response.py:609"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 128
+maximum = 16384
+
+# Brief greeting response budget.
+# Unit: tokens; default: 220
+# Used by: src/gwasmind/web/general_response.py:590, src/gwasmind/web/general_response.py:609
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "model.greeting_max_tokens"
+type = "int"
+value = 220
+default = 220
+unit = "tokens"
+description = "Brief greeting response budget."
+used_by = ["src/gwasmind/web/general_response.py:590", "src/gwasmind/web/general_response.py:609"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 32
+maximum = 2048
+
+# Timeout for reading provider model availability.
+# Unit: seconds; default: 8.0
+# Used by: src/gwasmind/web/model_connection.py:36
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "model.list_timeout_seconds"
+type = "float"
+value = 8.0
+default = 8.0
+unit = "seconds"
+description = "Timeout for reading provider model availability."
+used_by = ["src/gwasmind/web/model_connection.py:36"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0.1
+maximum = 60.0
+
+# Output budget for a model connectivity probe.
+# Unit: tokens; default: 16
+# Used by: src/gwasmind/web/model_connection.py:32
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "model.probe_max_tokens"
+type = "int"
+value = 16
+default = 16
+unit = "tokens"
+description = "Output budget for a model connectivity probe."
+used_by = ["src/gwasmind/web/model_connection.py:32"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 256
+
+# Timeout for an explicit model connectivity probe.
+# Unit: seconds; default: 8.0
+# Used by: src/gwasmind/web/model_connection.py:31
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "model.probe_timeout_seconds"
+type = "float"
+value = 8.0
+default = 8.0
+unit = "seconds"
+description = "Timeout for an explicit model connectivity probe."
+used_by = ["src/gwasmind/web/model_connection.py:31"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0.1
+maximum = 60.0
+
+# Task output budget for an uncatalogued ranking model; catalogued provider limits remain unchanged.
+# Unit: tokens; default: 8192
+# Used by: src/gwasmind/llm.py:62
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.ranking_default_max_tokens"
+default = 8192
+type = "int"
+unit = "tokens"
+description = "Task output budget for an uncatalogued ranking model; catalogued provider limits remain unchanged."
+used_by = ["src/gwasmind/llm.py:62"]
+impact = "runtime and evidence coverage"
+value = 8192
+minimum = 1024
+maximum = 131072
+
+# Maximum complete draft characters allowed for one bounded ranking repair; larger drafts are rejected.
+# Unit: characters; default: 100000
+# Used by: src/gwasmind/llm.py:60
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.ranking_repair_draft_chars"
+default = 100000
+type = "int"
+unit = "characters"
+description = "Maximum complete draft characters allowed for one bounded ranking repair; larger drafts are rejected without truncation."
+used_by = ["src/gwasmind/llm.py:60"]
+impact = "runtime and evidence coverage"
+value = 100000
+minimum = 1000
+maximum = 100000
+
+# Maximum diagnostic characters supplied to one bounded ranking repair.
+# Unit: characters; default: 2000
+# Used by: src/gwasmind/llm.py:59
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.ranking_repair_error_chars"
+default = 2000
+type = "int"
+unit = "characters"
+description = "Maximum diagnostic characters supplied to one bounded ranking repair."
+used_by = ["src/gwasmind/llm.py:59"]
+impact = "runtime and evidence coverage"
+value = 2000
+minimum = 100
+maximum = 20000
+
+# Maximum validation error items included in one ranking repair prompt.
+# Unit: errors; default: 20
+# Used by: src/gwasmind/llm.py:734
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.ranking_repair_max_errors"
+default = 20
+type = "int"
+unit = "errors"
+description = "Maximum validation error items included in one ranking repair prompt."
+used_by = ["src/gwasmind/llm.py:734"]
+impact = "runtime and evidence coverage"
+value = 20
+minimum = 1
+maximum = 100
+
+# Default sampling seed when the selected provider/model accepts it.
+# Unit: seed; default: 0
+# Used by: src/gwasmind/llm.py:276
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.ranking_seed"
+default = 0
+type = "int"
+unit = "seed"
+description = "Default sampling seed when the selected provider/model accepts it."
+used_by = ["src/gwasmind/llm.py:276"]
+impact = "Sent only when supported by the active model/mode. DeepSeek thinking requests omit temperature and seed; actual sent parameters and omission reasons are audited."
+value = 0
+minimum = 0
+maximum = 2147483647
+
+# Default sampling temperature when the selected provider/model accepts it.
+# Unit: sampling temperature; default: 0.0
+# Used by: src/gwasmind/llm.py:275
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.ranking_temperature"
+default = 0.0
+type = "float"
+unit = "sampling temperature"
+description = "Default sampling temperature when the selected provider/model accepts it."
+used_by = ["src/gwasmind/llm.py:275"]
+impact = "Sent only when supported by the active model/mode. DeepSeek thinking requests omit temperature and seed; actual sent parameters and omission reasons are audited."
+value = 0.0
+minimum = 0.0
+maximum = 2.0
+
+# Default native ranking API thinking mode; provider compatibility is still checked.
+# Unit: mode; default: "disabled"
+# Used by: src/gwasmind/cli.py:169, src/gwasmind/llm.py:281, src/gwasmind/runtime.py:27
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.ranking_thinking_mode"
+default = "disabled"
+type = "str"
+unit = "mode"
+description = "Default native ranking API thinking mode; provider compatibility is still checked."
+used_by = ["src/gwasmind/cli.py:169", "src/gwasmind/llm.py:281", "src/gwasmind/runtime.py:27"]
+impact = "runtime and evidence coverage"
+choices = ["enabled", "disabled"]
+value = "disabled"
+
+# Intent and biological-context planner response budget.
+# Unit: tokens; default: 700
+# Used by: src/gwasmind/web/server.py:2004
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "model.router_max_tokens"
+type = "int"
+value = 700
+default = 700
+unit = "tokens"
+description = "Intent and biological-context planner response budget."
+used_by = ["src/gwasmind/web/server.py:2004"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 128
+maximum = 8192
+
+# Bounded SDK transport retries; independent of the one structural repair.
+# Unit: retries; default: 2
+# Used by: src/gwasmind/llm.py:278, src/gwasmind/web/model_connection.py:42
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "model.sdk_max_retries"
+default = 2
+type = "int"
+unit = "retries"
+description = "Bounded SDK transport retries; independent of the one structural repair."
+used_by = ["src/gwasmind/llm.py:278", "src/gwasmind/web/model_connection.py:42"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 0
+maximum = 5
+
+# Report writer transport retries per generation (timeouts, connection and transient HTTP
+# failures), with exponential backoff of 2, 4 and 8 seconds. They are counted separately from the
+# draft and its one structural repair, so network failures cannot consume the repair.
+# Unit: retries; default: 3
+# Impact: runtime and report availability
+[[parameters]]
+key = "model.writer_transport_retries"
+default = 3
+type = "int"
+unit = "retries"
+description = "Report-writer transport retries per generation; independent of the draft and its one structural repair."
+used_by = ["src/gwasmind/web/server.py"]
+impact = "runtime and report availability"
+value = 3
+minimum = 0
+maximum = 5
+
+# Skip optional deduplication and compression of completed worker files.
+# Scientific artifacts and their original paths are always retained, regardless of this flag.
+# Unit: flag; default: false
+# Impact: local disk use only; results, downloads and History are unchanged
+[[parameters]]
+key = "artifacts.retain_intermediate_files"
+default = false
+type = "bool"
+unit = "flag"
+description = "Skip storage optimization of completed workers; raw responses and fact artifacts are always preserved."
+used_by = ["src/gwasmind/web/jobs.py"]
+impact = "local disk use only; results, downloads and History are unchanged"
+value = false
+
+# Transparently compress the retained files of a completed worker (Windows WOF/LZX via
+# compact.exe; other systems are unchanged). Readers see identical bytes and sizes, so every
+# hash and byte-count check is unaffected. Measured on SORT1: 316 MB -> about 40 MB on disk.
+# Unit: flag; default: true
+# Impact: local disk use only; results, downloads and History are unchanged
+[[parameters]]
+key = "artifacts.compress_completed_runs"
+default = true
+type = "bool"
+unit = "flag"
+description = "Transparently compress the retained files of completed workers; readers see identical bytes."
+used_by = ["src/gwasmind/web/jobs.py"]
+impact = "local disk use only; results, downloads and History are unchanged"
+value = true
+
+# Declared project assumption for an unspecified Asian population; explicit South Asian uses SAS.
+# Unit: 1000 Genomes superpopulation; default: "EAS"
+# Used by: src/gwasmind/novelty.py:52
+# Impact: Changes the declared reference assumption; absent or incomplete comparisons remain unresolved.
+[[parameters]]
+key = "novelty.asian_default_population"
+type = "str"
+value = "EAS"
+default = "EAS"
+unit = "1000 Genomes superpopulation"
+description = "Declared project assumption for an unspecified Asian population; explicit South Asian uses SAS."
+used_by = ["src/gwasmind/novelty.py:52"]
+impact = "Changes the declared reference assumption; absent or incomplete comparisons remain unresolved."
+choices = ["EAS"]
+
+# Bounded concurrent Catalog pagination under the shared request interval and total deadline.
+# Unit: independent page requests; default: 4
+# Used by: src/gwasmind/providers/ld.py:114
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.catalog_concurrency"
+type = "int"
+value = 4
+default = 4
+unit = "independent page requests"
+description = "Bounded concurrent Catalog pagination under the shared request interval and total deadline."
+used_by = ["src/gwasmind/providers/ld.py:114"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 1
+maximum = 4
+
+# Bounded complete pagination; reaching the cap without confirmed exhaustion leaves coverage incomplete and cannot establish novelty.
+# Unit: pages; default: 100
+# Used by: src/gwasmind/providers/ld.py:111
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.catalog_max_pages"
+type = "int"
+value = 100
+default = 100
+unit = "pages"
+description = "Bounded complete pagination; reaching the cap without confirmed exhaustion leaves coverage incomplete and cannot establish novelty."
+used_by = ["src/gwasmind/providers/ld.py:111"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 1
+maximum = 1000
+
+# Requested GWAS Catalog page size; a smaller page reduces observed timeout risk.
+# Unit: records per page; default: 100
+# Used by: src/gwasmind/providers/ld.py:107, src/gwasmind/providers/ld.py:116
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.catalog_page_size"
+type = "int"
+value = 100
+default = 100
+unit = "records per page"
+description = "Requested GWAS Catalog page size; a smaller page reduces observed timeout risk."
+used_by = ["src/gwasmind/providers/ld.py:107", "src/gwasmind/providers/ld.py:116"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 1
+maximum = 1000
+
+# GWAS Catalog endpoint for reported same-phenotype variants.
+# Unit: HTTPS URL; default: "https://www.ebi.ac.uk/gwas/rest/api/v2"
+# Used by: src/gwasmind/providers/ld.py:40
+# Impact: Changes the declared reference assumption; absent or incomplete comparisons remain unresolved.
+[[parameters]]
+key = "novelty.catalog_rest_url"
+type = "str"
+value = "https://www.ebi.ac.uk/gwas/rest/api/v2"
+default = "https://www.ebi.ac.uk/gwas/rest/api/v2"
+unit = "HTTPS URL"
+description = "GWAS Catalog endpoint for reported same-phenotype variants."
+used_by = ["src/gwasmind/providers/ld.py:40"]
+impact = "Changes the declared reference assumption; absent or incomplete comparisons remain unresolved."
+
+# Project default when the user has not specified ancestry; not universally the most accurate reference.
+# Unit: 1000 Genomes superpopulation; default: "EUR"
+# Used by: src/gwasmind/novelty.py:58
+# Impact: Changes the declared reference assumption; absent or incomplete comparisons remain unresolved.
+[[parameters]]
+key = "novelty.default_population"
+type = "str"
+value = "EUR"
+default = "EUR"
+unit = "1000 Genomes superpopulation"
+description = "Project default when the user has not specified ancestry; not universally the most accurate reference."
+used_by = ["src/gwasmind/novelty.py:58"]
+impact = "Changes the declared reference assumption; absent or incomplete comparisons remain unresolved."
+choices = ["EUR", "EAS", "SAS", "AFR", "AMR"]
+
+# Ensembl REST endpoint for the configured LD reference panel.
+# Unit: HTTPS URL; default: "https://rest.ensembl.org"
+# Used by: src/gwasmind/providers/ld.py:39
+# Impact: Changes the declared reference assumption; absent or incomplete comparisons remain unresolved.
+[[parameters]]
+key = "novelty.ensembl_rest_url"
+type = "str"
+value = "https://rest.ensembl.org"
+default = "https://rest.ensembl.org"
+unit = "HTTPS URL"
+description = "Ensembl REST endpoint for the configured LD reference panel."
+used_by = ["src/gwasmind/providers/ld.py:39"]
+impact = "Changes the declared reference assumption; absent or incomplete comparisons remain unresolved."
+
+# Minimum interval between LD/reference HTTP requests.
+# Unit: seconds; default: 0.1
+# Used by: src/gwasmind/providers/ld.py:65, src/gwasmind/providers/ld.py:99
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.http_min_interval_seconds"
+type = "float"
+value = 0.1
+default = 0.1
+unit = "seconds"
+description = "Minimum interval between LD/reference HTTP requests."
+used_by = ["src/gwasmind/providers/ld.py:65", "src/gwasmind/providers/ld.py:99"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 0.0
+maximum = 60.0
+
+# Bounded retry count for LD transport failures.
+# Unit: additional attempts; default: 1
+# Used by: src/gwasmind/providers/ld.py:59, src/gwasmind/providers/ld.py:96
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.ld_max_retries"
+type = "int"
+value = 1
+default = 1
+unit = "additional attempts"
+description = "Bounded retry count for LD transport failures."
+used_by = ["src/gwasmind/providers/ld.py:59", "src/gwasmind/providers/ld.py:96"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 0
+maximum = 5
+
+# A comparable previously reported same-phenotype SNP with r2 at or above this value is on the known-association side.
+# Unit: r squared; default: 0.2
+# Used by: src/gwasmind/novelty.py:175, src/gwasmind/novelty.py:131, src/gwasmind/novelty.py:135, src/gwasmind/novelty.py:151, src/gwasmind/providers/ld.py:239
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.ld_r2_threshold"
+type = "float"
+value = 0.2
+default = 0.2
+unit = "r squared"
+description = "A comparable previously reported same-phenotype SNP with r2 at or above this value is on the known-association side."
+used_by = ["src/gwasmind/novelty.py:175", "src/gwasmind/novelty.py:131", "src/gwasmind/novelty.py:135", "src/gwasmind/novelty.py:151", "src/gwasmind/providers/ld.py:239"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 0.0
+maximum = 1.0
+
+# Per-request LD transport timeout.
+# Unit: seconds; default: 30
+# Used by: src/gwasmind/providers/ld.py:76
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.ld_timeout_seconds"
+type = "int"
+value = 30
+default = 30
+unit = "seconds"
+description = "Per-request LD transport timeout."
+used_by = ["src/gwasmind/providers/ld.py:76"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 1
+maximum = 300
+
+# LD proxy search flank around each selected SNP; the result discloses this bounded scope. The supported API total window is at most 500 kb.
+# Unit: base pairs on each side; default: 250000
+# Used by: src/gwasmind/novelty.py:126, src/gwasmind/providers/ld.py:252
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.ld_window_bp"
+type = "int"
+value = 250000
+default = 250000
+unit = "base pairs on each side"
+description = "LD proxy search flank around each selected SNP; the result discloses this bounded scope. The supported API total window is at most 500 kb."
+used_by = ["src/gwasmind/novelty.py:126", "src/gwasmind/providers/ld.py:252"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 500
+maximum = 250000
+
+# Maximum retained LD proxy pairs per configured unit of analysis; exceeding the cap leaves coverage incomplete.
+# Unit: selected SNP/proxy pairs; default: 5000
+# Used by: src/gwasmind/analysis_scope.py:23, src/gwasmind/analysis_scope.py:60, src/gwasmind/analysis_scope.py:123, src/gwasmind/analysis_scope.py:125, src/gwasmind/ld_expansion.py:246, src/gwasmind/ld_expansion.py:247, src/gwasmind/providers/ld.py:363, src/gwasmind/providers/ld.py:364
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.max_ld_pairs"
+type = "int"
+value = 5000
+default = 5000
+unit = "selected SNP/proxy pairs"
+description = "Maximum retained LD proxy pairs per configured unit of analysis; exceeding the cap leaves coverage incomplete."
+used_by = ["src/gwasmind/analysis_scope.py:23", "src/gwasmind/analysis_scope.py:60", "src/gwasmind/analysis_scope.py:123", "src/gwasmind/analysis_scope.py:125", "src/gwasmind/ld_expansion.py:246", "src/gwasmind/ld_expansion.py:247", "src/gwasmind/providers/ld.py:363", "src/gwasmind/providers/ld.py:364"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 1
+maximum = 10000
+
+# Explicit population alias groups; generic Asian uses its separately disclosed default.
+# Unit: CODE|alias entries; default: ["EUR|European|\u6b27\u6d32\u4eba|\u6b27\u6d32\u7956\u6e90", "EAS|East Asian|\u4e1c\u4e9a|\u4e2d\u56fd\u4eba|Chinese|Japanese|\u65e5\u672c\u4eba", "SAS|South Asian|\u5357\u4e9a|Indian|\u5370\u5ea6\u4eba", "AFR|African|\u975e\u6d32\u4eba", "AMR|Admixed American|Latino|Hispanic|\u62c9\u7f8e"]
+# Used by: src/gwasmind/analysis_scope.py:71, src/gwasmind/ld_support.py:178, src/gwasmind/novelty.py:37
+# Impact: Changes reference population matching without asserting universal accuracy.
+[[parameters]]
+key = "novelty.population_aliases"
+type = "str_list"
+value = ["EUR|European|\u6b27\u6d32\u4eba|\u6b27\u6d32\u7956\u6e90", "EAS|East Asian|\u4e1c\u4e9a|\u4e2d\u56fd\u4eba|Chinese|Japanese|\u65e5\u672c\u4eba", "SAS|South Asian|\u5357\u4e9a|Indian|\u5370\u5ea6\u4eba", "AFR|African|\u975e\u6d32\u4eba", "AMR|Admixed American|Latino|Hispanic|\u62c9\u7f8e"]
+default = ["EUR|European|\u6b27\u6d32\u4eba|\u6b27\u6d32\u7956\u6e90", "EAS|East Asian|\u4e1c\u4e9a|\u4e2d\u56fd\u4eba|Chinese|Japanese|\u65e5\u672c\u4eba", "SAS|South Asian|\u5357\u4e9a|Indian|\u5370\u5ea6\u4eba", "AFR|African|\u975e\u6d32\u4eba", "AMR|Admixed American|Latino|Hispanic|\u62c9\u7f8e"]
+unit = "CODE|alias entries"
+description = "Explicit population alias groups; generic Asian uses its separately disclosed default."
+used_by = ["src/gwasmind/analysis_scope.py:71", "src/gwasmind/ld_support.py:178", "src/gwasmind/novelty.py:37"]
+impact = "Changes reference population matching without asserting universal accuracy."
+
+# Coordinate assembly supported by the novelty LD workflow.
+# Unit: genome assembly; default: "GRCh38"
+# Used by: src/gwasmind/ld_expansion.py:184, src/gwasmind/ld_expansion.py:198, src/gwasmind/ld_expansion.py:198, src/gwasmind/ld_expansion.py:43, src/gwasmind/ld_expansion.py:136, src/gwasmind/novelty.py:133, src/gwasmind/providers/ld.py:167
+# Impact: Changes the declared reference assumption; absent or incomplete comparisons remain unresolved.
+[[parameters]]
+key = "novelty.reference_build"
+type = "str"
+value = "GRCh38"
+default = "GRCh38"
+unit = "genome assembly"
+description = "Coordinate assembly supported by the novelty LD workflow."
+used_by = ["src/gwasmind/ld_expansion.py:184", "src/gwasmind/ld_expansion.py:198", "src/gwasmind/ld_expansion.py:198", "src/gwasmind/ld_expansion.py:43", "src/gwasmind/ld_expansion.py:136", "src/gwasmind/novelty.py:133", "src/gwasmind/providers/ld.py:167"]
+impact = "Changes the declared reference assumption; absent or incomplete comparisons remain unresolved."
+choices = ["GRCh38"]
+
+# Versioned reference panel for pairwise LD comparisons.
+# Unit: reference panel identifier; default: "1000GENOMES:phase_3"
+# Used by: src/gwasmind/analysis_scope.py:69, src/gwasmind/ld_expansion.py:183, src/gwasmind/ld_expansion.py:108, src/gwasmind/novelty.py:125, src/gwasmind/providers/ld.py:190, src/gwasmind/providers/ld.py:238
+# Impact: Changes the declared reference assumption; absent or incomplete comparisons remain unresolved.
+[[parameters]]
+key = "novelty.reference_panel"
+type = "str"
+value = "1000GENOMES:phase_3"
+default = "1000GENOMES:phase_3"
+unit = "reference panel identifier"
+description = "Versioned reference panel for pairwise LD comparisons."
+used_by = ["src/gwasmind/analysis_scope.py:69", "src/gwasmind/ld_expansion.py:183", "src/gwasmind/ld_expansion.py:108", "src/gwasmind/novelty.py:125", "src/gwasmind/providers/ld.py:190", "src/gwasmind/providers/ld.py:238"]
+impact = "Changes the declared reference assumption; absent or incomplete comparisons remain unresolved."
+choices = ["1000GENOMES:phase_3"]
+
+# Total bounded time for prior-association and LD screening; unfinished work remains unresolved and retained evidence is preserved.
+# Unit: seconds per screening; default: 180.0
+# Used by: src/gwasmind/providers/ld.py:38
+# Impact: All required comparisons must be calculable before novelty can be established; missing LD never becomes zero.
+[[parameters]]
+key = "novelty.total_timeout_seconds"
+type = "float"
+value = 180.0
+default = 180.0
+unit = "seconds per screening"
+description = "Total bounded time for prior-association and LD screening; unfinished work remains unresolved and retained evidence is preserved."
+used_by = ["src/gwasmind/providers/ld.py:38"]
+impact = "All required comparisons must be calculable before novelty can be established; missing LD never becomes zero."
+minimum = 1.0
+maximum = 3600.0
+
+# Explicit same-phenotype aliases; early-onset MDD and ordinary MDD remain separate.
+# Unit: canonical|alias entries; default: ["asthma|\u54ee\u5598", "type 1 diabetes mellitus|type 1 diabetes|T1D|1\u578b\u7cd6\u5c3f\u75c5", "type 2 diabetes mellitus|type 2 diabetes|T2D|2\u578b\u7cd6\u5c3f\u75c5", "major depressive disorder|major depression|MDD", "early-onset major depressive disorder|eoMDD|early onset major depressive disorder", "coronary artery disease|CAD|coronary heart disease", "Alzheimer disease|Alzheimer's disease|AD"]
+# Used by: src/gwasmind/novelty.py:65, src/gwasmind/projection.py:1251
+# Impact: Defines explicit phenotype aliases for prior-association matching and model-projection relevance priority; unmatched evidence remains available and broader phenotypes do not imply a queried subtype.
+[[parameters]]
+key = "novelty.trait_alias_groups"
+type = "str_list"
+value = ["asthma|\u54ee\u5598", "type 1 diabetes mellitus|type 1 diabetes|T1D|1\u578b\u7cd6\u5c3f\u75c5", "type 2 diabetes mellitus|type 2 diabetes|T2D|2\u578b\u7cd6\u5c3f\u75c5", "major depressive disorder|major depression|MDD", "early-onset major depressive disorder|eoMDD|early onset major depressive disorder", "coronary artery disease|CAD|coronary heart disease", "Alzheimer disease|Alzheimer's disease|AD"]
+default = ["asthma|\u54ee\u5598", "type 1 diabetes mellitus|type 1 diabetes|T1D|1\u578b\u7cd6\u5c3f\u75c5", "type 2 diabetes mellitus|type 2 diabetes|T2D|2\u578b\u7cd6\u5c3f\u75c5", "major depressive disorder|major depression|MDD", "early-onset major depressive disorder|eoMDD|early onset major depressive disorder", "coronary artery disease|CAD|coronary heart disease", "Alzheimer disease|Alzheimer's disease|AD"]
+unit = "canonical|alias entries"
+description = "Explicit same-phenotype aliases; early-onset MDD and ordinary MDD remain separate."
+used_by = ["src/gwasmind/novelty.py:65", "src/gwasmind/projection.py:1251"]
+impact = "Defines explicit phenotype aliases for prior-association matching and model-projection relevance priority; unmatched evidence remains available and broader phenotypes do not imply a queried subtype."
+
+# Width of deterministic background sampling bands.
+# Unit: -log10(P); default: 0.25
+# Used by: src/gwasmind/web/ui_state.py:16, src/gwasmind/web/static/js/gwas-processor.js:28
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.background_bin_logp_width"
+type = "float"
+value = 0.25
+default = 0.25
+unit = "-log10(P)"
+description = "Width of deterministic background sampling bands."
+used_by = ["src/gwasmind/web/ui_state.py:16", "src/gwasmind/web/static/js/gwas-processor.js:28"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0.01
+maximum = 10.0
+
+# Deterministic background reservoir size.
+# Unit: points; default: 100000
+# Used by: src/gwasmind/web/static/js/gwas-processor.js:22
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.background_points"
+type = "int"
+value = 100000
+default = 100000
+unit = "points"
+description = "Deterministic background reservoir size."
+used_by = ["src/gwasmind/web/static/js/gwas-processor.js:22"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 1000000
+
+# Maximum delimited input record length.
+# Unit: characters; default: 1048576
+# Used by: src/gwasmind/web/static/js/gwas-processor.js:31
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.max_record_chars"
+type = "int"
+value = 1048576
+default = 1048576
+unit = "characters"
+description = "Maximum delimited input record length."
+used_by = ["src/gwasmind/web/static/js/gwas-processor.js:31"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1024
+maximum = 16777216
+
+# Point cap when the SVG renderer is used.
+# Unit: points; default: 20000
+# Used by: src/gwasmind/web/static/js/manhattan.js:59
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.max_svg_points"
+type = "int"
+value = 20000
+default = 20000
+unit = "points"
+description = "Point cap when the SVG renderer is used."
+used_by = ["src/gwasmind/web/static/js/manhattan.js:59"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 500000
+
+# Overall rendered-data sampling cap.
+# Unit: points; default: 300000
+# Used by: src/gwasmind/web/ui_state.py:13, src/gwasmind/web/static/js/gwas-processor.js:29
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.max_total_points"
+type = "int"
+value = 300000
+default = 300000
+unit = "points"
+description = "Overall rendered-data sampling cap."
+used_by = ["src/gwasmind/web/ui_state.py:13", "src/gwasmind/web/static/js/gwas-processor.js:29"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 2000000
+
+# Positive floor for imported zero/underflow values and browser finite log-P normalization; raising it clamps small imported P values and is restricted below the GWAS threshold.
+# Unit: P value; default: 1e-300
+# Used by: src/gwasmind/web/analysis_bridge.py:629, src/gwasmind/web/analysis_bridge.py:670, src/gwasmind/web/static/js/gwas-processor.js:32, src/gwasmind/web/static/js/manhattan.js:7
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.p_value_floor"
+type = "float"
+value = 1e-300
+default = 1e-300
+unit = "P value"
+description = "Positive floor for imported zero/underflow values and browser finite log-P normalization; raising it clamps small imported P values and is restricted below the GWAS threshold."
+used_by = ["src/gwasmind/web/analysis_bridge.py:629", "src/gwasmind/web/analysis_bridge.py:670", "src/gwasmind/web/static/js/gwas-processor.js:32", "src/gwasmind/web/static/js/manhattan.js:7"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1e-300
+maximum = 1e-10
+
+# Seed for deterministic GWAS background sampling.
+# Unit: unsigned 32-bit integer; default: 1196900691
+# Used by: src/gwasmind/web/static/js/gwas-processor.js:33
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.sampling_seed"
+type = "int"
+value = 1196900691
+default = 1196900691
+unit = "unsigned 32-bit integer"
+description = "Seed for deterministic GWAS background sampling."
+used_by = ["src/gwasmind/web/static/js/gwas-processor.js:33"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0
+maximum = 4294967295
+
+# Display sampling priority threshold, separate from the GWAS significance criterion.
+# Unit: -log10(P); default: 2.5
+# Used by: src/gwasmind/web/ui_state.py:14, src/gwasmind/web/static/js/gwas-processor.js:23
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.suggestive_logp"
+type = "float"
+value = 2.5
+default = 2.5
+unit = "-log10(P)"
+description = "Display sampling priority threshold, separate from the GWAS significance criterion."
+used_by = ["src/gwasmind/web/ui_state.py:14", "src/gwasmind/web/static/js/gwas-processor.js:23"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0.0
+maximum = 300.0
+
+# Display precision for log-P coordinates and the significance line; scientific significance counts compare P directly.
+# Unit: decimal places; default: 3
+# Used by: src/gwasmind/web/analysis_bridge.py:236, src/gwasmind/web/templates.py:65, src/gwasmind/web/ui_state.py:15, src/gwasmind/web/ui_state.py:278, src/gwasmind/web/static/js/gwas-processor.js:25, src/gwasmind/web/static/js/manhattan.js:6
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.threshold_decimal_places"
+type = "int"
+value = 3
+default = 3
+unit = "decimal places"
+description = "Display precision for log-P coordinates and the significance line; scientific significance counts compare P directly."
+used_by = ["src/gwasmind/web/analysis_bridge.py:236", "src/gwasmind/web/templates.py:65", "src/gwasmind/web/ui_state.py:15", "src/gwasmind/web/ui_state.py:278", "src/gwasmind/web/static/js/gwas-processor.js:25", "src/gwasmind/web/static/js/manhattan.js:6"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0
+maximum = 12
+
+# Client upload parsing chunk size.
+# Unit: bytes; default: 4194304
+# Used by: src/gwasmind/web/static/js/gwas-processor.js:30
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "plot.upload_chunk_bytes"
+type = "int"
+value = 4194304
+default = 4194304
+unit = "bytes"
+description = "Client upload parsing chunk size."
+used_by = ["src/gwasmind/web/static/js/gwas-processor.js:30"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1024
+maximum = 67108864
+
+# Per-candidate drug record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 3
+# Used by: src/gwasmind/projection.py:44
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_drug_records_per_candidate"
+default = 3
+type = "int"
+unit = "records per gene"
+description = "Per-candidate drug record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:44"]
+impact = "runtime and evidence coverage"
+value = 3
+minimum = 1
+maximum = 100
+
+# Per-candidate expression record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 1
+# Used by: src/gwasmind/projection.py:36
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_expression_records_per_candidate"
+default = 1
+type = "int"
+unit = "records per gene"
+description = "Per-candidate expression record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:36"]
+impact = "runtime and evidence coverage"
+value = 1
+minimum = 1
+maximum = 100
+
+# Per-candidate function record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 1
+# Used by: src/gwasmind/projection.py:37
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_function_records_per_candidate"
+default = 1
+type = "int"
+unit = "records per gene"
+description = "Per-candidate function record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:37"]
+impact = "runtime and evidence coverage"
+value = 1
+minimum = 1
+maximum = 100
+
+# Per-candidate gene_set record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 2
+# Used by: src/gwasmind/projection.py:49
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_gene_set_records_per_candidate"
+default = 2
+type = "int"
+unit = "records per gene"
+description = "Per-candidate gene_set record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:49"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 100
+
+# Per-candidate gwas record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 4
+# Used by: src/gwasmind/projection.py:41
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_gwas_records_per_candidate"
+default = 4
+type = "int"
+unit = "records per gene"
+description = "Per-candidate gwas record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:41"]
+impact = "runtime and evidence coverage"
+value = 4
+minimum = 1
+maximum = 100
+
+# Per-candidate interaction record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 2
+# Used by: src/gwasmind/projection.py:47
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_interaction_records_per_candidate"
+default = 2
+type = "int"
+unit = "records per gene"
+description = "Per-candidate interaction record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:47"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 100
+
+# Per-candidate literature record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 2
+# Used by: src/gwasmind/projection.py:39
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_literature_records_per_candidate"
+default = 2
+type = "int"
+unit = "records per gene"
+description = "Per-candidate literature record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:39"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 100
+
+# Per-candidate ontology record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 2
+# Used by: src/gwasmind/projection.py:42
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_ontology_records_per_candidate"
+default = 2
+type = "int"
+unit = "records per gene"
+description = "Per-candidate ontology record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:42"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 100
+
+# Per-candidate pathway record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 2
+# Used by: src/gwasmind/projection.py:38
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_pathway_records_per_candidate"
+default = 2
+type = "int"
+unit = "records per gene"
+description = "Per-candidate pathway record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:38"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 100
+
+# Per-candidate phenotype record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 3
+# Used by: src/gwasmind/projection.py:48
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_phenotype_records_per_candidate"
+default = 3
+type = "int"
+unit = "records per gene"
+description = "Per-candidate phenotype record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:48"]
+impact = "runtime and evidence coverage"
+value = 3
+minimum = 1
+maximum = 100
+
+# Per-candidate safety record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 2
+# Used by: src/gwasmind/projection.py:45
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_safety_records_per_candidate"
+default = 2
+type = "int"
+unit = "records per gene"
+description = "Per-candidate safety record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:45"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 100
+
+# Per-candidate study record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 2
+# Used by: src/gwasmind/projection.py:40
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_study_records_per_candidate"
+default = 2
+type = "int"
+unit = "records per gene"
+description = "Per-candidate study record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:40"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 100
+
+# Per-candidate target_disease record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 4
+# Used by: src/gwasmind/projection.py:43
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_target_disease_records_per_candidate"
+default = 4
+type = "int"
+unit = "records per gene"
+description = "Per-candidate target_disease record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:43"]
+impact = "runtime and evidence coverage"
+value = 4
+minimum = 1
+maximum = 100
+
+# Per-candidate tractability record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 2
+# Used by: src/gwasmind/projection.py:46
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_tractability_records_per_candidate"
+default = 2
+type = "int"
+unit = "records per gene"
+description = "Per-candidate tractability record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:46"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 100
+
+# Per-candidate variant_annotation record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 2
+# Used by: src/gwasmind/projection.py:35
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.context_variant_annotation_records_per_candidate"
+default = 2
+type = "int"
+unit = "records per gene"
+description = "Per-candidate variant_annotation record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:35"]
+impact = "runtime and evidence coverage"
+value = 2
+minimum = 1
+maximum = 100
+
+# Per-candidate context allowance when no evidence-kind-specific limit exists.
+# Unit: records; default: 3
+# Used by: src/gwasmind/projection.py:51
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.default_context_records_per_candidate"
+default = 3
+type = "int"
+unit = "records"
+description = "Per-candidate context allowance when no evidence-kind-specific limit exists."
+used_by = ["src/gwasmind/projection.py:51"]
+impact = "runtime and evidence coverage"
+value = 3
+minimum = 1
+maximum = 100
+
+# Per-candidate colocalization record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 8
+# Used by: src/gwasmind/projection.py:31
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.direct_colocalization_records_per_candidate"
+default = 8
+type = "int"
+unit = "records per gene"
+description = "Per-candidate colocalization record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:31"]
+impact = "runtime and evidence coverage"
+value = 8
+minimum = 1
+maximum = 100
+
+# Per-candidate qtl record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 8
+# Used by: src/gwasmind/projection.py:30
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.direct_qtl_records_per_candidate"
+default = 8
+type = "int"
+unit = "records per gene"
+description = "Per-candidate qtl record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:30"]
+impact = "runtime and evidence coverage"
+value = 8
+minimum = 1
+maximum = 100
+
+# Per-candidate regulatory record allowance in bounded ranking evidence projection.
+# Unit: records per gene; default: 8
+# Used by: src/gwasmind/projection.py:32
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.direct_regulatory_records_per_candidate"
+default = 8
+type = "int"
+unit = "records per gene"
+description = "Per-candidate regulatory record allowance in bounded ranking evidence projection."
+used_by = ["src/gwasmind/projection.py:32"]
+impact = "runtime and evidence coverage"
+value = 8
+minimum = 1
+maximum = 100
+
+# Projected expression biosamples per record.
+# Unit: biosamples; default: 20
+# Used by: src/gwasmind/projection.py:191
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.expression_rows"
+default = 20
+type = "int"
+unit = "biosamples"
+description = "Projected expression biosamples per record."
+used_by = ["src/gwasmind/projection.py:191"]
+impact = "runtime and evidence coverage"
+value = 20
+minimum = 1
+maximum = 1000
+
+# Function description rows retained in an individual evidence projection.
+# Unit: rows; default: 10
+# Used by: src/gwasmind/projection.py:230
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.function_description_rows"
+default = 10
+type = "int"
+unit = "rows"
+description = "Function description rows retained in an individual evidence projection."
+used_by = ["src/gwasmind/projection.py:230"]
+impact = "runtime and evidence coverage"
+value = 10
+minimum = 1
+maximum = 1000
+
+# Gene ontology rows retained in an individual function evidence projection.
+# Unit: rows; default: 50
+# Used by: src/gwasmind/projection.py:228
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.function_go_rows"
+default = 50
+type = "int"
+unit = "rows"
+description = "Gene ontology rows retained in an individual function evidence projection."
+used_by = ["src/gwasmind/projection.py:228"]
+impact = "runtime and evidence coverage"
+value = 50
+minimum = 1
+maximum = 1000
+
+# Pathway rows retained in an individual function evidence projection.
+# Unit: rows; default: 20
+# Used by: src/gwasmind/projection.py:229
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.function_pathway_rows"
+default = 20
+type = "int"
+unit = "rows"
+description = "Pathway rows retained in an individual function evidence projection."
+used_by = ["src/gwasmind/projection.py:229"]
+impact = "runtime and evidence coverage"
+value = 20
+minimum = 1
+maximum = 1000
+
+# Maximum publication summaries projected into model context.
+# Unit: publications; default: 40
+# Used by: src/gwasmind/projection.py:22
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.max_publications"
+default = 40
+type = "int"
+unit = "publications"
+description = "Maximum publication summaries projected into model context."
+used_by = ["src/gwasmind/projection.py:22"]
+impact = "runtime and evidence coverage"
+value = 40
+minimum = 1
+maximum = 1000
+
+# Maximum abstract characters per projected publication.
+# Unit: characters; default: 6000
+# Used by: src/gwasmind/projection.py:23
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.publication_abstract_chars"
+default = 6000
+type = "int"
+unit = "characters"
+description = "Maximum abstract characters per projected publication."
+used_by = ["src/gwasmind/projection.py:23"]
+impact = "runtime and evidence coverage"
+value = 6000
+minimum = 0
+maximum = 50000
+
+# Aggregate publication projection budget.
+# Unit: characters; default: 64000
+# Used by: src/gwasmind/projection.py:521
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.publications_max_chars"
+default = 64000
+type = "int"
+unit = "characters"
+description = "Aggregate publication projection budget."
+used_by = ["src/gwasmind/projection.py:521"]
+impact = "runtime and evidence coverage"
+value = 64000
+minimum = 2000
+maximum = 1000000
+
+# Ranking evidence JSON character budget for recognized large-context models.
+# Unit: characters; default: 900000
+# Used by: src/gwasmind/projection.py:21
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.ranking_large_max_chars"
+default = 900000
+type = "int"
+unit = "characters"
+description = "Ranking evidence JSON character budget for recognized large-context models."
+used_by = ["src/gwasmind/projection.py:21"]
+impact = "runtime and evidence coverage"
+value = 900000
+minimum = 2000
+maximum = 4000000
+
+# Ranking evidence projection count for recognized large-context models.
+# Unit: records; default: 600
+# Used by: src/gwasmind/projection.py:20
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.ranking_large_max_records"
+default = 600
+type = "int"
+unit = "records"
+description = "Ranking evidence projection count for recognized large-context models."
+used_by = ["src/gwasmind/projection.py:20"]
+impact = "runtime and evidence coverage"
+value = 600
+minimum = 1
+maximum = 10000
+
+# Default ranking evidence JSON character budget.
+# Unit: characters; default: 320000
+# Used by: src/gwasmind/projection.py:19
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.ranking_max_chars"
+default = 320000
+type = "int"
+unit = "characters"
+description = "Default ranking evidence JSON character budget."
+used_by = ["src/gwasmind/projection.py:19"]
+impact = "runtime and evidence coverage"
+value = 320000
+minimum = 2000
+maximum = 4000000
+
+# Default bounded ranking evidence projection count.
+# Unit: records; default: 240
+# Used by: src/gwasmind/projection.py:18
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "projection.ranking_max_records"
+default = 240
+type = "int"
+unit = "records"
+description = "Default bounded ranking evidence projection count."
+used_by = ["src/gwasmind/projection.py:18"]
+impact = "runtime and evidence coverage"
+value = 240
+minimum = 1
+maximum = 10000
+
+# Deterministic evidence-count ranking weight for colocalization; not a calibrated causal probability.
+# Unit: relative weight; default: 5.0
+# Used by: src/gwasmind/llm.py:140
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.deterministic_weight_colocalization"
+default = 5.0
+type = "float"
+unit = "relative weight"
+description = "Deterministic evidence-count ranking weight for colocalization; not a calibrated causal probability."
+used_by = ["src/gwasmind/llm.py:140"]
+impact = "scientific interpretation"
+value = 5.0
+minimum = 0.0
+maximum = 100.0
+
+# Deterministic evidence-count ranking weight for expression; not a calibrated causal probability.
+# Unit: relative weight; default: 1.5
+# Used by: src/gwasmind/llm.py:144
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.deterministic_weight_expression"
+default = 1.5
+type = "float"
+unit = "relative weight"
+description = "Deterministic evidence-count ranking weight for expression; not a calibrated causal probability."
+used_by = ["src/gwasmind/llm.py:144"]
+impact = "scientific interpretation"
+value = 1.5
+minimum = 0.0
+maximum = 100.0
+
+# Deterministic evidence-count ranking weight for function; not a calibrated causal probability.
+# Unit: relative weight; default: 1.0
+# Used by: src/gwasmind/llm.py:145
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.deterministic_weight_function"
+default = 1.0
+type = "float"
+unit = "relative weight"
+description = "Deterministic evidence-count ranking weight for function; not a calibrated causal probability."
+used_by = ["src/gwasmind/llm.py:145"]
+impact = "scientific interpretation"
+value = 1.0
+minimum = 0.0
+maximum = 100.0
+
+# Deterministic evidence-count ranking weight for gwas; not a calibrated causal probability.
+# Unit: relative weight; default: 2.0
+# Used by: src/gwasmind/llm.py:143
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.deterministic_weight_gwas"
+default = 2.0
+type = "float"
+unit = "relative weight"
+description = "Deterministic evidence-count ranking weight for gwas; not a calibrated causal probability."
+used_by = ["src/gwasmind/llm.py:143"]
+impact = "scientific interpretation"
+value = 2.0
+minimum = 0.0
+maximum = 100.0
+
+# Deterministic evidence-count ranking weight for literature; not a calibrated causal probability.
+# Unit: relative weight; default: 1.0
+# Used by: src/gwasmind/llm.py:146
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.deterministic_weight_literature"
+default = 1.0
+type = "float"
+unit = "relative weight"
+description = "Deterministic evidence-count ranking weight for literature; not a calibrated causal probability."
+used_by = ["src/gwasmind/llm.py:146"]
+impact = "scientific interpretation"
+value = 1.0
+minimum = 0.0
+maximum = 100.0
+
+# Deterministic evidence-count ranking weight for qtl; not a calibrated causal probability.
+# Unit: relative weight; default: 4.0
+# Used by: src/gwasmind/llm.py:141
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.deterministic_weight_qtl"
+default = 4.0
+type = "float"
+unit = "relative weight"
+description = "Deterministic evidence-count ranking weight for qtl; not a calibrated causal probability."
+used_by = ["src/gwasmind/llm.py:141"]
+impact = "scientific interpretation"
+value = 4.0
+minimum = 0.0
+maximum = 100.0
+
+# Deterministic evidence-count ranking weight for regulatory; not a calibrated causal probability.
+# Unit: relative weight; default: 3.0
+# Used by: src/gwasmind/llm.py:142
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.deterministic_weight_regulatory"
+default = 3.0
+type = "float"
+unit = "relative weight"
+description = "Deterministic evidence-count ranking weight for regulatory; not a calibrated causal probability."
+used_by = ["src/gwasmind/llm.py:142"]
+impact = "scientific interpretation"
+value = 3.0
+minimum = 0.0
+maximum = 100.0
+
+# Expand only gene-prioritization analysis with validated population LD proxies; source observations and other analysis workflows remain scoped to the user selection.
+# Unit: enabled flag; default: true
+# Used by: src/gwasmind/ld_expansion.py:188
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "ranking.ld_expansion_enabled"
+type = "bool"
+value = true
+default = true
+unit = "enabled flag"
+description = "Expand only gene-prioritization analysis with validated population LD proxies; source observations and other analysis workflows remain scoped to the user selection."
+used_by = ["src/gwasmind/ld_expansion.py:188"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+
+# Concurrent source-identity and per-SNP LD window lookups; transport rate limits still apply.
+# Unit: requests; default: 4
+# Used by: src/gwasmind/ld_expansion.py:93
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "ranking.ld_identity_concurrency"
+type = "int"
+value = 4
+default = 4
+unit = "requests"
+description = "Concurrent source-identity and per-SNP LD window lookups; transport rate limits still apply."
+used_by = ["src/gwasmind/ld_expansion.py:93"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 8
+
+# Minimum population LD for proxy variants used in gene prioritization; independent from the novelty threshold.
+# Unit: r squared; default: 0.8
+# Used by: src/gwasmind/analysis_scope.py:77, src/gwasmind/ld_expansion.py:178, src/gwasmind/ld_expansion.py:35
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "ranking.ld_r2_threshold"
+type = "float"
+value = 0.8
+default = 0.8
+unit = "r squared"
+description = "Minimum population LD for proxy variants used in gene prioritization; independent from the novelty threshold."
+used_by = ["src/gwasmind/analysis_scope.py:77", "src/gwasmind/ld_expansion.py:178", "src/gwasmind/ld_expansion.py:35"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0.0
+maximum = 1.0
+
+# Ranking-only LD proxy search flank, independently configurable from the novelty search flank within the supported API window.
+# Unit: base pairs on each side; default: 250000
+# Used by: src/gwasmind/analysis_scope.py:67, src/gwasmind/ld_expansion.py:179
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "ranking.ld_window_bp"
+type = "int"
+value = 250000
+default = 250000
+unit = "base pairs on each side"
+description = "Ranking-only LD proxy search flank, independently configurable from the novelty search flank within the supported API window."
+used_by = ["src/gwasmind/analysis_scope.py:67", "src/gwasmind/ld_expansion.py:179"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 500
+maximum = 250000
+
+# Maximum discovery target pool accepted by downstream semantic transport.
+# Unit: genes; default: 200
+# Used by: src/gwasmind/candidates.py:23, src/gwasmind/mcp/live_modules.py:316, src/gwasmind/models.py:181, src/gwasmind/models.py:182, src/gwasmind/web/jobs.py:56
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.max_discovered_targets"
+default = 200
+type = "int"
+unit = "genes"
+description = "Maximum discovery target pool accepted by downstream semantic transport."
+used_by = ["src/gwasmind/candidates.py:23", "src/gwasmind/mcp/live_modules.py:316", "src/gwasmind/models.py:181", "src/gwasmind/models.py:182", "src/gwasmind/web/jobs.py:56"]
+impact = "scientific interpretation"
+value = 200
+minimum = 1
+maximum = 200
+
+# Maximum L2G discovery candidates per independently resolved locus; L2G remains excluded from ranking evidence.
+# Unit: genes per locus; default: 5
+# Used by: src/gwasmind/candidates.py:24, src/gwasmind/mcp/live_modules.py:317
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.max_l2g_targets_per_locus"
+default = 5
+type = "int"
+unit = "genes per locus"
+description = "Maximum L2G discovery candidates per independently resolved locus; L2G remains excluded from ranking evidence."
+used_by = ["src/gwasmind/candidates.py:24", "src/gwasmind/mcp/live_modules.py:317"]
+impact = "scientific interpretation"
+value = 5
+minimum = 1
+maximum = 200
+
+# Maximum explicit candidates in structured ranking context.
+# Unit: genes; default: 200
+# Used by: src/gwasmind/llm.py:58
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.max_model_candidate_genes"
+default = 200
+type = "int"
+unit = "genes"
+description = "Maximum explicit candidates in structured ranking context."
+used_by = ["src/gwasmind/llm.py:58"]
+impact = "scientific interpretation"
+value = 200
+minimum = 1
+maximum = 200
+
+# Maximum ranked genes displayed in reports and the interface.
+# Unit: genes; default: 5
+# The historical key is retained for compatible local overrides. This is a display limit only.
+# Model output, the saved full ranking and Gate2 validation have no count cap from this parameter.
+[[parameters]]
+key = "ranking.max_ranked_genes"
+type = "int"
+value = 5
+default = 5
+unit = "genes"
+minimum = 1
+maximum = 20
+description = "Maximum ranked genes displayed in reports and the interface; the existing key is retained for override compatibility."
+used_by = ["src/gwasmind/report_facts.py", "src/gwasmind/staged_reasoning.py", "src/gwasmind/web/analysis_bridge.py", "src/gwasmind/web/chat_response.py"]
+impact = "Displays the first entries in the original ranking order. Does not limit model output, truncate saved rankings, or trigger a Gate2 warning."
+
+# Minimum eligible evidence records required by native sufficiency.
+# Unit: count; default: 2
+# Used by: src/gwasmind/sufficiency.py:158
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.sufficiency.min_evidence_records"
+default = 2
+type = "int"
+unit = "count"
+description = "Minimum eligible evidence records required by native sufficiency."
+used_by = ["src/gwasmind/sufficiency.py:158"]
+impact = "scientific interpretation"
+value = 2
+minimum = 1
+maximum = 200
+
+# Minimum genes carrying eligible evidence.
+# Unit: count; default: 1
+# Used by: src/gwasmind/sufficiency.py:160
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.sufficiency.min_genes_with_evidence"
+default = 1
+type = "int"
+unit = "count"
+description = "Minimum genes carrying eligible evidence."
+used_by = ["src/gwasmind/sufficiency.py:160"]
+impact = "scientific interpretation"
+value = 1
+minimum = 1
+maximum = 200
+
+# Minimum independent source groups required for benchmark sufficiency.
+# Unit: count; default: 2
+# Used by: src/gwasmind/staged_reasoning.py:791, src/gwasmind/sufficiency.py:159
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.sufficiency.min_independent_datasets"
+default = 2
+type = "int"
+unit = "count"
+description = "Minimum independent source groups required for benchmark sufficiency."
+used_by = ["src/gwasmind/staged_reasoning.py:791", "src/gwasmind/sufficiency.py:159"]
+impact = "scientific interpretation"
+value = 2
+minimum = 1
+maximum = 200
+
+# Whether native sufficiency requires source GWAS significance.
+# Unit: boolean; default: false
+# Used by: src/gwasmind/sufficiency.py:164
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.sufficiency.require_genome_wide_signal"
+default = false
+type = "bool"
+unit = "boolean"
+description = "Whether native sufficiency requires source GWAS significance."
+used_by = ["src/gwasmind/sufficiency.py:164"]
+impact = "scientific interpretation"
+value = false
+
+# Require direct locus-to-gene evidence for gene prioritization.
+# Unit: boolean; default: true
+# Used by: src/gwasmind/sufficiency.py:166
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.sufficiency.require_locus_linked_gene_evidence"
+default = true
+type = "bool"
+unit = "boolean"
+description = "Require direct locus-to-gene evidence for gene prioritization."
+used_by = ["src/gwasmind/sufficiency.py:166"]
+impact = "scientific interpretation"
+value = true
+
+# Require evidence matching explicitly declared relevant tissue context.
+# Unit: boolean; default: true
+# Used by: src/gwasmind/sufficiency.py:165
+# Impact: scientific interpretation
+[[parameters]]
+key = "ranking.sufficiency.require_relevant_tissue_if_declared"
+default = true
+type = "bool"
+unit = "boolean"
+description = "Require evidence matching explicitly declared relevant tissue context."
+used_by = ["src/gwasmind/sufficiency.py:165"]
+impact = "scientific interpretation"
+value = true
+
+# Maximum disease-target association pages per scope before truncation is recorded.
+# Unit: pages; default: 5
+# Used by: src/gwasmind/mcp/live_modules.py:1291
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.association_max_pages"
+default = 5
+type = "int"
+unit = "pages"
+description = "Maximum disease-target association pages per scope before truncation is recorded."
+used_by = ["src/gwasmind/mcp/live_modules.py:1291"]
+impact = "runtime and evidence coverage"
+value = 5
+minimum = 1
+maximum = 50
+
+# Budget for bibliography already cited by eligible evidence.
+# Unit: PMIDs; default: 400
+# Used by: src/gwasmind/mcp/live_modules.py:51
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.cited_publication_enrichment_pmids"
+default = 400
+type = "int"
+unit = "PMIDs"
+description = "Budget for bibliography already cited by eligible evidence."
+used_by = ["src/gwasmind/mcp/live_modules.py:51"]
+impact = "runtime and evidence coverage"
+value = 400
+minimum = 1
+maximum = 2000
+
+# Concurrent GraphQL batch size for continuation pages across variants.
+# Unit: requests; default: 5
+# Used by: src/gwasmind/providers/live.py:104
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.credible_set_continuation_batch_size"
+default = 5
+type = "int"
+unit = "requests"
+description = "Concurrent GraphQL batch size for continuation pages across variants."
+used_by = ["src/gwasmind/providers/live.py:104"]
+impact = "runtime and evidence coverage"
+value = 5
+minimum = 1
+maximum = 100
+
+# Aggregate credible-set continuation requests before coverage is declared incomplete.
+# Unit: requests; default: 100
+# Used by: src/gwasmind/providers/live.py:105
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.credible_set_max_continuation_requests"
+default = 100
+type = "int"
+unit = "requests"
+description = "Aggregate credible-set continuation requests before coverage is declared incomplete."
+used_by = ["src/gwasmind/providers/live.py:105"]
+impact = "runtime and evidence coverage"
+value = 100
+minimum = 1
+maximum = 1000
+
+# Credible-set GraphQL page size bounded by the nested-query complexity guard.
+# Unit: rows; default: 100
+# Used by: src/gwasmind/providers/live.py:103
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.credible_set_page_size"
+default = 100
+type = "int"
+unit = "rows"
+description = "Credible-set GraphQL page size bounded by the nested-query complexity guard."
+used_by = ["src/gwasmind/providers/live.py:103"]
+impact = "runtime and evidence coverage"
+value = 100
+minimum = 1
+maximum = 100
+
+# GraphQL batch size for enhancer continuation pages.
+# Unit: requests; default: 5
+# Used by: src/gwasmind/providers/live.py:111
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.enhancer_continuation_batch_size"
+default = 5
+type = "int"
+unit = "requests"
+description = "GraphQL batch size for enhancer continuation pages."
+used_by = ["src/gwasmind/providers/live.py:111"]
+impact = "runtime and evidence coverage"
+value = 5
+minimum = 1
+maximum = 100
+
+# Aggregate enhancer continuation requests before coverage is declared incomplete.
+# Unit: requests; default: 100
+# Used by: src/gwasmind/providers/live.py:112
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.enhancer_max_continuation_requests"
+default = 100
+type = "int"
+unit = "requests"
+description = "Aggregate enhancer continuation requests before coverage is declared incomplete."
+used_by = ["src/gwasmind/providers/live.py:112"]
+impact = "runtime and evidence coverage"
+value = 100
+minimum = 1
+maximum = 1000
+
+# Enhancer-to-gene connection page size.
+# Unit: rows; default: 500
+# Used by: src/gwasmind/providers/live.py:110
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.enhancer_page_size"
+default = 500
+type = "int"
+unit = "rows"
+description = "Enhancer-to-gene connection page size."
+used_by = ["src/gwasmind/providers/live.py:110"]
+impact = "runtime and evidence coverage"
+value = 500
+minimum = 1
+maximum = 500
+
+# Bounded nearby-gene witnesses retained by Ensembl lookup.
+# Unit: genes; default: 10
+# Used by: src/gwasmind/mcp/ensembl.py:23
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.ensembl_max_genes"
+default = 10
+type = "int"
+unit = "genes"
+description = "Bounded nearby-gene witnesses retained by Ensembl lookup."
+used_by = ["src/gwasmind/mcp/ensembl.py:23"]
+impact = "runtime and evidence coverage"
+value = 10
+minimum = 1
+maximum = 10
+
+# Maximum user-selected span for regional lookup before adding flanks.
+# Unit: bp; default: 2000000
+# Used by: src/gwasmind/mcp/ensembl.py:22
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.ensembl_max_input_span_bp"
+default = 2000000
+type = "int"
+unit = "bp"
+description = "Maximum user-selected span for regional lookup before adding flanks."
+used_by = ["src/gwasmind/mcp/ensembl.py:22"]
+impact = "runtime and evidence coverage"
+value = 2000000
+minimum = 1
+maximum = 10000000
+
+# Maximum expression rows retrieved for one target before recording incomplete coverage.
+# Unit: rows; default: 60000
+# Used by: src/gwasmind/providers/live.py:42
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.expression_max_rows"
+default = 60000
+type = "int"
+unit = "rows"
+description = "Maximum expression rows retrieved for one target before recording incomplete coverage."
+used_by = ["src/gwasmind/providers/live.py:42"]
+impact = "runtime and evidence coverage"
+value = 60000
+minimum = 1
+maximum = 1000000
+
+# Native expression rows requested per page.
+# Unit: rows; default: 3000
+# Used by: src/gwasmind/providers/live.py:41
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.expression_page_size"
+default = 3000
+type = "int"
+unit = "rows"
+description = "Native expression rows requested per page."
+used_by = ["src/gwasmind/providers/live.py:41"]
+impact = "runtime and evidence coverage"
+value = 3000
+minimum = 1
+maximum = 3000
+
+# Observed target pool batch size for auxiliary expression discovery.
+# Unit: genes; default: 100
+# Used by: src/gwasmind/mcp/executor.py:80
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.expression_target_batch_size"
+default = 100
+type = "int"
+unit = "genes"
+description = "Observed target pool batch size for auxiliary expression discovery."
+used_by = ["src/gwasmind/mcp/executor.py:80"]
+impact = "runtime and evidence coverage"
+value = 100
+minimum = 1
+maximum = 200
+
+# Default transport batch size within existing protocol maximum.
+# Unit: requests; default: 100
+# Used by: src/gwasmind/providers/live.py:40
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.graphql_batch_size"
+default = 100
+type = "int"
+unit = "requests"
+description = "Default transport batch size within existing protocol maximum."
+used_by = ["src/gwasmind/providers/live.py:40"]
+impact = "runtime and evidence coverage"
+value = 100
+minimum = 1
+maximum = 100
+
+# Maximum bounded resolver search strings.
+# Unit: queries; default: 200
+# Used by: src/gwasmind/providers/live.py:48
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.graphql_max_search_queries"
+default = 200
+type = "int"
+unit = "queries"
+description = "Maximum bounded resolver search strings."
+used_by = ["src/gwasmind/providers/live.py:48"]
+impact = "runtime and evidence coverage"
+value = 200
+minimum = 1
+maximum = 200
+
+# Interactive semantic request page size.
+# Unit: records; default: 500
+# Used by: src/gwasmind/mcp/gateway.py:20
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.interactive_page_size"
+default = 500
+type = "int"
+unit = "records"
+description = "Interactive semantic request page size."
+used_by = ["src/gwasmind/mcp/gateway.py:20"]
+impact = "runtime and evidence coverage"
+value = 500
+minimum = 1
+maximum = 500
+
+# Aggregate variant consequence retrieval ceiling.
+# Unit: records; default: 2500
+# Used by: src/gwasmind/mcp/live_modules.py:47
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.max_variant_consequence_records"
+default = 2500
+type = "int"
+unit = "records"
+description = "Aggregate variant consequence retrieval ceiling."
+used_by = ["src/gwasmind/mcp/live_modules.py:47"]
+impact = "runtime and evidence coverage"
+value = 2500
+minimum = 1
+maximum = 10000
+
+# Maximum retrieved abstract characters retained per exact PMID.
+# Unit: characters; default: 20000
+# Used by: src/gwasmind/mcp/europe_pmc.py:20
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.publication_abstract_chars"
+default = 20000
+type = "int"
+unit = "characters"
+description = "Maximum retrieved abstract characters retained per exact PMID."
+used_by = ["src/gwasmind/mcp/europe_pmc.py:20"]
+impact = "runtime and evidence coverage"
+value = 20000
+minimum = 0
+maximum = 100000
+
+# Ordinary exact-PMID publication enrichment budget.
+# Unit: PMIDs; default: 100
+# Used by: src/gwasmind/mcp/live_modules.py:48
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.publication_enrichment_pmids"
+default = 100
+type = "int"
+unit = "PMIDs"
+description = "Ordinary exact-PMID publication enrichment budget."
+used_by = ["src/gwasmind/mcp/live_modules.py:48"]
+impact = "runtime and evidence coverage"
+value = 100
+minimum = 1
+maximum = 1000
+
+# Maximum exact PMIDs processed by one bibliography client fetch.
+# Unit: PMIDs; default: 100
+# Used by: src/gwasmind/mcp/europe_pmc.py:18
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.publication_max_pmids"
+default = 100
+type = "int"
+unit = "PMIDs"
+description = "Maximum exact PMIDs processed by one bibliography client fetch."
+used_by = ["src/gwasmind/mcp/europe_pmc.py:18"]
+impact = "runtime and evidence coverage"
+value = 100
+minimum = 1
+maximum = 1000
+
+# Maximum exact PMIDs in each existing one-pass bibliography retry batch.
+# Unit: PMIDs; default: 25
+# Used by: src/gwasmind/mcp/europe_pmc.py:75
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.publication_retry_batch_size"
+default = 25
+type = "int"
+unit = "PMIDs"
+description = "Maximum exact PMIDs in each existing one-pass bibliography retry batch."
+used_by = ["src/gwasmind/mcp/europe_pmc.py:75"]
+impact = "runtime and evidence coverage"
+value = 25
+minimum = 1
+maximum = 100
+
+# Maximum initial semantic plan calls.
+# Unit: calls; default: 6
+# Used by: src/gwasmind/mcp/planner.py:41, src/gwasmind/mcp/planner.py:305
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.semantic_max_calls"
+default = 6
+type = "int"
+unit = "calls"
+description = "Maximum initial semantic plan calls."
+used_by = ["src/gwasmind/mcp/planner.py:41", "src/gwasmind/mcp/planner.py:305"]
+impact = "runtime and evidence coverage"
+value = 6
+minimum = 1
+maximum = 100
+
+# Default standalone semantic executor page size.
+# Unit: records; default: 100
+# Used by: src/gwasmind/mcp/catalog.py:318, src/gwasmind/mcp/executor.py:73, src/gwasmind/mcp/frozen_modules.py:1880, src/gwasmind/mcp/live_modules.py:1242, src/gwasmind/mcp/live_modules.py:477, src/gwasmind/mcp/live_modules.py:1893
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.semantic_page_size"
+default = 100
+type = "int"
+unit = "records"
+description = "Default standalone semantic executor page size."
+used_by = ["src/gwasmind/mcp/catalog.py:318", "src/gwasmind/mcp/executor.py:73", "src/gwasmind/mcp/frozen_modules.py:1880", "src/gwasmind/mcp/live_modules.py:1242", "src/gwasmind/mcp/live_modules.py:477", "src/gwasmind/mcp/live_modules.py:1893"]
+impact = "runtime and evidence coverage"
+value = 100
+minimum = 1
+maximum = 500
+
+# Exact variant batch size when retrieving nested transcript consequences.
+# Unit: requests; default: 10
+# Used by: src/gwasmind/providers/live.py:1219
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.variant_consequence_batch_size"
+default = 10
+type = "int"
+unit = "requests"
+description = "Exact variant batch size when retrieving nested transcript consequences."
+used_by = ["src/gwasmind/providers/live.py:1219"]
+impact = "runtime and evidence coverage"
+value = 10
+minimum = 1
+maximum = 100
+
+# Exact variant batch size for core profiles without nested consequences.
+# Unit: requests; default: 25
+# Used by: src/gwasmind/providers/live.py:1221
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "retrieval.variant_core_batch_size"
+default = 25
+type = "int"
+unit = "requests"
+description = "Exact variant batch size for core profiles without nested consequences."
+used_by = ["src/gwasmind/providers/live.py:1221"]
+impact = "runtime and evidence coverage"
+value = 25
+minimum = 1
+maximum = 100
+
+# Maximum regional Ensembl response size.
+# Unit: bytes; default: 524288
+# Used by: src/gwasmind/mcp/ensembl.py:20
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.ensembl_max_response_bytes"
+default = 524288
+type = "int"
+unit = "bytes"
+description = "Maximum regional Ensembl response size."
+used_by = ["src/gwasmind/mcp/ensembl.py:20"]
+impact = "runtime and evidence coverage"
+value = 524288
+minimum = 1
+maximum = 4194304
+
+# Timeout of the existing bounded regional lookup retry.
+# Unit: seconds; default: 30.0
+# Used by: src/gwasmind/mcp/ensembl.py:19
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.ensembl_retry_timeout_seconds"
+default = 30.0
+type = "float"
+unit = "seconds"
+description = "Timeout of the existing bounded regional lookup retry."
+used_by = ["src/gwasmind/mcp/ensembl.py:19"]
+impact = "runtime and evidence coverage"
+value = 30.0
+minimum = 0.1
+maximum = 30.0
+
+# Initial regional Ensembl request timeout.
+# Unit: seconds; default: 8.0
+# Used by: src/gwasmind/mcp/ensembl.py:18
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.ensembl_timeout_seconds"
+default = 8.0
+type = "float"
+unit = "seconds"
+description = "Initial regional Ensembl request timeout."
+used_by = ["src/gwasmind/mcp/ensembl.py:18"]
+impact = "runtime and evidence coverage"
+value = 8.0
+minimum = 0.1
+maximum = 30.0
+
+# Maximum accumulated bytes for one logical GraphQL operation.
+# Unit: bytes; default: 67108864
+# Used by: src/gwasmind/providers/live.py:38
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.graphql_max_operation_bytes"
+default = 67108864
+type = "int"
+unit = "bytes"
+description = "Maximum accumulated bytes for one logical GraphQL operation."
+used_by = ["src/gwasmind/providers/live.py:38"]
+impact = "runtime and evidence coverage"
+value = 67108864
+minimum = 1024
+maximum = 536870912
+
+# Maximum GraphQL operation document length.
+# Unit: characters; default: 262144
+# Used by: src/gwasmind/providers/live.py:49
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.graphql_max_query_chars"
+default = 262144
+type = "int"
+unit = "characters"
+description = "Maximum GraphQL operation document length."
+used_by = ["src/gwasmind/providers/live.py:49"]
+impact = "runtime and evidence coverage"
+value = 262144
+minimum = 1024
+maximum = 1048576
+
+# Maximum serialized GraphQL request size.
+# Unit: bytes; default: 1048576
+# Used by: src/gwasmind/providers/live.py:39
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.graphql_max_request_bytes"
+default = 1048576
+type = "int"
+unit = "bytes"
+description = "Maximum serialized GraphQL request size."
+used_by = ["src/gwasmind/providers/live.py:39"]
+impact = "runtime and evidence coverage"
+value = 1048576
+minimum = 1024
+maximum = 16777216
+
+# Maximum individual GraphQL response size.
+# Unit: bytes; default: 16777216
+# Used by: src/gwasmind/providers/ld.py:78, src/gwasmind/providers/live.py:37
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.graphql_max_response_bytes"
+default = 16777216
+type = "int"
+unit = "bytes"
+description = "Maximum individual GraphQL response size."
+used_by = ["src/gwasmind/providers/ld.py:78", "src/gwasmind/providers/live.py:37"]
+impact = "runtime and evidence coverage"
+value = 16777216
+minimum = 1024
+maximum = 134217728
+
+# Bounded retry of transient Open Targets GraphQL failures.
+# Unit: retries; default: 1
+# Used by: src/gwasmind/providers/live.py:322
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.graphql_max_retries"
+default = 1
+type = "int"
+unit = "retries"
+description = "Bounded retry of transient Open Targets GraphQL failures."
+used_by = ["src/gwasmind/providers/live.py:322"]
+impact = "runtime and evidence coverage"
+value = 1
+minimum = 0
+maximum = 1
+
+# Delay before the one allowed GraphQL transport retry.
+# Unit: seconds; default: 0.15
+# Used by: src/gwasmind/providers/live.py:323
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.graphql_retry_backoff_seconds"
+default = 0.15
+type = "float"
+unit = "seconds"
+description = "Delay before the one allowed GraphQL transport retry."
+used_by = ["src/gwasmind/providers/live.py:323"]
+impact = "runtime and evidence coverage"
+value = 0.15
+minimum = 0.0
+maximum = 1.0
+
+# Default Open Targets GraphQL request timeout.
+# Unit: seconds; default: 30.0
+# Used by: src/gwasmind/providers/live.py:36
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.graphql_timeout_seconds"
+default = 30.0
+type = "float"
+unit = "seconds"
+description = "Default Open Targets GraphQL request timeout."
+used_by = ["src/gwasmind/providers/live.py:36"]
+impact = "runtime and evidence coverage"
+value = 30.0
+minimum = 0.1
+maximum = 60.0
+
+# Maximum Europe PMC response size.
+# Unit: bytes; default: 4194304
+# Used by: src/gwasmind/mcp/europe_pmc.py:19
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.publication_max_response_bytes"
+default = 4194304
+type = "int"
+unit = "bytes"
+description = "Maximum Europe PMC response size."
+used_by = ["src/gwasmind/mcp/europe_pmc.py:19"]
+impact = "runtime and evidence coverage"
+value = 4194304
+minimum = 1024
+maximum = 16777216
+
+# Exact-PMID bibliography request timeout.
+# Unit: seconds; default: 8.0
+# Used by: src/gwasmind/mcp/europe_pmc.py:35
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.publication_timeout_seconds"
+default = 8.0
+type = "float"
+unit = "seconds"
+description = "Exact-PMID bibliography request timeout."
+used_by = ["src/gwasmind/mcp/europe_pmc.py:35"]
+impact = "runtime and evidence coverage"
+value = 8.0
+minimum = 0.1
+maximum = 120.0
+
+# Maximum accumulated answer plus counted hidden-reasoning characters in native ranking streams.
+# Unit: characters; default: 16777216
+# Used by: src/gwasmind/model_stream.py:58
+# Impact: runtime and evidence coverage
+[[parameters]]
+key = "transport.ranking_stream_max_chars"
+default = 16777216
+type = "int"
+unit = "characters"
+description = "Maximum accumulated answer plus counted hidden-reasoning characters in native ranking streams."
+used_by = ["src/gwasmind/model_stream.py:58"]
+impact = "runtime and evidence coverage"
+value = 16777216
+minimum = 1024
+maximum = 67108864
+
+# Maximum accepted analysis context in a Chat request.
+# Unit: characters; default: 50000
+# Used by: src/gwasmind/web/server.py:1840, src/gwasmind/web/server.py:1841
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.chat_analysis_context_max_chars"
+type = "int"
+value = 50000
+default = 50000
+unit = "characters"
+description = "Maximum accepted analysis context in a Chat request."
+used_by = ["src/gwasmind/web/server.py:1840", "src/gwasmind/web/server.py:1841"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 100
+maximum = 1000000
+
+# Maximum accepted text per incoming Chat history message.
+# Unit: characters; default: 20000
+# Used by: src/gwasmind/web/server.py:1837, src/gwasmind/web/server.py:1463
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.chat_history_item_max_chars"
+type = "int"
+value = 20000
+default = 20000
+unit = "characters"
+description = "Maximum accepted text per incoming Chat history message."
+used_by = ["src/gwasmind/web/server.py:1837", "src/gwasmind/web/server.py:1463"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 100
+maximum = 1000000
+
+# Maximum prior Chat messages included in a new request.
+# Unit: messages; default: 20
+# Used by: src/gwasmind/web/model_connection.py:340, src/gwasmind/web/server.py:1460, src/gwasmind/web/server.py:1826, src/gwasmind/web/server.py:1827, src/gwasmind/web/static/js/chat.js:20
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.chat_history_limit"
+type = "int"
+value = 20
+default = 20
+unit = "messages"
+description = "Maximum prior Chat messages included in a new request."
+used_by = ["src/gwasmind/web/model_connection.py:340", "src/gwasmind/web/server.py:1460", "src/gwasmind/web/server.py:1826", "src/gwasmind/web/server.py:1827", "src/gwasmind/web/static/js/chat.js:20"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0
+maximum = 200
+
+# Maximum web Chat question length; shared by request validation, routing and the no-retrieval writer, and bounded by the final-report context limit.
+# Unit: characters; default: 4000
+# Used by: src/gwasmind/web/chat_intent.py:543, src/gwasmind/web/general_response.py:65, src/gwasmind/web/general_response.py:66, src/gwasmind/web/server.py:1815, src/gwasmind/web/server.py:1816
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.chat_question_max_chars"
+type = "int"
+value = 4000
+default = 4000
+unit = "characters"
+description = "Maximum web Chat question length; shared by request validation, routing and the no-retrieval writer, and bounded by the final-report context limit."
+used_by = ["src/gwasmind/web/chat_intent.py:543", "src/gwasmind/web/general_response.py:65", "src/gwasmind/web/general_response.py:66", "src/gwasmind/web/server.py:1815", "src/gwasmind/web/server.py:1816"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 100
+maximum = 100000
+
+# Overall references retained in a deterministic gene report.
+# Unit: references; default: 12
+# Used by: src/gwasmind/web/chat_response.py:46
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.gene_reference_limit"
+type = "int"
+value = 12
+default = 12
+unit = "references"
+description = "Overall references retained in a deterministic gene report."
+used_by = ["src/gwasmind/web/chat_response.py:46"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 1000
+
+# Per-message context limit for no-retrieval and legacy report writers.
+# Unit: characters; default: 4000
+# Used by: src/gwasmind/web/general_response.py:16, src/gwasmind/web/server.py:2951
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.general_history_item_chars"
+type = "int"
+value = 4000
+default = 4000
+unit = "characters"
+description = "Per-message context limit for no-retrieval and legacy report writers."
+used_by = ["src/gwasmind/web/general_response.py:16", "src/gwasmind/web/server.py:2951"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 100
+maximum = 100000
+
+# Total conversation context limit for no-retrieval and legacy report writers.
+# Unit: characters; default: 16000
+# Used by: src/gwasmind/web/general_response.py:17, src/gwasmind/web/server.py:2941
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.general_history_total_chars"
+type = "int"
+value = 16000
+default = 16000
+unit = "characters"
+description = "Total conversation context limit for no-retrieval and legacy report writers."
+used_by = ["src/gwasmind/web/general_response.py:17", "src/gwasmind/web/server.py:2941"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 100
+maximum = 1000000
+
+# Retained history turns for no-retrieval and legacy report writers; the transport envelope reserves four additional stage messages.
+# Unit: turns; default: 12
+# Used by: src/gwasmind/web/general_response.py:15, src/gwasmind/web/model_connection.py:340, src/gwasmind/web/server.py:2942
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.general_history_turns"
+type = "int"
+value = 12
+default = 12
+unit = "turns"
+description = "Retained history turns for no-retrieval and legacy report writers; the transport envelope reserves four additional stage messages."
+used_by = ["src/gwasmind/web/general_response.py:15", "src/gwasmind/web/model_connection.py:340", "src/gwasmind/web/server.py:2942"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0
+maximum = 100
+
+# Idle event-stream heartbeat interval.
+# Unit: seconds; default: 15.0
+# Used by: src/gwasmind/web/server.py:3473, src/gwasmind/web/server.py:628
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.heartbeat_interval_seconds"
+type = "float"
+value = 15.0
+default = 15.0
+unit = "seconds"
+description = "Idle event-stream heartbeat interval."
+used_by = ["src/gwasmind/web/server.py:3473", "src/gwasmind/web/server.py:628"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0.1
+maximum = 300.0
+
+# Default server address; explicit CLI arguments still take precedence.
+# Unit: bind address; default: "127.0.0.1"
+# Used by: src/gwasmind/web/server.py:3462, src/gwasmind/web/server.py:3515, start_gwasmind.ps1:93
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.host"
+type = "str"
+value = "127.0.0.1"
+default = "127.0.0.1"
+unit = "bind address"
+description = "Default server address; explicit CLI arguments still take precedence."
+used_by = ["src/gwasmind/web/server.py:3462", "src/gwasmind/web/server.py:3515", "start_gwasmind.ps1:93"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+
+# Launcher port; zero requests an available port from the operating system.
+# Unit: TCP port; default: 0
+# Used by: src/gwasmind/web/server.py:3463, src/gwasmind/web/server.py:3516, start_gwasmind.ps1:99
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.launcher_port"
+type = "int"
+value = 0
+default = 0
+unit = "TCP port"
+description = "Launcher port; zero requests an available port from the operating system."
+used_by = ["src/gwasmind/web/server.py:3463", "src/gwasmind/web/server.py:3516", "start_gwasmind.ps1:99"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0
+maximum = 65535
+
+# Per-field evidence summary or prior-analysis context passed to the legacy report writer.
+# Unit: characters; default: 12000
+# Used by: src/gwasmind/web/server.py:2990, src/gwasmind/web/server.py:2965
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.legacy_evidence_context_max_chars"
+type = "int"
+value = 12000
+default = 12000
+unit = "characters"
+description = "Per-field evidence summary or prior-analysis context passed to the legacy report writer."
+used_by = ["src/gwasmind/web/server.py:2990", "src/gwasmind/web/server.py:2965"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 100
+maximum = 1000000
+
+# Maximum ordinary API JSON body and locus request file size.
+# Unit: bytes; default: 2097152
+# Used by: src/gwasmind/web/analysis_bridge.py:23, src/gwasmind/web/server.py:119, src/gwasmind/web/static/js/analysis.js:30, src/gwasmind/web/static/js/app-page.js:452
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.max_json_bytes"
+type = "int"
+value = 2097152
+default = 2097152
+unit = "bytes"
+description = "Maximum ordinary API JSON body and locus request file size."
+used_by = ["src/gwasmind/web/analysis_bridge.py:23", "src/gwasmind/web/server.py:119", "src/gwasmind/web/static/js/analysis.js:30", "src/gwasmind/web/static/js/app-page.js:452"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1024
+maximum = 33554432
+
+# Maximum uploaded GWAS JSON request.
+# Unit: bytes; default: 16777216
+# Used by: src/gwasmind/web/server.py:120
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.max_upload_json_bytes"
+type = "int"
+value = 16777216
+default = 16777216
+unit = "bytes"
+description = "Maximum uploaded GWAS JSON request."
+used_by = ["src/gwasmind/web/server.py:120"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1024
+maximum = 268435456
+
+# References retained per gene in a deterministic report.
+# Unit: references; default: 3
+# Used by: src/gwasmind/web/chat_response.py:47
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.references_per_gene"
+type = "int"
+value = 3
+default = 3
+unit = "references"
+description = "References retained per gene in a deterministic report."
+used_by = ["src/gwasmind/web/chat_response.py:47"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 1
+maximum = 100
+
+# Maximum UI reconnects to an interrupted analysis event stream.
+# Unit: additional connections; default: 2
+# Used by: src/gwasmind/web/static/js/analysis.js:32, src/gwasmind/web/static/js/app-page.js:453
+# Impact: Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation.
+[[parameters]]
+key = "web.stream_reconnect_attempts"
+type = "int"
+value = 2
+default = 2
+unit = "additional connections"
+description = "Maximum UI reconnects to an interrupted analysis event stream."
+used_by = ["src/gwasmind/web/static/js/analysis.js:32", "src/gwasmind/web/static/js/app-page.js:453"]
+impact = "Changes runtime resource bounds, selected context, or reproducible display sampling; does not bypass scientific validation."
+minimum = 0
+maximum = 10
+
+# Reconnect backoff sequence; the final delay is reused if attempts exceed its length.
+# Unit: milliseconds; default: [500, 1200]
+# Used by: src/gwasmind/web/static/js/analysis.js:33, src/gwasmind/web/static/js/app-page.js:454
+# Impact: Controls only reconnect timing, without repeating completed analyses.
+[[parameters]]
+key = "web.stream_reconnect_delays_ms"
+type = "int_list"
+value = [500, 1200]
+default = [500, 1200]
+unit = "milliseconds"
+description = "Reconnect backoff sequence; the final delay is reused if attempts exceed its length."
+used_by = ["src/gwasmind/web/static/js/analysis.js:33", "src/gwasmind/web/static/js/app-page.js:454"]
+impact = "Controls only reconnect timing, without repeating completed analyses."
+
+[[parameters]]
+key = "retrieval.expression_requests_per_target"
+type = "int"
+value = 32
+default = 32
+unit = "requests per target"
+description = "Shared expression request budget per target in a pool, including rejected alias groups and continuation pages. Transport retry remains independently bounded once per request."
+used_by = ["src/gwasmind/providers/live.py"]
+impact = "Bounds recovery work; exhausted queries retain validated rows with incomplete coverage."
+minimum = 1
+maximum = 256
+
+[[parameters]]
+key = "retrieval.colocalisation_max_continuation_requests"
+type = "int"
+value = 256
+default = 256
+unit = "requests"
+description = "Maximum continuation queries shared by unique colocalisation study loci in one semantic request."
+used_by = ["src/gwasmind/providers/live.py"]
+impact = "Bounds pagination work without treating incomplete results as negative evidence."
+minimum = 0
+maximum = 10000
+
+[[parameters]]
+key = "retrieval.entity_query_batch_size"
+type = "int"
+value = 10
+default = 10
+unit = "unique entities"
+description = "Initial batch size for shared scientific-entity discovery and retrieval; successful entities survive batch recovery."
+used_by = ["src/gwasmind/providers/live.py"]
+impact = "Controls request shape without limiting the scientific evidence set."
+minimum = 1
+maximum = 100
+
+[[parameters]]
+key = "retrieval.study_query_batch_size"
+type = "int"
+value = 40
+default = 40
+unit = "unique study metadata objects per request"
+description = "Initial request grouping for simple shared study metadata only; failed oversized groups split while completed study objects are retained."
+used_by = ["src/gwasmind/providers/entity_retrieval.py"]
+impact = "Changes transport grouping only, not the evidence set, selected variants, requested fields, or pagination limits. Other scientific entity queries keep their existing batch size."
+minimum = 1
+maximum = 100
+
+[[parameters]]
+key = "retrieval.entity_recovery_attempts"
+type = "int"
+value = 1
+default = 1
+unit = "additional entity-recovery rounds"
+description = "After other entity batches finish, allow one recovery round for missing entities whose request exhausted a proven transient transport failure."
+used_by = ["src/gwasmind/providers/entity_retrieval.py", "src/gwasmind/providers/live.py"]
+impact = "Preserves successful entities and original failure receipts; ordinary no-data, identity errors, exhausted singleton complexity and cancelled recoveries cannot start unlimited retries. Does not change scientific evidence or page limits."
+minimum = 0
+maximum = 1
+
+[[parameters]]
+key = "retrieval.entity_cache_memory_items"
+type = "int"
+value = 32
+default = 32
+unit = "objects"
+description = "Resident cache entries for shared entity/page requests; eviction does not remove the persisted request ledger."
+used_by = ["src/gwasmind/providers/live.py"]
+impact = "Bounds resident cache memory while preserving complete results and provenance."
+minimum = 1
+maximum = 10000
+
+[[parameters]]
+key = "retrieval.shared_request_recovery_attempts"
+type = "int"
+value = 1
+default = 1
+unit = "additional recovery attempts"
+description = "Additional shared recovery attempts after an entity request fails; dependent evidence modules share this allowance."
+used_by = ["src/gwasmind/providers/live.py", "src/gwasmind/mcp/live_modules.py"]
+impact = "Avoids restarting the same failed bundle independently for each evidence channel."
+minimum = 0
+maximum = 5
+
+[[parameters]]
+key = "retrieval.publication_cache_max_entries"
+type = "int"
+value = 2000
+default = 2000
+unit = "publications"
+description = "Maximum positive publication metadata cache entries keyed by exact PMID."
+used_by = ["src/gwasmind/mcp/europe_pmc.py"]
+impact = "Reuses verified metadata across evidence references without caching retrieval failures as absence."
+minimum = 1
+maximum = 100000
+
+[[parameters]]
+key = "retrieval.publication_cache_ttl_seconds"
+type = "float"
+value = 86400.0
+default = 86400.0
+unit = "seconds"
+description = "Lifetime of positive publication metadata cache entries before refresh."
+used_by = ["src/gwasmind/mcp/europe_pmc.py"]
+impact = "Allows metadata corrections to propagate while reducing repeated requests."
+minimum = 1.0
+maximum = 2592000.0
+
+[[parameters]]
+key = "model.preserve_scientific_input_on_capacity_feedback"
+type = "bool"
+value = true
+default = true
+unit = "boolean"
+description = "When the provider reports exact joint-context capacity, retain the complete scientific input and request the largest output fitting that input."
+used_by = ["src/gwasmind/llm.py"]
+impact = "Prevents dropping independent scientific evidence to reserve unused output capacity; every adjusted request is audited."
+
+[[parameters]]
+key = "retrieval.ld_identity_batch_size"
+type = "int"
+value = 100
+default = 100
+unit = "unique variant identities"
+description = "Initial batch size for basic Ensembl identity metadata without population frequencies; failed batches shrink while successful responses remain available."
+used_by = ["src/gwasmind/providers/ld.py", "src/gwasmind/ld_expansion.py"]
+impact = "Reuses reference identity and population metadata without removing allele, coordinate or LD provenance checks."
+minimum = 1
+maximum = 200
+
+[[parameters]]
+key = "retrieval.ld_cache_ttl_seconds"
+type = "float"
+value = 3600.0
+default = 3600.0
+unit = "seconds"
+description = "Reuse interval for successful public LD reference responses with exact request and reference-configuration bindings."
+used_by = ["src/gwasmind/providers/ld.py"]
+impact = "Reduces repeated lookups while retaining original response bytes, retrieval time and hashes; failures are not reused across analyses."
+minimum = 1.0
+maximum = 86400.0
+
+[[parameters]]
+key = "ranking.ld_total_timeout_seconds"
+type = "float"
+value = 600.0
+default = 600.0
+unit = "seconds"
+description = "Deadline per gene-ranking LD attempt, covering discovery, population checks and proxy identity verification; independent of the smaller novelty-screening workload."
+used_by = ["src/gwasmind/ld_expansion.py"]
+impact = "Allows the complete configured LD scope to finish during slow reference-service responses while retaining cancellation, individual request timeouts and bounded retries."
+minimum = 1.0
+maximum = 1800.0
+
+[[parameters]]
+key = "ranking.ld_recovery_attempts"
+type = "int"
+value = 1
+default = 1
+unit = "additional recovery attempts"
+description = "Resume unfinished LD reference work once after a transport or deadline gap, reusing verified positive responses from the identical reference scope."
+used_by = ["src/gwasmind/ld_expansion.py"]
+impact = "Does not retry ordinary allele or population uncertainty, repeat successful reference requests, change LD scope, or discard verified proxies from the first attempt. Each attempt retains its own audit and deadline."
+minimum = 0
+maximum = 1
+
+[[parameters]]
+key = "retrieval.ld_source_region_span_bp"
+type = "int"
+value = 250000
+default = 250000
+unit = "base pairs"
+description = "Maximum coordinate span when grouping selected SNP identity lookups into one reference request."
+used_by = ["src/gwasmind/providers/ld.py"]
+impact = "Changes only retrieval grouping; each original SNP still requires exact coordinate and allele validation and the scientific LD window remains unchanged."
+minimum = 1
+maximum = 500000
+
+[[parameters]]
+key = "retrieval.ld_population_batch_size"
+type = "int"
+value = 10
+default = 10
+unit = "unique variant identities"
+description = "Initial batch size for larger Ensembl population-frequency responses, used for selected SNPs and proxy identities that need explicit population allele checks."
+used_by = ["src/gwasmind/providers/ld.py"]
+impact = "Keeps required population checks while avoiding large rejected requests and unnecessary population queries for already verified biallelic proxies."
+minimum = 1
+maximum = 200
+
+[[parameters]]
+key = "model.ranking_budget_version"
+type = "str"
+value = "1.0.0"
+default = "1.0.0"
+unit = "version"
+description = "Version of the explicit gene-ranking resource policy, independent of provider capabilities and reasoning settings."
+used_by = ["src/gwasmind/ranking_budget.py"]
+impact = "Recorded with each gene-ranking initial/repair request; never changes scientific evidence or the user's thinking mode/effort."
+min_length = 1
+max_length = 64
+
+[[parameters]]
+key = "model.ranking_request_output_tokens"
+type = "int"
+value = 196608
+default = 196608
+unit = "completion tokens including reasoning"
+description = "Fallback per-generation output budget for uncatalogued models. A catalogued model uses its provider maximum instead (deepseek-flash: 393216), including reasoning."
+used_by = ["src/gwasmind/ranking_budget.py", "src/gwasmind/llm.py"]
+impact = "Caps generation resources without cutting input evidence; an exhausted completion is not accepted as a validated ranking."
+minimum = 1024
+maximum = 1048576
+
+[[parameters]]
+key = "model.ranking_total_output_tokens"
+type = "int"
+value = 393216
+default = 393216
+unit = "completion tokens including reasoning"
+description = "Fallback cumulative output budget for uncatalogued models. Catalogued models use three times their provider maximum across a ranking decision and its repairs."
+used_by = ["src/gwasmind/ranking_budget.py", "src/gwasmind/llm.py"]
+impact = "Unknown completion usage reserves the requested ceiling; exhausted budgets cannot trigger another blind regeneration."
+minimum = 1024
+maximum = 3145728
+
+[[parameters]]
+key = "model.ranking_deadline_seconds"
+type = "float"
+value = 1800.0
+default = 1800.0
+unit = "seconds"
+description = "Total wall-clock allowance for a gene-ranking initial generation and repairs, including streamed reads; applies to both provider-maximum and fallback output budgets."
+used_by = ["src/gwasmind/ranking_budget.py", "src/gwasmind/llm.py"]
+impact = "Cancellation at this deadline is recorded separately from network failures; no automatic cap increase or reasoning-setting change is permitted."
+minimum = 1.0
+maximum = 3600.0
+
+[[parameters]]
+key = "ld.provider"
+type = "str"
+value = "ldlink"
+default = "ldlink"
+unit = "provider identifier"
+description = "Explicit LD calculation backend shared by ranking expansion and novelty screening."
+used_by = ["src/gwasmind/providers/ld_factory.py", "src/gwasmind/ld_expansion.py", "src/gwasmind/novelty.py"]
+impact = "LDlink requires a separately managed API credential. Missing credentials never cause implicit Ensembl fallback; identity verification remains separately sourced."
+choices = ["ldlink", "ensembl"]
+
+[[parameters]]
+key = "ld.ensembl_fallback_enabled"
+type = "bool"
+value = false
+default = false
+unit = "enabled"
+description = "Explicitly enable supplementary Ensembl identity lookups after Open Targets is missing or unavailable."
+used_by = ["src/gwasmind/providers/ldlink_identity.py"]
+impact = "OT and LDlink are the default identity/LD path. Disabled supplements retain unresolved identities without network work or fabricated empty results."
+
+[[parameters]]
+key = "ld.ot_identity_max_retries"
+type = "int"
+value = 2
+default = 2
+unit = "additional HTTP attempts"
+description = "Bounded retries for transient Open Targets LD identity transport failures."
+used_by = ["src/gwasmind/providers/ot_identity.py", "src/gwasmind/providers/ldlink_identity.py"]
+impact = "Retries only transient failures within the shared deadline; successful empty results and malformed identity data are not retried."
+minimum = 0
+maximum = 3
+
+[[parameters]]
+key = "ld.ensembl_fallback_budget_seconds"
+type = "float"
+value = 60.0
+default = 60.0
+unit = "cumulative seconds per LD provider"
+description = "Shared time budget for supplementary Ensembl source and proxy identity lookups after OT is missing or unavailable."
+used_by = ["src/gwasmind/providers/ldlink_identity.py"]
+impact = "Applies cumulatively to region discovery, basic mapping, retries and batch splits; cached positives remain usable. Does not reduce or extend the primary OT/LDlink deadline, change LD calculation provider, or turn lookup failure into zero evidence. Zero disables new supplementary network work."
+minimum = 0.0
+maximum = 60.0
+
+[[parameters]]
+key = "ld.ldlink_timeout_seconds"
+type = "float"
+value = 60.0
+default = 60.0
+unit = "seconds per HTTP request"
+description = "LDlink transport timeout within the existing total LD analysis deadline."
+used_by = ["src/gwasmind/providers/ldlink.py"]
+impact = "A failed request remains unavailable; timeout never changes provider or scientific scope."
+minimum = 0.001
+maximum = 600.0
+
+[[parameters]]
+key = "ld.ldlink_min_interval_seconds"
+type = "float"
+value = 1.5
+default = 1.5
+unit = "seconds between requests"
+description = "Minimum spacing for serialized LDlink requests in one process."
+used_by = ["src/gwasmind/providers/ldlink.py"]
+impact = "Limits provider load while preserving complete requests and bounded cancellation."
+minimum = 0.0
+maximum = 60.0
+
+[[parameters]]
+key = "ld.ldlink_max_retries"
+type = "int"
+value = 3
+default = 3
+unit = "additional HTTP attempts"
+description = "Bounded retries for recoverable LDlink transport failures within the total deadline."
+used_by = ["src/gwasmind/providers/ldlink.py"]
+impact = "Authentication and invalid responses are not retried; successful empty results are not failures."
+minimum = 0
+maximum = 3
+
+# Maximum declared core concepts per organ, tissue, or cell-type axis; does not cap matched biosample records.
+# Unit: core concepts per biological axis; declared default is preserved separately from value.
+[[parameters]]
+key = "context.max_concepts_per_level"
+type = "int"
+value = 4
+default = 4
+unit = "core concepts per biological axis"
+description = "Maximum declared core concepts per organ, tissue, or cell-type axis; does not cap matched biosample records."
+used_by = ["src/gwasmind/biological_context.py", "src/gwasmind/biosample_catalog.py", "src/gwasmind/web/context_planner.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+minimum = 1
+maximum = 4
+
+# Packaged immutable Open Targets biosample catalog; source release is recorded as unverified when unavailable.
+# Unit: resource path; declared default is preserved separately from value.
+[[parameters]]
+key = "context.biosample_catalog_resource"
+type = "str"
+value = "data/opentargets_biosamples.json.gz"
+default = "data/opentargets_biosamples.json.gz"
+unit = "resource path"
+description = "Packaged immutable Open Targets biosample catalog; source release is recorded as unverified when unavailable."
+used_by = ["src/gwasmind/biological_context.py", "src/gwasmind/biosample_catalog.py", "src/gwasmind/web/context_planner.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+
+# Allow an observed resolved biosample when the frozen selected concept is an explicitly listed ancestor in the same catalog; does not infer organ membership from cell identity.
+# Unit: configuration flag; declared default is preserved separately from value.
+[[parameters]]
+key = "context.allow_catalog_descendants"
+type = "bool"
+value = true
+default = true
+unit = "configuration flag"
+description = "Allow an observed resolved biosample when the frozen selected concept is an explicitly listed ancestor in the same catalog; does not infer organ membership from cell identity."
+used_by = ["src/gwasmind/biological_context.py", "src/gwasmind/biosample_catalog.py", "src/gwasmind/web/context_planner.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+
+# Maximum distinct verified non-context biosamples retained per already shortlisted gene as supplementary molecular evidence. Context-matched eligible local molecular QTL records remain uncapped by this value. Each supplementary biosample contributes the eligible actual-member association with the smallest measured P value; records without a verifiable member P remain only in the audit and never fill unused representative slots.
+# Unit: items; declared default is preserved separately from value.
+[[parameters]]
+key = "ranking.supplementary_molecular_biosamples_per_gene"
+type = "int"
+value = 3
+default = 3
+unit = "items"
+description = "Maximum distinct verified non-context biosamples retained per already shortlisted gene as supplementary molecular evidence. Context-matched eligible local molecular QTL records remain uncapped by this value. Each supplementary biosample contributes the eligible actual-member association with the smallest measured P value; records without a verifiable member P remain only in the audit and never fill unused representative slots."
+used_by = ["src/gwasmind/candidates.py", "src/gwasmind/mcp/executor.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+minimum = 0
+maximum = 1000
+
+# Use a fresh recorded seed per ranking snapshot; SHA-256 seeded candidate presentation order is reused on retries. Not a biological ranking.
+# Unit: configuration flag; declared default is preserved separately from value.
+[[parameters]]
+key = "ranking.presentation_randomize_candidates"
+type = "bool"
+value = true
+default = true
+unit = "configuration flag"
+description = "Use a fresh recorded seed per ranking snapshot; SHA-256 seeded candidate presentation order is reused on retries. Not a biological ranking."
+used_by = ["src/gwasmind/ranking_input.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+
+# Preserve every source/proxy regulatory relationship when this gene has at most this many eligible relationships.
+# Unit: items; declared default is preserved separately from value.
+[[parameters]]
+key = "ranking.cards.regulatory_keep_all_max_relationships"
+type = "int"
+value = 12
+default = 12
+unit = "items"
+description = "Preserve every source/proxy regulatory relationship when this gene has at most this many eligible relationships."
+used_by = ["src/gwasmind/ranking_cards.py", "src/gwasmind/ranking_input.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+minimum = 1
+maximum = 1000
+
+# Maximum ordinary regulatory representatives per identical source/dataset/method/model/version/context/element group for large sets; flagged evidence is additional.
+# Unit: items; declared default is preserved separately from value.
+[[parameters]]
+key = "ranking.cards.regulatory_representatives_per_group"
+type = "int"
+value = 3
+default = 3
+unit = "items"
+description = "Maximum ordinary regulatory representatives per identical source/dataset/method/model/version/context/element group for large sets; flagged evidence is additional."
+used_by = ["src/gwasmind/ranking_cards.py", "src/gwasmind/ranking_input.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+minimum = 1
+maximum = 1000
+
+# Maximum ordinary regulatory representatives per gene for large sets; unsupported/QC-flagged facts are not hidden by this limit.
+# Unit: items; declared default is preserved separately from value.
+[[parameters]]
+key = "ranking.cards.regulatory_representatives_per_gene"
+type = "int"
+value = 24
+default = 24
+unit = "items"
+description = "Maximum ordinary regulatory representatives per gene for large sets; unsupported/QC-flagged facts are not hidden by this limit."
+used_by = ["src/gwasmind/ranking_cards.py", "src/gwasmind/ranking_input.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+minimum = 1
+maximum = 1000
+
+# Maximum visible function descriptions per candidate; full ledger retained.
+# Unit: items; declared default is preserved separately from value.
+[[parameters]]
+key = "ranking.cards.function_items"
+type = "int"
+value = 1
+default = 1
+unit = "items"
+description = "Maximum visible function descriptions per candidate; full ledger retained."
+used_by = ["src/gwasmind/ranking_cards.py", "src/gwasmind/ranking_input.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+minimum = 0
+maximum = 1000
+
+# Maximum visible context-matched expression measurements per candidate; full ledger retained.
+# Unit: items; declared default is preserved separately from value.
+[[parameters]]
+key = "ranking.cards.expression_items"
+type = "int"
+value = 2
+default = 2
+unit = "items"
+description = "Maximum visible context-matched expression measurements per candidate; full ledger retained."
+used_by = ["src/gwasmind/ranking_cards.py", "src/gwasmind/ranking_input.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+minimum = 0
+maximum = 1000
+
+# Maximum visible context-matched pathway/GO entries per candidate; full ledger retained.
+# Unit: items; declared default is preserved separately from value.
+[[parameters]]
+key = "ranking.cards.pathway_items"
+type = "int"
+value = 3
+default = 3
+unit = "items"
+description = "Maximum visible context-matched pathway/GO entries per candidate; full ledger retained."
+used_by = ["src/gwasmind/ranking_cards.py", "src/gwasmind/ranking_input.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+minimum = 0
+maximum = 1000
+
+# Maximum visible context-matched literature entries per candidate; full ledger retained.
+# Unit: items; declared default is preserved separately from value.
+[[parameters]]
+key = "ranking.cards.literature_items"
+type = "int"
+value = 3
+default = 3
+unit = "items"
+description = "Maximum visible context-matched literature entries per candidate; full ledger retained."
+used_by = ["src/gwasmind/ranking_cards.py", "src/gwasmind/ranking_input.py"]
+impact = "Controls reproducible evidence selection or presentation; never changes measured values or establishes causality."
+minimum = 0
+maximum = 1000
+
+# Variant-to-gene retrieval pipeline. The gene-centric pipeline retains every window gene.
+# Unit: pipeline identifier; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.pipeline"
+type = "str"
+value = "gene_centric"
+default = "gene_centric"
+unit = "pipeline identifier"
+description = "Variant-to-gene retrieval pipeline: legacy variant-centric shortlist or gene-centric evidence table."
+used_by = ["src/gwasmind/v2g/pipeline.py", "src/gwasmind/web/server.py"]
+impact = "Selects how candidate genes and locus-to-gene evidence are retrieved; the gene-centric pipeline never removes window genes."
+choices = ["legacy", "gene_centric"]
+
+# Rule that places a gene inside the lead-centered window.
+# Unit: rule identifier; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.gene_window_rule"
+type = "str"
+value = "gene_body_overlap"
+default = "gene_body_overlap"
+unit = "rule identifier"
+description = "A gene belongs to the lead-centered window when its body overlaps the window, or when its TSS lies inside it."
+used_by = ["src/gwasmind/mcp/gene_centric.py", "src/gwasmind/v2g/gene_window.py"]
+impact = "Defines the candidate universe; the window flank is analysis.local_gene_window_bp."
+choices = ["gene_body_overlap", "tss"]
+
+# Source of gene coordinates for the lead window.
+# Unit: source identifier; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.gene_window_source"
+type = "str"
+value = "packaged_table"
+default = "packaged_table"
+unit = "source identifier"
+description = "Gene coordinates for the lead window: the packaged, versioned GRCh38 table (offline) or one live Ensembl REST overlap request."
+used_by = ["src/gwasmind/v2g/gene_window.py"]
+impact = "Defines the candidate universe source; the table provenance is recorded in every result."
+choices = ["packaged_table", "ensembl_rest"]
+
+# Gene biotypes retained in the window.
+# Unit: Ensembl biotypes; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.gene_biotypes"
+type = "str_list"
+value = ["protein_coding"]
+default = ["protein_coding"]
+unit = "Ensembl biotypes"
+description = "Ensembl gene biotypes retained in the lead-centered window."
+used_by = ["src/gwasmind/v2g/gene_window.py"]
+impact = "Defines the candidate universe."
+min_length = 1
+max_length = 20
+
+[[parameters]]
+key = "v2g.expression.specificity_threshold"
+type = "float"
+value = 0.75
+default = 0.75
+minimum = 0.0
+maximum = 1.0
+unit = "Open Targets specificity score"
+description = "Open Targets specificity reference for high-specificity background annotations; not a z-score, gene-selection rule or causal probability."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Labels expression background and preserves rounding around this boundary; shortlisting remains based on locus links and position."
+
+# Transport safety bound on window genes; not a shortlist.
+# Unit: genes; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.max_window_genes"
+type = "int"
+value = 200
+default = 200
+unit = "genes"
+description = "Maximum genes accepted from one window lookup; exceeding it marks the window truncated instead of silently dropping genes."
+used_by = ["src/gwasmind/v2g/gene_window.py"]
+impact = "Runtime safety bound; a truncated window is reported as a coverage gap."
+minimum = 1
+maximum = 2000
+
+# Maximum locus variants used as gene-evidence anchors.
+# Unit: variants; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.locus.max_variants"
+type = "int"
+value = 500
+default = 500
+unit = "variants"
+description = "Maximum locus variants (lead, credible-set members and LD proxies) used as evidence anchors; the highest-weight variants are kept."
+used_by = ["src/gwasmind/v2g/locus_set.py"]
+impact = "Runtime bound; exceeding it is recorded as a truncated locus set."
+minimum = 1
+maximum = 5000
+
+# LD proxies at or above this r2 are core locus variants.
+# Unit: r squared; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.ld.r2_core"
+type = "float"
+value = 0.8
+default = 0.8
+unit = "r squared"
+description = "LD proxies at or above this r2 with the anchor are core locus variants."
+used_by = ["src/gwasmind/v2g/evidence.py", "src/gwasmind/v2g/pipeline.py"]
+impact = "Defines which linked variants can support core evidence."
+minimum = 0.01
+maximum = 1.0
+
+# LD proxies at or above this r2 are retained as extended locus variants.
+# Unit: r squared; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.ld.r2_extended"
+scope = "standalone_only"
+type = "float"
+value = 0.6
+default = 0.6
+unit = "r squared"
+description = "Minimum r2 for LD expansion in the standalone V2G runner. The product uses its shared LD retrieval step; this value does not define gene tiers."
+used_by = ["src/gwasmind/v2g/evidence.py", "src/gwasmind/v2g/locus_set.py", "src/gwasmind/v2g/pipeline.py"]
+impact = "Defines the weakest linked variants retained as evidence anchors."
+minimum = 0.01
+maximum = 1.0
+
+# Maximum selected variants used as separate LDlink anchors (serial requests).
+# Unit: anchors; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.ld.max_anchors"
+scope = "standalone_only"
+type = "int"
+value = 8
+default = 8
+unit = "anchors"
+description = "Maximum user-selected variants expanded as separate LDlink anchors; selections already covered by an earlier anchor's core proxies are skipped."
+used_by = ["src/gwasmind/v2g/pipeline.py"]
+impact = "Bounds serial LDlink requests; uncovered selections beyond the bound keep only their own identity in the locus set."
+minimum = 1
+maximum = 50
+
+# LDlink proxy search flank for gene-centric locus sets.
+# Unit: base pairs on each side; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.ld.window_bp"
+scope = "standalone_only"
+type = "int"
+value = 500000
+default = 500000
+unit = "base pairs on each side"
+description = "LDlink proxy search flank around the LD anchor for gene-centric locus sets."
+used_by = ["src/gwasmind/v2g/pipeline.py"]
+impact = "Bounds which linked variants can be found."
+minimum = 0
+maximum = 1000000
+
+# Open Targets QTL study types considered as cis-molQTL evidence.
+# Unit: study types; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.qtl.study_types"
+type = "str_list"
+value = ["eqtl", "pqtl", "sqtl", "tuqtl", "sceqtl", "scpqtl", "scsqtl", "sctuqtl"]
+default = ["eqtl", "pqtl", "sqtl", "tuqtl", "sceqtl", "scpqtl", "scsqtl", "sctuqtl"]
+unit = "study types"
+description = "Open Targets QTL study types considered as molecular QTL evidence."
+used_by = ["src/gwasmind/v2g/qtl_records.py"]
+impact = "Defines which molecular QTL layers can link locus variants to genes."
+min_length = 1
+max_length = 20
+
+# Exclude trans-QTL credible sets.
+# Unit: configuration flag; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.qtl.cis_only"
+type = "bool"
+value = true
+default = true
+unit = "configuration flag"
+description = "Use only cis molecular QTL credible sets (Open Targets isTransQtl is false)."
+used_by = ["src/gwasmind/v2g/evidence.py", "src/gwasmind/v2g/qtl_records.py"]
+impact = "Trans-QTL credible sets are recorded but never used as locus-to-gene links when enabled."
+
+# Source credible-set lead significance; independent of the local overlap member.
+[[parameters]]
+key = "v2g.qtl.lead_pvalue_max"
+type = "float"
+value = 0.001
+default = 0.001
+unit = "P value"
+description = "User-selected exploratory cis-molQTL lead-P cutoff of 0.001, applied after credible-set overlap. This is a local retention policy, not a literature-derived FDR threshold. OT 95% credible sets: https://platform-docs.opentargets.org/gentropy/fine-mapping"
+used_by = ["src/gwasmind/v2g/qtl_records.py"]
+impact = "Retains qualifying credible-set lead measurements; does not establish corrected statistical significance."
+minimum = 0.0
+maximum = 1.0
+
+# Colocalisation posterior (CLPP) at or above which a QTL overlap is core evidence.
+# Unit: probability; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.qtl.clpp_core"
+scope = "legacy"
+type = "float"
+value = 0.01
+default = 0.01
+unit = "probability"
+description = "CLPP (sum over shared variants of GWAS PIP x QTL PIP) at or above which a QTL overlap is core evidence (eCAVIAR convention)."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Evidence tier threshold; does not remove genes."
+minimum = 0.0
+maximum = 1.0
+
+# Page size for gene QTL credible sets.
+# Unit: rows; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.qtl.page_size"
+type = "int"
+value = 200
+default = 200
+unit = "rows"
+description = "Page size for each gene's molecular QTL credible sets."
+used_by = ["src/gwasmind/v2g/retrieval.py"]
+impact = "Runtime request shape only."
+minimum = 1
+maximum = 1000
+
+# Maximum QTL credible sets read per gene.
+# Unit: credible sets; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.qtl.max_credible_sets_per_gene"
+type = "int"
+value = 2000
+default = 2000
+unit = "credible sets"
+description = "Maximum molecular QTL credible sets read per gene; exceeding it marks the channel partial."
+used_by = ["src/gwasmind/v2g/retrieval.py"]
+impact = "Runtime bound; truncation is reported as partial coverage."
+minimum = 1
+maximum = 20000
+
+# GWAS-QTL colocalisation H4 for core evidence.
+# Unit: posterior probability; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.coloc.h4_core"
+scope = "legacy"
+type = "float"
+value = 0.9
+default = 0.9
+unit = "posterior probability"
+description = "Legacy tier threshold; product coloc retention uses h4_in_scope and other-phenotype summaries."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Legacy compatibility only; not the product colocalisation retention threshold."
+minimum = 0.0
+maximum = 1.0
+
+# GWAS-QTL colocalisation H4 for supporting evidence.
+# Unit: posterior probability; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.coloc.h4_support"
+scope = "legacy"
+type = "float"
+value = 0.5
+default = 0.5
+unit = "posterior probability"
+description = "GWAS-QTL colocalisation H4 at or above which the link is supporting evidence."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Evidence tier threshold; does not remove genes."
+minimum = 0.0
+maximum = 1.0
+
+# Locus variants whose GWAS credible sets are searched for colocalisation.
+# Unit: variants; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.coloc.max_anchor_variants"
+scope = "legacy"
+type = "int"
+value = 10
+default = 10
+unit = "variants"
+description = "Deprecated configuration compatibility key. The product queries all frozen molQTL anchors; this value has no effect."
+used_by = ["src/gwasmind/configuration.py"]
+impact = "No effect on the frozen molecular-QTL colocalisation retrieval scope."
+minimum = 1
+maximum = 100
+
+# E2G score for core evidence.
+# Unit: score; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.e2g.core_score"
+scope = "legacy"
+type = "float"
+value = 0.99
+default = 0.99
+unit = "score"
+description = "Legacy tier threshold; product retention uses datasource-specific thresholds."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Legacy compatibility only; does not filter product E2G records."
+minimum = 0.0
+maximum = 1.0
+
+# Page size for enhancer-to-gene rows per variant.
+# Unit: rows; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.e2g.page_size"
+type = "int"
+value = 200
+default = 200
+unit = "rows"
+description = "Page size for enhancer-to-gene rows of each locus variant."
+used_by = ["src/gwasmind/v2g/retrieval.py"]
+impact = "Runtime request shape only."
+minimum = 1
+maximum = 1000
+
+# Minimum variant weight for coding and regulatory core evidence.
+# Unit: weight; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.tier.min_variant_weight"
+scope = "standalone_only"
+type = "float"
+value = 0.1
+default = 0.1
+unit = "weight"
+description = "Legacy-named PIP weight reference in standalone credible-set mode; not a product gene tier or ranking score."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Only the standalone credible-set weight reference and legacy tier helper use this threshold; product rankings have no tiers."
+minimum = 0.0
+maximum = 1.0
+
+# Maximum baseline expression rows read per gene.
+# Unit: rows; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.expression.max_rows_per_gene"
+type = "int"
+value = 4000
+default = 4000
+unit = "rows"
+description = "Maximum baseline expression rows read per gene; exceeding it marks the channel partial."
+used_by = ["src/gwasmind/v2g/retrieval.py"]
+impact = "Runtime bound; truncation is reported as partial coverage."
+minimum = 1
+maximum = 50000
+
+# Highest-expressed tissues shown per gene.
+# Unit: tissues; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.expression.top_tissues"
+type = "int"
+value = 3
+default = 3
+unit = "tissues"
+description = "Highest-expressed bulk RNA tissues shown per gene."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Presentation only; the full retrieved profile is retained in artifacts."
+minimum = 0
+maximum = 50
+
+# Genes per batched GraphQL target query.
+# Unit: genes; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.retrieval.gene_batch_size"
+type = "int"
+value = 2
+default = 2
+unit = "genes"
+description = "Genes per batched Open Targets target query; a batch rejected by the server's query-cost limit is retried one gene at a time."
+used_by = ["src/gwasmind/v2g/retrieval.py"]
+impact = "Runtime request shape only."
+minimum = 1
+maximum = 50
+
+# Variants per batched GraphQL variant query.
+# Unit: variants; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.retrieval.variant_batch_size"
+type = "int"
+value = 20
+default = 20
+unit = "variants"
+description = "Variants per batched Open Targets variant query."
+used_by = ["src/gwasmind/v2g/retrieval.py"]
+impact = "Runtime request shape only."
+minimum = 1
+maximum = 100
+
+# Gene Ontology terms shown per gene.
+# Unit: terms; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.function.go_terms"
+type = "int"
+value = 8
+default = 8
+unit = "terms"
+description = "Gene Ontology biological-process and molecular-function terms shown per gene."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Presentation only; the full retrieved annotation is retained in artifacts."
+minimum = 0
+maximum = 100
+
+# Reactome pathways shown per gene.
+# Unit: pathways; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.function.pathways"
+type = "int"
+value = 5
+default = 5
+unit = "pathways"
+description = "Reactome pathways shown per gene."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Presentation only; the full retrieved annotation is retained in artifacts."
+minimum = 0
+maximum = 100
+
+# Replace every candidate-gene identifier with a per-locus random code in model inputs.
+# Unit: configuration flag; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.anonymize_gene_identity"
+scope = "legacy"
+type = "bool"
+value = false
+default = false
+unit = "configuration flag"
+description = "Replace every candidate-gene identifier (symbols, names, Ensembl and UniProt IDs) with a per-locus random code in model inputs."
+used_by = ["src/gwasmind/v2g/cards.py"]
+impact = "Benchmark control for memorization; the mapping and seed are recorded, and residual identifiers block the request."
+
+# Context-matched expression measurements shown per gene card; omitted ones are counted.
+# Unit: measurements; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.card.max_expression_matches"
+type = "int"
+value = 5
+default = 5
+unit = "measurements"
+description = "Maximum context-matched expression measurements shown per gene card, ordered by specificity; the omitted count is shown."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Presentation bound for model inputs; the full expression profile is retained in artifacts."
+minimum = 0
+maximum = 100
+
+# Records shown per evidence category on one gene card; omitted records are counted.
+# Unit: records; declared default is preserved separately from value.
+[[parameters]]
+key = "v2g.card.max_records_per_category"
+type = "int"
+value = 20
+default = 20
+unit = "records"
+description = "Maximum detailed coding-consequence records in the complete gene card. QTL, coloc and E2G use separate model representative limits."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Controls explicit previews, never gene ranking or raw evidence storage."
+minimum = 1
+maximum = 1000
+
+[[parameters]]
+key = "v2g.coloc.h4_in_scope"
+scope = "legacy"
+type = "float"
+value = 0.5
+default = 0.5
+unit = "posterior"
+description = "Exploratory target/related-phenotype retention threshold; H4 >= 0.5 is suggestive, not a strong-colocalisation claim. Coloc sensitivity examples: https://chr1swallace.github.io/coloc/articles/a04_sensitivity.html"
+used_by = ["src/gwasmind/configuration.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 0
+maximum = 1
+
+[[parameters]]
+key = "v2g.coloc.h4_other"
+type = "float"
+value = 0.9
+default = 0.9
+unit = "posterior"
+description = "Threshold counted as high-H4 in other-phenotype summaries; unrelated phenotype pairs are not enumerated in LLM input."
+used_by = ["src/gwasmind/v2g/coloc_scope.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 0
+maximum = 1
+
+[[parameters]]
+key = "v2g.e2g.encode_re2g_min_score"
+type = "float"
+value = 0.6
+default = 0.6
+unit = "score"
+description = "OT ingestion threshold for ENCODE rE2G (datasource E2G/encode_re2g): https://platform-docs.opentargets.org/gentropy/enhancer-to-gene-encode-re2g . Exact interval overlap remains required."
+used_by = ["src/gwasmind/v2g/e2g_records.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 0
+maximum = 1
+
+[[parameters]]
+key = "v2g.card.max_coloc_records"
+type = "int"
+value = 12
+default = 12
+unit = "rows"
+description = "Maximum individually displayed target/related coloc records per gene in LLM input; other phenotypes remain summaries."
+used_by = ["src/gwasmind/v2g/model_view.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 1
+maximum = 100
+
+[[parameters]]
+key = "v2g.card.max_tokens_per_gene"
+type = "int"
+value = 8000
+default = 8000
+unit = "estimated tokens"
+description = "Per-gene budget for the bounded card parts (representative colocalization pairs, coding and expression rows); every QTL credible set and E2G link that passed the locus filters is always shown and is not counted."
+used_by = ["src/gwasmind/v2g/model_view.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 400
+maximum = 20000
+
+[[parameters]]
+key = "v2g.card.shared_references"
+type = "bool"
+value = false
+default = false
+unit = "enabled"
+description = "Use shared-reference compression only when explicitly enabled; product cards default to category-local tables."
+used_by = ["src/gwasmind/v2g/compact_input.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+
+[[parameters]]
+key = "v2g.association.excluded_datasources"
+type = "str_list"
+value = ["gwas_credible_sets", "ot_genetics_portal"]
+default = ["gwas_credible_sets", "ot_genetics_portal"]
+unit = "datasource IDs"
+description = "Exclude OT L2G-derived sources from product association context; mixed overall/datatype aggregates are also omitted. Source: https://platform-docs.opentargets.org/evidence . Europe PMC is labelled literature co-occurrence."
+used_by = ["src/gwasmind/v2g/evidence.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+
+[[parameters]]
+key = "v2g.expression.page_size"
+type = "int"
+value = 1000
+default = 1000
+unit = "rows"
+description = "OT baseline-expression page size."
+used_by = ["src/gwasmind/v2g/retrieval.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 1
+maximum = 1000
+
+[[parameters]]
+key = "v2g.coloc.page_size"
+type = "int"
+value = 200
+default = 200
+unit = "rows"
+description = "OT coloc connection page size."
+used_by = ["src/gwasmind/v2g/colocalisation.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 1
+maximum = 1000
+
+[[parameters]]
+key = "v2g.coloc.batch_size"
+type = "int"
+value = 10
+default = 10
+unit = "anchors"
+description = "Frozen molQTL anchors per initial coloc query."
+used_by = ["src/gwasmind/v2g/colocalisation.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 1
+maximum = 50
+
+[[parameters]]
+key = "v2g.ledger.expression_rows"
+type = "int"
+value = 60
+default = 60
+unit = "rows"
+description = "Expression observations in the normalized contextual ledger; full raw expression remains archived."
+used_by = ["src/gwasmind/v2g/ledger.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 1
+maximum = 10000
+
+[[parameters]]
+key = "v2g.processing.max_records"
+type = "int"
+value = 1000000
+default = 1000000
+unit = "records"
+description = "Pre-classification upper bound per scientific evidence channel; errors identify the affected channel."
+used_by = ["src/gwasmind/v2g/capacity.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 1000
+maximum = 10000000
+
+[[parameters]]
+key = "ranking.presentation_seed_policy"
+type = "str"
+value = "input_derived"
+default = "input_derived"
+unit = "policy"
+description = "Derive the presentation seed from candidate identities and the scientific input fingerprint; random is an explicit perturbation experiment."
+used_by = ["src/gwasmind/ranking_input.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+choices = ["input_derived", "random"]
+
+[[parameters]]
+key = "model.token_estimate.deepseek_bytes_per_token"
+type = "float"
+value = 2.5
+default = 2.5
+unit = "bytes/token"
+description = "Conservative numeric-JSON calibration from saved DeepSeek requests (observed approximately 2.56 bytes/token); estimates and actual usage are audited."
+used_by = ["src/gwasmind/model_options.py", "src/gwasmind/v2g/model_view.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 1
+maximum = 6
+
+[[parameters]]
+key = "model.token_estimate.default_bytes_per_token"
+type = "float"
+value = 3.0
+default = 3.0
+unit = "bytes/token"
+description = "Fallback visible-content estimate for providers without a calibrated tokenizer profile."
+used_by = ["src/gwasmind/model_options.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 1
+maximum = 6
+
+[[parameters]]
+key = "report.evidence.max_rows_per_category"
+type = "int"
+value = 3
+default = 3
+unit = "rows"
+description = "Individual report evidence rows per gene/category; complete records remain in cards and downloads."
+used_by = ["src/gwasmind/staged_reasoning.py"]
+impact = "Explicit product evidence presentation or retrieval policy; does not assign gene ranks."
+minimum = 1
+maximum = 20
+
+[[parameters]]
+key = "report.evidence.target_max_chars"
+type = "int"
+value = 20000
+default = 20000
+unit = "characters"
+description = "Native report presentation target. Reduce the same per-category preview count for every gene until it fits or reaches one; never truncate LLM scientific prose or archived evidence."
+used_by = ["src/gwasmind/staged_reasoning.py"]
+impact = "Compact report previews; a long scientific summary can exceed this target and remains intact."
+minimum = 5000
+maximum = 200000
+
+[[parameters]]
+key = "v2g.card.max_variant_witnesses"
+type = "int"
+value = 3
+default = 3
+unit = "rows"
+description = "Representative local variant witnesses and per-consequence coding observations; full memberships stay archived."
+used_by = ["src/gwasmind/v2g/model_view.py"]
+impact = "Bounded processing and explicit representative counts; does not assign ranks."
+minimum = 1
+maximum = 100
+
+[[parameters]]
+key = "v2g.card.max_expression_records"
+type = "int"
+value = 3
+default = 3
+unit = "rows"
+description = "Context expression observations per gene in the model card; abundance and missingness retain original semantics."
+used_by = ["src/gwasmind/v2g/model_view.py"]
+impact = "Bounded processing and explicit representative counts; does not assign ranks."
+minimum = 1
+maximum = 100
+
+[[parameters]]
+key = "v2g.processing.max_channel_bytes"
+type = "int"
+value = 268435456
+default = 268435456
+unit = "bytes"
+description = "Pre-classification byte bound per derived scientific channel; failures identify the oversized channel."
+used_by = ["src/gwasmind/v2g/capacity.py"]
+impact = "Bounded processing and explicit representative counts; does not assign ranks."
+minimum = 1
+maximum = 1073741824
+
+[[parameters]]
+key = "model.token_estimate.deepseek_native_table_bytes_per_token"
+type = "float"
+value = 3.1
+default = 3.1
+unit = "bytes/token"
+description = "Calibrated for representative native cards with category tables and no shared references: observed 3.15-3.24 bytes/token on asthma/SORT1 acceptance requests, using 3.1 to overestimate conservatively. Dense legacy JSON retains its separate 2.5 calibration."
+used_by = ["src/gwasmind/model_options.py"]
+impact = "Selects an input estimate by actual payload encoding; provider token usage remains authoritative."
+minimum = 1
+maximum = 6
+
+[[parameters]]
+key = "web.phenotype_scope_lock_timeout_seconds"
+type = "float"
+value = 600.0
+default = 600.0
+unit = "seconds"
+description = "Maximum cancellable wait for another process to commit a shared phenotype scope."
+used_by = ["src/gwasmind/web/phenotype_scope_store.py"]
+impact = "Bounds concurrent scope coordination without creating divergent selections for one target."
+minimum = 1
+maximum = 1200
+
+[[parameters]]
+key = "artifacts.compaction_lock_timeout_seconds"
+type = "float"
+value = 60.0
+default = 60.0
+unit = "seconds"
+description = "Maximum wait for another process optimizing the same completed worker directory."
+used_by = ["src/gwasmind/artifact_retention.py"]
+impact = "Bounds optional storage work while retaining every scientific artifact and its original path."
+minimum = 1
+maximum = 1200

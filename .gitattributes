@@ -1,0 +1,4 @@
+# Check out every file exactly as committed, whatever core.autocrlf says.
+# Prompt catalogs, configuration and recorded fixtures are parsed and hashed
+# byte for byte, and some recorded files keep their original line endings.
+* -text

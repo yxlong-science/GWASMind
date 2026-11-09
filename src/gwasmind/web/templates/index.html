@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}GWASMind - Upload Data{% endblock %}
+
+{% block head %}
+<!-- Client-side GWAS processor -->
+<script src="{{ url_for('static', filename='js/gwas-processor.js') }}?v=8"></script>
+{% endblock %}
+
+{% block header_actions %}
+<a href="{{ url_for('main.tutorial') }}" class="tutorial-button">Tutorial</a>
+<a href="{{ url_for('main.contact') }}" class="contact-button">Contact</a>
+<button data-action="open-settings" class="settings-button">Settings</button>
+{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <!-- Left column: upload area -->
+    <div class="upload-container">
+        <div class="upload-box">
+            <h2>Upload Your GWAS Data</h2>
+            <p class="subtitle">Supported formats: CSV, TSV, TXT</p>
+            
+            <div class="columns-info">
+                <p>Required: <code>chromosome</code>, <code>position</code>, <code>pvalue</code>, <code>ref</code>, <code>alt</code></p>
+                <p>Optional: <code>snp_id</code>, <code>beta</code>, <code>se</code></p>
+            </div>
+            
+            <form id="upload-form" enctype="multipart/form-data">
+                <div class="source-phenotype-field">
+                    <label for="source-phenotype">Source GWAS phenotype</label>
+                    <input type="text" id="source-phenotype" maxlength="500"
+                           placeholder="e.g., Type 1 diabetes" required
+                           autocomplete="off" spellcheck="false">
+                </div>
+                <input type="file" name="file" id="file-input" accept=".csv,.tsv,.txt" style="display: none;" required>
+                <div class="upload-file-actions"><label for="file-input" class="upload-button-large" id="upload-label">
+                    Choose File
+                </label>
+                <button type="button" class="history-button" data-action="open-history" data-kind="datasets">History</button></div>
+            </form>
+            
+            <div id="upload-progress" style="display: none;">
+                <div class="upload-progress-bar">
+                    <div class="upload-progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="upload-progress-text" id="progress-text">Processing locally...</div>
+            </div>
+            
+            <div id="upload-error" class="error-message" style="display: none;"></div>
+            
+            <div class="help-text">
+                <p>Tips:</p>
+                <ul>
+                    <li>Position is 1-based, genome build: GRCh38/hg38</li>
+                    <li>Large files are intelligently sampled locally first</li>
+                    <li>ref and alt alleles are case-insensitive</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right column: demo datasets -->
+    <div class="demo-container">
+        <div class="demo-box">
+            <h2>Try Demo Data</h2>
+            <p class="subtitle">No data? Try our sample datasets to explore GWASMind!</p>
+            <p class="subtitle-hint">Click to start exploring</p>
+            
+            <div class="demo-list">
+                <div class="demo-item" data-action="load-demo" data-demo="asthma" role="button" tabindex="0">
+                    <div class="demo-info">
+                        <h3>Asthma GWAS</h3>
+                        <p>247k-point stratified subset of ~6.9M SNPs - Respiratory disease</p>
+                    </div>
+                    <div class="demo-arrow">&gt;</div>
+                </div>
+                <div class="demo-item" data-action="load-demo" data-demo="mdd" role="button" tabindex="0">
+                    <div class="demo-info">
+                        <h3>Depression GWAS</h3>
+                        <p>177k-point stratified subset of ~8.8M SNPs - Mental health</p>
+                    </div>
+                    <div class="demo-arrow">&gt;</div>
+                </div>
+            </div>
+            
+            <div id="demo-progress" style="display: none;">
+                <div class="upload-progress-bar">
+                    <div class="upload-progress-fill" id="demo-progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="upload-progress-text" id="demo-progress-text">Loading demo data...</div>
+            </div>
+            
+            <div class="demo-features">
+                <p>Features:</p>
+                <ul>
+                    <li>Interactive Manhattan Plot with Lasso selection</li>
+                    <li>Configurable LLM via Settings (top-right)</li>
+                    <li>Auto Analysis for batch Known / Novel screening</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Database note (spans both columns, shown only when DB missing) -->
+    <div id="db-note" style="display:none; grid-column:1/-1; margin-bottom:60px; padding:10px 20px; background:#FFF8E1; border:1px solid #FFE082; border-radius:8px; font-size:13px; color:#6D4C00; text-align:center;">
+        &#x1F525; <strong>Note:</strong> The official Open Targets live service is currently unavailable.
+        Check the local GWASMind service and network, then retry; the current Open Targets data do not require a download.
+        Use an explicitly provisioned frozen snapshot only for reproducibility or leakage-controlled evaluation.
+    </div>
+</div>
+
+<!-- Copyright Footer -->
+<div class="copyright-footer">
+    Copyright © 2025 Erping Long Lab. All Rights Reserved.
+</div>
+
+<script src="{{ url_for('static', filename='js/index-page.js') }}"></script>
+{% endblock %}

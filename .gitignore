@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.artifact_runtime/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+.venv/
+.venv-*/
+venv/
+.tmp_*
+.tmp/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+.gwasmind/credentials/
+
+# Local data and generated run artifacts
+/data/
+/snapshots/
+/artifacts/
+runs/
+uploads/
+*.duckdb
+*.duckdb.wal
+
+# JavaScript tooling
+node_modules/
+
+# Windows installer build (packaging/build_installer.ps1; installers go to dist/)
+packaging/build/
+
+# Logs and editor or tool temporary files
+*.log
+*.tmp
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

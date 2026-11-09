@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GWASMind{% endblock %}</title>
+    
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eaed 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 20px 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header h1 {
+            font-size: 1.8em;
+            color: #333;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: #5a7a9a;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4a6a8a;
+            transform: translateY(-1px);
+        }
+        
+        .btn-yellow {
+            background: #d4a855;
+            color: white;
+        }
+        
+        .btn-yellow:hover {
+            background: #c49745;
+            transform: translateY(-1px);
+        }
+        
+        .btn-gray {
+            background: #6b7280;
+            color: white;
+        }
+        
+        .btn-gray:hover {
+            background: #4b5563;
+            transform: translateY(-1px);
+        }
+        
+        /* Main content */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px 80px 24px;
+        }
+        
+        /* Settings Modal */
+        .settings-overlay {
+            position: fixed;
+            inset: 0;
+            padding: 16px;
+            background: rgba(24, 32, 40, 0.56);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .settings-panel {
+            background: white;
+            border: 1px solid rgba(90, 122, 154, 0.14);
+            border-radius: 14px;
+            padding: 22px 24px 20px;
+            width: min(94vw, 560px);
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
+            box-shadow: 0 18px 52px rgba(20, 30, 40, 0.24);
+        }
+        
+        .settings-panel h2 {
+            margin: 1px 0 0;
+            color: #333;
+            font-size: 25px;
+            line-height: 1.15;
+        }
+
+        .settings-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .settings-kicker {
+            color: #5a7a9a;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+        }
+
+        .settings-close {
+            width: 34px;
+            height: 34px;
+            border: 0;
+            border-radius: 9px;
+            background: #eef2f5;
+            color: #607080;
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .settings-panel .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin: 0;
+        }
+
+        .settings-panel .form-group[hidden],
+        .settings-thinking-panel[hidden],
+        .settings-load-status[hidden],
+        .custom-endpoint-warning[hidden],
+        .endpoint-override[hidden] {
+            display: none;
+        }
+        
+        .settings-panel .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .settings-panel input:not([type="checkbox"]),
+        .settings-panel select {
+            width: 100%;
+            height: 42px;
+            padding: 8px 11px;
+            border: 1.5px solid #d8dde2;
+            border-radius: 7px;
+            background: #fff;
+            color: #30353a;
+            font-size: 15px;
+        }
+
+        .settings-panel input:focus,
+        .settings-panel select:focus {
+            outline: none;
+            border-color: #5a7a9a;
+            box-shadow: 0 0 0 3px rgba(90, 122, 154, 0.12);
+        }
+
+        .settings-panel input[readonly] {
+            background: #f4f6f8;
+            color: #66717c;
+        }
+
+        .model-select-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px;
+        }
+
+        .model-refresh-button {
+            height: 42px;
+            padding: 0 13px;
+            border: 1.5px solid #cbd6df;
+            border-radius: 7px;
+            background: #eef3f7;
+            color: #4d6f90;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .settings-privacy-note {
+            margin: -3px 0 0;
+            color: #697681;
+            font-size: 12.5px;
+            line-height: 1.4;
+        }
+
+        .settings-thinking-panel {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 50px;
+            padding: 7px 10px;
+            border: 1px solid #dfe6ec;
+            border-radius: 8px;
+            background: #f7f9fb;
+        }
+
+        .thinking-toggle,
+        .thinking-effort-group,
+        .endpoint-override {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #384653;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .thinking-toggle input,
+        .endpoint-override input {
+            width: 17px;
+            height: 17px;
+            accent-color: #5a7a9a;
+        }
+
+        .thinking-effort-group label {
+            color: #697681;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .settings-panel .thinking-effort-group select {
+            width: 126px;
+            height: 36px;
+            min-height: 36px;
+            font-size: 14px;
+        }
+
+        .settings-reasoning-panel {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            align-items: stretch;
+            gap: 8px;
+            padding: 12px;
+        }
+        .settings-reasoning-title,
+        .settings-reasoning-depth > label {
+            color: #384653;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .settings-reasoning-depth { display: grid; gap: 6px; }
+        .settings-reasoning-panel [hidden] { display: none; }
+        .settings-panel .settings-reasoning-panel select {
+            width: 100%;
+            min-width: 0;
+        }
+        .settings-field-help {
+            margin: 0;
+            color: #697681;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+        .settings-session-card {
+            display: grid;
+            gap: 4px;
+            padding: 10px 12px;
+            border-left: 3px solid #5a7a9a;
+            border-radius: 5px;
+            background: #f0f5f8;
+            color: #475d70;
+            font-size: 12px;
+            line-height: 1.45;
+            overflow-wrap: anywhere;
+        }
+        .settings-session-card[hidden] { display: none; }
+        .settings-session-card > span:first-child { font-weight: 600; }
+        
+        .settings-advanced {
+            overflow: hidden;
+            border: 1px solid #e1e6ea;
+            border-radius: 8px;
+            background: #fafbfc;
+        }
+
+        .settings-advanced summary {
+            padding: 10px 12px;
+            color: #4f5962;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .settings-advanced-body {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 11px 12px 12px;
+            border-top: 1px solid #e5e9ed;
+            background: #fff;
+        }
+
+        .custom-endpoint-warning,
+        .settings-load-status,
+        .connection-status {
+            padding: 8px 10px;
+            border-radius: 7px;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
+        .custom-endpoint-warning,
+        .settings-load-status {
+            border: 1px solid #ead69b;
+            background: #fff9e9;
+            color: #67531c;
+        }
+
+        .settings-load-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .settings-load-status.error,
+        .connection-status.error {
+            background: #fff0f1;
+            color: #a23840;
+        }
+
+        .settings-load-status button {
+            border: 1px solid currentColor;
+            border-radius: 6px;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .connection-status:empty {
+            display: none;
+        }
+
+        .connection-status.info {
+            border-left: 3px solid #5a7a9a;
+            background: #eef5fb;
+            color: #315f7d;
+        }
+
+        .connection-status.success {
+            border-left: 3px solid #4caf50;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .settings-actions {
+            margin-top: 1px;
+        }
+        
+        .test-button {
+            width: 100%;
+            height: 42px;
+            padding: 0 18px;
+            border: none;
+            border-radius: 7px;
+            background: #5a7a9a;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 640px) {
+            .settings-overlay { align-items: flex-start; padding: 10px; }
+            .settings-panel { width: 100%; max-height: calc(100vh - 20px); padding: 19px 16px 17px; }
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header class="header">
+        <h1>
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="GWASMind Logo" class="logo-img">
+            GWASMind
+        </h1>
+        <div class="header-actions">
+            {% block header_actions %}{% endblock %}
+        </div>
+    </header>
+    
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="settings-overlay" style="display: none;">
+        <div class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+            <div class="settings-heading">
+                <div>
+                    <h2 id="settings-title">API Settings</h2>
+                </div>
+                <button type="button" class="settings-close" data-action="close-settings" aria-label="Close Settings">&times;</button>
+            </div>
+
+            <div id="catalog-status" class="settings-load-status" hidden role="status">
+                <span id="catalog-status-text">Using the built-in provider list.</span>
+                <button type="button" id="catalog-retry">Retry</button>
+            </div>
+            <div id="settings-load-status" class="settings-load-status error" hidden role="alert">
+                <span>Session settings could not be loaded.</span>
+                <button type="button" id="settings-retry">Retry</button>
+            </div>
+
+            <div class="settings-form">
+                <div class="form-group">
+                    <label for="model-provider">Provider</label>
+                    <select id="model-provider"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="model-catalog-select">LLM</label>
+                    <div class="model-select-row">
+                        <select id="model-catalog-select"></select>
+                        <button type="button" id="refresh-models-btn" class="model-refresh-button" aria-label="Refresh LLMs from provider">
+                            <span aria-hidden="true">&#8635;</span> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div id="model-custom-group" class="form-group" hidden>
+                    <label for="model-name">LLM ID</label>
+                    <input type="text" id="model-name" value="deepseek-v4-pro" placeholder="Enter LLM ID" autocomplete="off" spellcheck="false">
+                </div>
+
+                <div id="thinking-options" class="settings-thinking-panel settings-reasoning-panel">
+                    <span class="settings-reasoning-title">Reasoning</span>
+                    <label id="model-thinking-row" class="thinking-toggle" hidden>
+                        <input type="checkbox" id="model-thinking" aria-describedby="model-reasoning-help">
+                        Enable reasoning
+                    </label>
+                    <div id="model-reasoning-effort-group" class="settings-reasoning-depth" hidden>
+                        <label for="model-reasoning-effort">Reasoning depth</label>
+                        <select id="model-reasoning-effort" aria-describedby="model-reasoning-help"></select>
+                    </div>
+                    <p id="model-reasoning-help" class="settings-field-help" aria-live="polite">Choose how much reasoning the LLM uses.</p>
+                </div>
+
+                <div class="form-group">
+                    <label id="api-key-label" for="api-key">DeepSeek API Key *</label>
+                    <input type="password" id="api-key" placeholder="Paste API key" autocomplete="off" spellcheck="false" aria-describedby="credential-session-status credential-privacy-text">
+                    <p id="credential-session-status" class="settings-field-help" hidden></p>
+                </div>
+                <p id="credential-privacy-text" class="settings-privacy-note">This key is used by your local GWASMind service and is not stored in the browser.</p>
+
+
+                <details id="advanced-model-settings" class="settings-advanced">
+                    <summary>Advanced</summary>
+                    <div class="settings-advanced-body">
+                        <label id="base-url-override-row" class="endpoint-override" for="base-url-override">
+                            <input type="checkbox" id="base-url-override">
+                            <span>Use a custom API URL</span>
+                        </label>
+                        <div class="form-group">
+                            <label for="api-base-url">API URL</label>
+                            <input type="url" id="api-base-url" value="https://api.deepseek.com" placeholder="https://api.example.com/v1" autocomplete="off" spellcheck="false" readonly>
+                        </div>
+                        <div id="custom-endpoint-warning" class="custom-endpoint-warning" hidden>
+                            Use only a trusted endpoint. It receives your API key and analysis context.
+                        </div>
+                    </div>
+                </details>
+
+                <div id="session-configured-card" class="settings-session-card" hidden>
+                    <span>Active for this session</span>
+                    <span id="session-configured-summary"></span>
+                </div>
+                <div id="connection-status" role="status" aria-live="polite"></div>
+                <div class="settings-actions">
+                    <button type="button" data-action="test-connection" class="test-button" id="test-btn">Save &amp; Test</button>
+                </div>
+                <details id="ldlink-settings" class="settings-advanced" open>
+                    <summary>LDlink · LD reference data</summary>
+                    <div class="settings-advanced-body">
+                        <p id="ldlink-credential-status" class="settings-field-help" role="status">Loading LDlink settings…</p>
+                        <div class="form-group">
+                            <label for="ldlink-api-key">LDlink API Key</label>
+                            <input type="password" id="ldlink-api-key" placeholder="Paste LDlink API key" autocomplete="off" spellcheck="false" aria-describedby="ldlink-privacy-text ldlink-credential-status">
+                        </div>
+                        <p id="ldlink-privacy-text" class="settings-privacy-note">Saved with Windows encryption for this account and reused after restart. Independent of the LLM API key; never stored in the browser or analysis data.</p>
+                        <div id="ldlink-connection-status" class="settings-field-help" role="status" aria-live="polite"></div>
+                        <button type="button" id="ldlink-save-btn" class="test-button">Save LDlink Key</button>
+                        <button type="button" id="ldlink-test-btn" class="test-button">Save &amp; Test LDlink</button>
+                        <button type="button" id="ldlink-remove-btn">Remove saved LDlink key</button>
+                    </div>
+                </details>
+                <details id="phenotype-scope-settings" class="settings-advanced">
+                    <summary>Saved phenotype scopes ? EFO</summary>
+                    <div class="settings-advanced-body">
+                        <p class="settings-field-help">Each target phenotype keeps one related-phenotype list, selected once from its EFO neighbourhood and reused by later analyses. Changes apply to the next analysis.</p>
+                        <div id="phenotype-scope-list" aria-live="polite">Loading saved phenotype scopes?</div>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/settings.js') }}?v=ldlink-settings-1-phenotype-scopes"></script>
+    {% block scripts %}{% endblock %}
+    <script src="{{ url_for('static', filename='js/actions.js') }}"></script>
+</body>
+</html>

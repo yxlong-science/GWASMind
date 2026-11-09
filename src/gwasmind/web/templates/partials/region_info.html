@@ -1,0 +1,6 @@
+{% if region %}
+<div class="snp-selection-info">
+    <span>Selected {{ region.snps|length if region.snps else 0 }} SNPs in region chr{{ region.chromosome }}:{{ "{:,}".format(region.start) }}-{{ "{:,}".format(region.end) }}</span>
+    <button data-action="clear-plot-selection" class="clear-selection-btn">X</button>
+</div>
+{% endif %}

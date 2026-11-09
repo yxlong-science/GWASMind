@@ -1,0 +1,15 @@
+{
+  "locus_id": "asthma-chr1-locus1",
+  "trait": "asthma",
+  "variants": [
+    {
+      "variant_id": "1_24935531_C_A",
+      "p_value": 3.543e-9,
+      "chromosome": "1",
+      "position": 24935531
+    }
+  ],
+  "task": "prioritize_genes",
+  "genome_build": "GRCh38",
+  "benchmark": false
+}

@@ -1,0 +1,311 @@
+# Rules for input/evidence permissions (Gate 1) and generated-output validation (Gate 2).
+# Scientific validator names and identity/ranking prerequisites are protected by the loader.
+#
+# Stop policy: an analysis stops only when the question cannot be answered at all,
+# i.e. no source variant has a verifiable identity, no data is available, or (for
+# gene prioritization) the lead window contains no candidate gene. These stops are
+# operational receipts computed in code; no Gate 1 rule below can be a hard stop.
+#
+# severity = "warning": a limitation that can change the main conclusion (W code).
+# severity = "note": recorded as a method note only; never a W and never a stop.
+#
+# Every rule has its own code. W1.x/W4.x share a family (W1, W4) that groups
+# the displayed scientific warnings; saved reviews that carry only the family
+# code remain readable.
+#
+# Gate 2 corrects uniquely grounded values and removes unsupported citations
+# and identifiers. Ambiguous or unverifiable numbers remain unchanged and
+# audited; impossible values require a safely identified complete assertion.
+# It never adds a warning, downgrades report quality, or stops an analysis
+# (loader-enforced).
+version = "3.0.0"
+
+[module_conditions]
+complete = ["complete", "completed", "success", "no_data", "not_applicable"]
+incomplete = ["missing", "unavailable", "blocked", "failed", "error", "partial", "truncated"]
+
+[rules.variant_integrity]
+gate = "gate1"
+severity = "warning"
+display_group = "input_identity"
+role = "cause"
+code = "variant_integrity"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.build_integrity]
+gate = "gate1"
+severity = "warning"
+display_group = "input_identity"
+role = "cause"
+code = "build_integrity"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.allele_integrity]
+gate = "gate1"
+severity = "warning"
+display_group = "input_identity"
+role = "cause"
+code = "allele_integrity"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.evidence_availability]
+gate = "gate1"
+severity = "warning"
+display_group = "required_data_coverage"
+role = "cause"
+code = "W1.1"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.required_modules]
+gate = "gate1"
+severity = "warning"
+display_group = "required_data_coverage"
+role = "cause"
+code = "W4.1"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.optional_evidence_coverage]
+gate = "gate1"
+# Optional channels narrow scope; a warning is emitted only when the user
+# explicitly requested exhaustive literature and that literature is incomplete.
+severity = "warning"
+display_group = "evidence_coverage"
+role = "cause"
+code = "W4.2"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.variant_resolution_coverage]
+gate = "gate1"
+severity = "warning"
+display_group = "evidence_coverage"
+role = "cause"
+code = "W7"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.candidate_discovery_coverage]
+gate = "gate1"
+severity = "warning"
+display_group = "evidence_coverage"
+role = "consequence"
+code = "W4.3"
+depends_on = ["ld_proxy_coverage", "required_modules", "variant_resolution_coverage"]
+required_for = []
+allow_hard_stop = false
+
+[rules.locus_genes_1mb]
+gate = "gate1"
+severity = "warning"
+display_group = "ranking_prerequisites"
+role = "cause"
+code = "W1.3"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.direct_locus_gene_evidence]
+gate = "gate1"
+severity = "warning"
+display_group = "ranking_prerequisites"
+role = "cause"
+code = "W1.4"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.current_gwas_signal]
+gate = "gate1"
+severity = "warning"
+display_group = "source_gwas_signal"
+role = "cause"
+code = "W2"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.biological_context_coverage]
+# W3 is a candidate-set limitation, not a count of individual mismatched genes.
+# Any qualified context-matched direct molecular or regulatory route prevents
+# a global mismatch warning. Unknown biosamples, unmeasured candidates, and
+# unfinished retrieval cannot prove that all candidates lack matching evidence.
+# An undefined or unverifiable context is unassessed, not a W3 warning.
+# Qualified coding/splice routes do not require a tissue measurement unless the
+# task explicitly asks for a tissue-specific mechanism. No ranking is changed.
+gate = "gate1"
+severity = "warning"
+display_group = "scientific_limitations"
+role = "cause"
+code = "W3"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.evidence_independence]
+gate = "gate1"
+severity = "warning"
+display_group = "scientific_limitations"
+role = "cause"
+code = "W5"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.evidence_conflicts]
+gate = "gate1"
+severity = "warning"
+display_group = "scientific_limitations"
+role = "cause"
+code = "W6"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.complex_region]
+gate = "gate1"
+severity = "warning"
+# The runtime uses the versioned curated registry in
+# config/complex_regions.json (MHC/HLA, KIR, V(D)J, and curated inversion
+# intervals). It does not apply a genome-wide low-mappability mask.
+display_group = "scientific_limitations"
+role = "cause"
+code = "W8"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.literature_coverage]
+gate = "gate1"
+# Source-identifier bookkeeping and publication availability do not change the
+# main conclusion; a warning is emitted only when original papers are requested.
+severity = "warning"
+display_group = "scientific_limitations"
+role = "cause"
+code = "W9"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.novelty_coverage]
+gate = "gate1"
+severity = "warning"
+display_group = "required_data_coverage"
+role = "cause"
+code = "W4.4"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.ranking_not_attempted]
+gate = "gate1"
+severity = "warning"
+display_group = "ranking_prerequisites"
+role = "consequence"
+code = "ranking_not_attempted"
+depends_on = ["locus_genes_1mb", "direct_locus_gene_evidence", "required_modules"]
+required_for = []
+allow_hard_stop = false
+
+[rules.ranking_unavailable]
+gate = "gate1"
+severity = "warning"
+# A requested ranking that produced no usable model output changes the main
+# answer; retrieved evidence is still reported and no rule ranking is substituted.
+display_group = "ranking_prerequisites"
+role = "consequence"
+code = "ranking_unavailable"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.model_output_grounding]
+gate = "gate2"
+severity = "note"
+display_group = "output_validation"
+role = "output_validation"
+code = "G2.1"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.report_output_grounding]
+gate = "gate2"
+severity = "note"
+display_group = "output_validation"
+role = "output_validation"
+code = "G2.2"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[validators.ranking_schema_evidence]
+target = "ranking"
+enabled = true
+
+[rules.ld_proxy_scope]
+gate = "gate1"
+severity = "warning"
+# Verified proxy use passes this method check. Supplementary proxy exclusions
+# and acquisition gaps are method notes; selected-source identity checks remain active.
+display_group = "analysis_method"
+role = "cause"
+code = "ld_proxy_scope"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.ld_proxy_coverage]
+gate = "gate1"
+severity = "warning"
+# Optional proxy gaps remain method notes. W7 is reserved for unresolved
+# selected-source identities in variant_resolution_coverage above.
+display_group = "required_data_coverage"
+role = "cause"
+code = "ld_proxy_coverage"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[rules.model_review_execution]
+gate = "gate1"
+severity = "note"
+display_group = "review_execution"
+role = "cause"
+code = "model_review_execution"
+depends_on = []
+required_for = []
+allow_hard_stop = false
+
+[validators.ranking_scientific_assertions]
+target = "ranking"
+enabled = true
+
+[validators.report_schema_evidence_consistency]
+target = "report"
+enabled = true
+
+[validators.report_fragment_consistency]
+target = "report_fragment"
+enabled = true
+
+[rules.task_evidence_requirements]
+gate = "gate1"
+severity = "warning"
+display_group = "scientific_answerability"
+role = "cause"
+code = "W1.2"
+depends_on = []
+required_for = []
+allow_hard_stop = false

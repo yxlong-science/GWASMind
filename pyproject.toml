@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gwasmind"
+version = "1.0.0"
+description = "A leakage-aware, Open Targets-native single-agent system for GWAS interpretation."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "GWASMind contributors"}]
+dependencies = []
+
+[project.optional-dependencies]
+local = ["duckdb>=1.3"]
+live = ["mcp>=1.10"]
+mcp = ["mcp>=1.10"]
+llm = ["openai>=1.60"]
+dev = ["pytest>=8", "ruff>=0.9"]
+all = ["duckdb>=1.3", "mcp>=1.10", "openai>=1.60"]
+
+[project.scripts]
+gwasmind = "gwasmind.cli:main"
+gwasmind-ui = "gwasmind.web.server:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+gwasmind = [
+  "config/*.toml",
+  "config/*.json",
+  "data/*.json",
+  "data/*.json.gz",
+  "data/*.tsv.gz",
+  "prompts/*.toml",
+  "web/templates/*.html",
+  "web/templates/partials/*.html",
+  "web/static/*",
+  "web/static/css/*",
+  "web/static/img/*",
+  "web/static/js/*",
+  "web/static/js/vendor/*",
+  "web/static/docs/*",
+  "web/static/docs/screenshots/*",
+  "web/static/demo_data/*",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+cache_dir = "artifacts/test-cache"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+cache-dir = "artifacts/ruff-cache"
