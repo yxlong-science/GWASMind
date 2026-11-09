@@ -73,15 +73,21 @@ if ($LASTEXITCODE -ge 8) { throw "Copying the Python runtime failed (robocopy $L
 $python = Join-Path $runtime "python.exe"
 
 # 2. Runtime dependencies: the "all" extra from pyproject.toml, nothing for development.
-$requirements = & $python -c @"
+#    The bundled Python always runs isolated (-I): PYTHONPATH, PYTHONHOME and the
+#    user site-packages of the build computer are ignored. Otherwise pip treats
+#    packages found there as already installed, leaves them out of the runtime,
+#    and the import check below passes on the build computer only.
+$requirements = & $python -I -c @"
 import tomllib, pathlib
 project = tomllib.loads(pathlib.Path(r'$Root\pyproject.toml').read_text(encoding='utf-8'))['project']
 print('\n'.join(project['dependencies'] + project['optional-dependencies']['all']))
 "@
+if ($LASTEXITCODE -ne 0) { throw "Reading the dependencies from pyproject.toml failed." }
 $env:PIP_DISABLE_PIP_VERSION_CHECK = "1"
-Invoke-Checked $python (@("-m", "pip", "install", "--isolated", "--no-warn-script-location", "--no-compile") + @($requirements))
+Invoke-Checked $python (@("-I", "-m", "pip", "install", "--isolated", "--no-warn-script-location", "--no-compile") + @($requirements))
+Invoke-Checked $python @("-I", "-m", "pip", "check")
 # Record the exact dependency versions shipped in this installer.
-& $python -m pip freeze --isolated --all | Out-File (Join-Path $Stage "runtime-requirements.txt") -Encoding ascii
+& $python -I -m pip freeze --isolated --all | Out-File (Join-Path $Stage "runtime-requirements.txt") -Encoding ascii
 
 # 3. GWASMind source tree as in a checkout, so supervised analysis workers bind
 #    to it exactly as with the launcher installation. In a git checkout, the
@@ -98,7 +104,9 @@ if ($git -and (Test-Path -LiteralPath (Join-Path $Root ".git"))) {
     Write-Host ("Source: commit {0}" -f (& $git.Source -C $Root rev-parse --short HEAD))
 } else {
     robocopy (Join-Path $Root "src") (Join-Path $Stage "src") /E /NFL /NDL /NJH /NJS /NP /XD __pycache__ *.egg-info | Out-Null
+    if ($LASTEXITCODE -ge 8) { throw "Copying the GWASMind sources failed (robocopy $LASTEXITCODE)." }
     robocopy (Join-Path $Root "examples") (Join-Path $Stage "examples") /E /NFL /NDL /NJH /NJS /NP | Out-Null
+    if ($LASTEXITCODE -ge 8) { throw "Copying the examples failed (robocopy $LASTEXITCODE)." }
     Copy-Item -LiteralPath (Join-Path $Root "README.md"), (Join-Path $Root "LICENSE") -Destination $Stage
     New-Item -ItemType Directory -Force (Join-Path $Stage "docs") | Out-Null
     Copy-Item -LiteralPath (Join-Path $Root $freezeList) -Destination (Join-Path $Stage $freezeList)
@@ -106,8 +114,13 @@ if ($git -and (Test-Path -LiteralPath (Join-Path $Root ".git"))) {
 # Relative path from runtime\Lib\site-packages to the source tree, so the
 # installation works from any folder.
 Set-Content -LiteralPath (Join-Path $runtime "Lib\site-packages\gwasmind-source.pth") -Value "../../../src" -Encoding ascii
-Invoke-Checked $python @("-c", "import gwasmind, gwasmind.web.server, gwasmind.cli, duckdb, mcp, openai; print('runtime imports ok', gwasmind.__version__)")
-Invoke-Checked $python @("-m", "compileall", "-q", "-j", "0", (Join-Path $runtime "Lib"), (Join-Path $Stage "src"))
+Invoke-Checked $python @("-I", "-c", "import gwasmind, gwasmind.web.server, gwasmind.cli, duckdb, mcp, mcp.server.lowlevel, mcp.client.streamable_http, openai; from openai import AsyncOpenAI; print('runtime imports ok', gwasmind.__version__)")
+# Recompile everything (-f), including the bytecode just written by the import
+# check, with paths relative to the stage (-s), so no build-computer path ends
+# up in the bytecode. Hash-based validation keeps the bytecode valid after
+# Inno Setup rounds file time stamps to 2 seconds during installation.
+Invoke-Checked $python @("-I", "-m", "compileall", "-q", "-f", "-j", "0", "-s", $Stage,
+    "--invalidation-mode", "checked-hash", (Join-Path $runtime "Lib"), (Join-Path $Stage "src"))
 
 # 4. Native launcher with the application icon.
 $csc = Get-ChildItem "$env:WINDIR\Microsoft.NET\Framework64\v4*\csc.exe" | Select-Object -Last 1
