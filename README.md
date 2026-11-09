@@ -86,6 +86,7 @@ interpretation and **report verification** after generation.
 ### Windows installer (recommended on Windows)
 
 Download [`installer/GWASMind-1.0.0-Setup.exe`](installer/GWASMind-1.0.0-Setup.exe)
+(also attached to the [v1.0.0 release](https://github.com/yxlong-science/GWASMind/releases/tag/v1.0.0))
 and run it. It installs GWASMind for the current user, without administrator
 rights, together with its own Python runtime and dependencies, and adds a
 Start-menu entry (and optionally a desktop shortcut). `GWASMind.exe` starts the
@@ -300,6 +301,12 @@ issue tracker; for other enquiries, contact Professor Erping Long
 
 ## License
 
-GWASMind is released under the [MIT License](LICENSE). Bundled third-party
-browser libraries in `src/gwasmind/web/static/js/vendor/` keep their own
-licenses.
+GWASMind is released under the [MIT License](LICENSE). The bundled browser
+libraries in `src/gwasmind/web/static/js/vendor/` keep their own licenses,
+included next to them:
+
+| Library | License |
+|---|---|
+| [Plotly.js](https://github.com/plotly/plotly.js) 2.27.0 | [MIT](src/gwasmind/web/static/js/vendor/plotly.LICENSE.txt), with the [notices of its bundled components](src/gwasmind/web/static/js/vendor/plotly.min.js.LICENSE.txt) |
+| [Marked](https://github.com/markedjs/marked) 15.0.12 | [MIT and the original Markdown license](src/gwasmind/web/static/js/vendor/marked.LICENSE.md) |
+| [jsPDF](https://github.com/parallax/jsPDF) 2.5.1 | [MIT](src/gwasmind/web/static/js/vendor/jspdf.LICENSE.txt) |
